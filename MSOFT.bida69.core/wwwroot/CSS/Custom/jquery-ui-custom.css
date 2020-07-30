@@ -1,0 +1,205 @@
+﻿.ui-dialog {
+    padding: 0 !important;
+    z-index:1031;
+}
+
+.ui-widget-header {
+    background-color: #4e73df !important;
+    border: none !important;
+    border-radius: 3px 3px 0 0 !important;
+    padding: 2px 0px 4px 4px !important;
+}
+
+.ui-widget-overlay {
+    background: rgba(10,10,10,.4) !important;
+    opacity: 1;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    border: none !important;
+    cursor: pointer;
+    right:8px;
+}
+
+.ui-button .ui-icon{
+
+}
+
+.ui-icon-closethick {
+}
+.ui-dialog .ui-dialog-title {
+    margin: 4px 0 0 8px !important;
+    color: #fff !important;
+}
+
+
+.ui-dialog .ui-dialog-content {
+    padding: 8px !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+    padding: 0px 8px 8px 8px;
+    margin-top: 0px;
+    border: none;
+	border-radius:3px;
+}
+
+    .ui-dialog .ui-dialog-buttonpane button {
+        margin: 0px 0px 0px 8px;
+    }
+
+    .ui-dialog .ui-dialog-buttonpane .btnHelp {
+        position: absolute;
+        left: 0px;
+        bottom: 8px;
+    }
+
+.ui-widget.ui-widget-content {
+    border: none !important;
+}
+
+.ui-dialog-titlebar-close {
+    /*visibility: hidden;*/
+}
+
+.ui-dialog .alert-success,.ui-dialog .alert.is-underline:hover, .alert.is-outline:hover, .alert{
+    color: #155724 !important;
+    background-color: #d4edda !important;
+    border-color: #c3e6cb !important;
+}
+
+.ui-dialog .alert-error, .alert-error{
+    color: #dc3545 !important;
+    background-color: #dc35451f !important;
+	padding: 8px;
+    border-radius: 3px;
+}
+.alert-error hr{
+	margin-block-start: 0;
+    margin-block-end: 8px;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+}
+.ui-dialog .form-group{
+	margin-bottom: 0px;
+}
+
+.ui-dialog input,.ui-dialog select{
+	border-radius:.25rem;
+}
+
+.ui-dialog .invalid-feedback{
+	margin-top:0px;
+}
+
+.ui-dialog label, legend{
+	margin-bottom: 0px;
+	margin-top: 8px;
+}
+
+.ui-dialog  .container-width,.ui-dialog .full-width .ubermenu-nav,.ui-dialog .container,.ui-dialog .row{
+	padding-left: 0px;
+    padding-right: 0px;
+}
+
+.ui-dialog .container .row:not(.row-collapse){
+	margin-left: 0px; 
+    margin-right: 0px;
+}
+
+.ui-dialog .col-custom{
+	padding-right: 4px;
+    padding-left: 4px;
+}
+
+.ui-dialog .lbl-custom{
+	margin-top:0px;
+}
+
+.ui-dialog textarea{
+	min-height:109px;
+}
+
+.ui-dialog input{
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+	transition: color .3s, border .3s, background .3s, opacity .3s;
+	vertical-align: middle;
+	padding: 0 .75em;
+	height: 38px;
+}
+.btn-primary.focus, .btn-primary:focus {
+    background-color: #007bff !important;
+}
+.ui-dialog input[type="file"] {
+    padding: 4px;
+}
+.ui-dialog select:focus,.ui-dialog textarea:focus,.custom-file-input:focus~.custom-file-label{
+	border-color:#80bdff;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.ui-dialog .custom-file-label{
+	margin-top:0px;
+	line-height: unset;
+	font-weight: unset;
+	color: #6d6d6d;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+	transition: color .3s, border .3s, background .3s, opacity .3s;
+}
+.ui-dialog .custom-file{
+ z-index:0;
+}
+
+.border-red{
+	border: 1px solid red;
+}
+
+.social-icons {
+	    z-index: 0 !important;
+}
+
+.blog-post-inner{
+	padding:0px 8px;
+}
+
+.btnApplyCustom{
+	position: absolute !important;
+    top: 120px;
+    right: 0px;
+	font-size: 20px !important;
+	 -webkit-animation: misa 700ms infinite;
+	 -moz-animation: misa 700ms infinite; 
+	 -o-animation: misa 700ms infinite; 
+	 animation: misa 700ms infinite;
+}
+
+@-webkit-keyframes misa {
+	 0% { color: #F8CD0A; opacity:0; } 
+	 50% { color: #000;  opacity:0.7;} 
+	 100% { color: #155723;  pacity:1;box-shadow: 2px 4px 5px 0px rgba(0,0,0,0.75);} 
+ }
+ @-moz-keyframes misa { 
+	  0% { color: #F8CD0A; opacity:0; } 
+	 50% { color: #000;  opacity:0.7;} 
+	 100% { color: #155723;  pacity:1;box-shadow: 2px 4px 5px 0px rgba(0,0,0,0.75);} 
+ }
+ @-o-keyframes misa { 
+	  0% { color: #F8CD0A; opacity:0; } 
+	 50% { color: #000;  opacity:0.7;} 
+	 100% { color: #155723;  pacity:1;box-shadow: 2px 4px 5px 0px rgba(0,0,0,0.75);} 
+ }
+ @keyframes misa { 
+	  0% { color: #F8CD0A; opacity:0; } 
+	 50% { color: #000;  opacity:0.7;} 
+	 100% { color: #155723;  opacity:1;box-shadow: 2px 4px 5px 0px rgba(0,0,0,0.75);}  
+ } 
+.post-title.is-large{
+	max-width:100% !important;
+}
+
+.dialog-footer{
+    float:right;
+}
+/*.dialog-footer button{
+    float:right;
+}*/

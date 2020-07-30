@@ -1,0 +1,107 @@
+﻿
+.mnv-dialog{
+    border-radius:3px !important;
+}
+.ui-dialog .ui-dialog-title{
+    padding-left:4px;
+}
+
+label{
+    margin-bottom:0px;
+}
+
+select {
+    box-shadow: inset 0 -1.4em 1em 0 rgba(0,0,0,0.02);
+    background-color: #fff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('/Content/Icons/arrow-select-icon.svg');
+    background-position: right .45em top 50%;
+    background-repeat: no-repeat;
+    padding-right: 1.4em;
+    background-size: auto 16px;
+    border-radius: 0;
+    display: block;
+    height: 38px !important;
+}
+
+fieldset {
+    border: 1px solid #ddd !important;
+    margin: 0;
+    xmin-width: 0;
+    padding: 10px;
+    position: relative;
+    border-radius: 4px;
+    background-color: #d6eaff;
+    padding-left: 10px !important;
+}
+
+legend {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 0px;
+    width: 35%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    /*background-color: #78b6f8;*/
+    background-image: linear-gradient(360deg, #78b6f8, transparent);
+    padding-left: 10px;
+}
+
+.btn-logout{
+    color:#fff;
+    cursor:pointer;
+}
+
+.time-start-notice {
+    width: 100%;
+    text-align: center;
+    color: #01b900;
+    margin-bottom: 20px;
+    font-size: 17px;
+}
+
+.message-box hr {
+    margin-bottom: 0px;
+}
+
+.title-marquee {
+    width: 100px;
+    padding: 0px 4px;
+    border: 1px solid #000;
+    border-right: none;
+    font-weight: bold;
+    background-color: #ff0000;
+}
+marquee {
+    -webkit-animation: caption 50s linear 0s infinite;
+    font-family: 'Segoe ui';
+    font-weight: bold;
+    color: #ff0000;
+    /*padding: 20px 0;*/
+    border: 1px solid #000;
+    background-color: #;
+    -webkit-box-shadow: inset 0px 2px 2px rgba(0, 0, 0, .5), 0px 1px 0px rgba(250, 250, 250, .2);
+    box-shadow: inset 0px 2px 2px rgba(0, 0, 0, .5), 0px 1px 0px rgba(250, 250, 250, .2);
+    -webkit-transition: background-color 350ms;
+    -moz-transition: background-color 350ms;
+    transition: background-color 350ms;
+    overflow: hidden;
+    overflow-x: -webkit-marquee;
+    -webkit-marquee-direction: left;
+    -webkit-marquee-style: scroll;
+    -webkit-marquee-speed: normal;
+    -webkit-marquee-increment: small;
+    -webkit-marquee-repetition: 5;
+    overflow-x: marquee-line;
+    marquee-direction: forward;
+    marquee-style: loop;
+    marquee-speed: slow;
+    marquee-play-count: 5;
+    background: #ffeb95;
+}
+
+.nav-tabs .nav-link.active{
+    font-weight:bold;
+    color:#ff0000;
+}

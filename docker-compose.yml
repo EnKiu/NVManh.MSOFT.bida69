@@ -1,0 +1,16 @@
+version: '3'
+networks: 
+  nvmanh-network:
+    external: true
+services:
+  bida69:
+    image: bida69
+    container_name: bida69_container
+    restart: always
+    networks:
+      - nvmanh-network
+    ports:
+      - '8002:80'
+    build:
+      context: .
+      dockerfile: MSOFT.bida69.core/Dockerfile

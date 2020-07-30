@@ -1,0 +1,713 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý dịch vụ - bida69.com";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+@section style{
+    <link href="~/CSS/Admin/views/service.css?version=1.0.0" rel="stylesheet" />
+    <link href="~/Content/Fonts/icofont/icofont.min.css" rel="stylesheet" />
+}
+<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <div style="display:flex; margin-bottom:10px;">
+        @*<div class="title-marquee">Thông báo:</div>*@
+        @*<marquee direction="right" speed="normal" behavior="loop">
+                Ovde ide neka vest sto se prikazuje traka sa vestima koja ce non stop da se krece :D
+            </marquee>
+            <marquee behavior="scroll" direction="right" scrollamount="1">Slow scroll speed</marquee>*@
+        @*<marquee behavior="scroll" direction="left" scrollamount="6">
+                Hiện ứng dụng đã bổ sung thêm các tính năng "siêu tiện" bao gồm <i>[Thay đổi giờ sử dụng bàn] [Chuyển bàn]</i>. Giao diện chi tiết đã đẹp hơn.
+                Trong quá trình sử dụng nếu gặp lỗi vui lòng liên hệ trực tiếp Mr Mạnh (0977 340 334) để được giải quyết.
+                Chân thành cám ơn <i>bida69</i> đã tin tưởng sử dụng dịch vụ của Mr Mạnh!
+            </marquee>*@
+        @*<marquee behavior="alternate" direction="left" speed="normal" scrollamount="6">
+                Thông báo quan trọng: Hiện ứng dụng đã bổ sung thêm các tính năng "siêu tiện" bao gồm [Thay đổi giờ sử dụng bàn] [Chuyển bàn]. Giao diện chi tiết đã đẹp hơn.
+                Trong quá trình sử dụng nếu gặp lỗi vui lòng liên hệ trực tiếp Mr Mạnh (0977340334) để được giải quyết.
+                Chân thành cám ơn bida69 đã tin tưởng sử dụng dịch vụ của Mr Mạnh!
+            </marquee>
+            <marquee behavior="slide" direction="right" scrollamount="6">slide scroll speed</marquee>
+            <marquee behavior="scroll" direction="right" scrollamount="10">Medium scroll speed</marquee>
+            <marquee behavior="scroll" direction="right" scrollamount="20">Fast scroll speed</marquee>*@
+    </div>
+    <div id="listBida" class="row">
+        @*<div class="col">
+                <div class="bida-item">
+                    <div class="bida-header bida-header-active">
+                        <div class="bida-title">Fresher 1</div>
+                        <div id="bida-status" class="bida-status"></div>
+                    </div>
+                    <div class="bida-content">
+                        <div class="bida-info-time">
+                            <div class="bida-info-item-icons bida-info-time-icons"></div>
+                            <div class="bida-info-time-content">
+                                <div class="bida-text-content-item">9:00 AM (30/04/2019)</div>
+                            </div>
+                        </div>
+                        <div class="bida-info-price">
+                            <div class="bida-info-item-icons bida-info-price-icons"></div>
+                            <div class="bida-info-price-content bida-text-content-item">100.000 <sup>đ</sup></div>
+                        </div>
+                    </div>
+                    <div class="bida-footer">
+                        <div class="btn btn-danger btn-flex"><span class="fa fa-plus"></span> Thêm</div>
+                        <div class="btn btn-success btn-ct btn-flex"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Thanh toán</div>
+                        <div class="btn btn-primary btn-flex"><i class="glyphicon glyphicon-list"></i> Chi tiết</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="bida-item">
+                    <div class="bida-header bida-header-active">
+                        <div class="bida-title">Fresher 1</div>
+                        <div id="bida-status" class="bida-status"></div>
+                    </div>
+                    <div class="bida-content">
+                        <div class="bida-info-time">
+                            <div class="bida-info-item-icons bida-info-time-icons"></div>
+                            <div class="bida-info-time-content">
+                                <div class="bida-text-content-item">9:00 AM (30/04/2019)</div>
+                            </div>
+                        </div>
+                        <div class="bida-info-price">
+                            <div class="bida-info-item-icons bida-info-price-icons"></div>
+                            <div class="bida-info-price-content bida-text-content-item">100.000 <sup>đ</sup></div>
+                        </div>
+                    </div>
+                    <div class="bida-footer">
+                        <div class="btn btn-danger btn-flex"><span class="glyphicon glyphicon-plus"></span> Thêm</div>
+                        <div class="btn btn-success btn-ct btn-flex"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Thanh toán</div>
+                        <div class="btn btn-primary btn-flex"><i class="glyphicon glyphicon-list"></i> Chi tiết</div>
+                    </div>
+                </div>
+            </div>*@
+    </div>
+</div>
+<div class="tab-pane fade" id="nav-sale" role="tabpanel" aria-labelledby="nav-sale-tab">
+    Bans hang
+</div>
+@*Tab mặt hàng*@
+<div class="tab-pane fade" id="nav-inventory" role="tabpanel" aria-labelledby="nav-profile-tab">
+    <div class="toolbar">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button id="btnAddInventory" type="button" class="btn btn-primary" command="Add"><i class="fa fa-plus"></i> Thêm mới</button>
+            <button id="btnEditInventory" type="button" class="btn btn-primary" command="Edit"><i class="fa fa-edit"></i> Sửa</button>
+            <button id="btnDeleteInventory" type="button" class="btn btn-primary" command="Delete"><i class="fa fa-remove"></i> Xóa</button>
+            <button id="btnRefreshInventory" type="button" class="btn btn-primary" command="Refresh"><i class="fa fa-refresh"></i> Nạp</button>
+        </div>
+    </div>
+    <div class="grid grid-inventory">
+        <table id="tbListInventoty" class="table table-hover table-sm tableFixHead" keyRow="InventoryID">
+            <thead>
+                <tr>
+                    <th scope="col"># STT</th>
+                    <th scope="col" fieldData="InventoryCode">Mã mặt hàng</th>
+                    <th scope="col" fieldData="InventoryName">Tên mặt hàng</th>
+                    <th scope="col" fieldData="Price">Đơn giá bán</th>
+                    <th scope="col" fieldData="Quantity">Số lượng còn lại</th>
+                    <th scope="col" fieldData="Description">Mô tả</th>
+                </tr>
+            </thead>
+            <tbody>
+                @*<tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>mdo</td>
+                        <td>15.000</td>
+                        <td>86</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>fat</td>
+                        <td>10.000</td>
+                        <td>24</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td colspan="2">Larry the Bird</td>
+                        <td>twitter</td>
+                        <td>12.000</td>
+                        <td>132</td>
+                    </tr>*@
+            </tbody>
+        </table>
+    </div>
+</div>
+@*Tab thống kê*@
+<div class="tab-pane fade container container-statistic" id="nav-statistic" role="tabpanel" aria-labelledby="nav-contact-tab">
+    <div class="container">
+        <form method="post" id="frmSelectOptionStatistic" class="needs-validation" novalidate>
+            <div class="form-row align-items-center">
+                <div class="col" style="min-width: 200px">
+                    <div class="form-group">
+                        <label for="lblSelectTimeStatistic">Chọn thời gian thống kê</label>
+                        <select id="cbxSelectDateRange" class="form-control">
+                            <option value="Today">Hôm nay</option>
+                            <option value="ThisWeek">Tuần này</option>
+                            <option value="ThisMonth">Tháng này</option>
+                            <option value="ThisQuarter">Quý này</option>
+                            <option value="ThisYear">Năm nay</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="lblStartDateStatistic">Từ ngày</label>
+                        <input type="text" class="form-control" id="dtFromDate" aria-describedby="Từ ngày">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="lblEnDateStatictic">Đến này</label>
+                        <input type="text" class="form-control" id="dtToDate" aria-describedby="Đến ngày">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="lblEnDateStatictic"></label><br />
+                        <button id="btnStatistic" type="submit" form="frmSelectOptionStatistic" class="btn btn-primary"><i class="fa fa-history"></i> Thống kê</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="container container-statistic-general">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <fieldset class="row">
+                    <legend>Thống kê chung</legend>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row" style="font-size:24px;font-weight:bold;line-height: 24px;">
+                                <div class="col col-sm-3" style="white-space:nowrap"><label>Tiền bàn: </label></div>
+                                <div class="col col-sm-9">
+                                    <span id="totalAmountService" style="color:#f00;padding-left: 10px;"></span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="font-size:24px;font-weight:bold;line-height: 24px;margin-top:10px">
+                                <div class="col col-sm-3" style="white-space:nowrap"><label>Tiền dịch vụ: </label></div>
+                                <div class="col col-sm-9">
+                                    <span id="totalAmountInventory" style="color:#4cff00;padding-left: 10px;"></span>
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:24px;font-weight:bold;line-height: 24px;margin-top:10px">
+                                <div class="col col-sm-3" style="white-space:nowrap"><label>Tổng danh thu: </label></div>
+                                <div class="col col-sm-9">
+                                    <span id="totalAmountStatistic" style="color:#0600ff;padding-left: 10px;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-statistic">
+        <table id="tbStatistic" class="table table-hover table-sm tableFixHead" keyRow="RefID">
+            <thead>
+                <tr>
+                    <th scope="col" style="width:50px"># STT</th>
+                    <th scope="col" fieldData="RefNo" style="width:100px">Mã hóa đơn</th>
+                    <th scope="col" fieldData="RefDate" style="width:150px">Ngày lập</th>
+                    <th scope="col" fieldData="ServiceName">Bàn</th>
+                    <th scope="col" style="width:150px" fieldData="TotalAmountService">Tiền bàn</th>
+                    <th scope="col" style="width:150px" fieldData="TotalAmountInventory" title="Tổng tiền dịch vụ">Tiền DV</th>
+                    <th scope="col" fieldData="TotalAmount">Tổng tiền</th>
+                    <th scope="col" fieldData="TotalAmountPay">Tổng tiền thanh toán</th>
+                    <th scope="col" fieldData="RefState" style="width:150px">Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@*Tab cài đặt*@
+<div class="tab-pane fade" id="nav-setting" role="tabpanel" aria-labelledby="nav-setting-tab">
+    <h2>Thông tin chi tiết</h2>
+    <hr />
+</div>
+
+<div id="frmOrderPrint" title="Hóa đơn thanh toán dịch vụ" style="display:none;">
+    @*To do*@
+    <div id="orderPrint">
+        <style>
+            .orderPrint div, .orderPrint tr td {
+                line-height: 20px;
+            }
+
+            .orderPrint .quantity {
+                text-align: left;
+            }
+
+            .orderPrint .total {
+                text-align: right;
+            }
+
+            .orderPrint .display-flex {
+                display: flex;
+            }
+
+            .orderPrint .refItem .itemDetail .refItem {
+                margin-bottom: 4px;
+            }
+
+            .orderPrint .refItem div, .orderPrint .timeInfoItem div.timeDetail {
+                width: 100%;
+            }
+
+            .orderPrint .text-align-left {
+                text-align: left;
+            }
+
+            .orderPrint .text-align-right {
+                text-align: right;
+            }
+
+            .orderPrint .timeLabel {
+                width: 70px;
+            }
+        </style>
+        <div class="orderPrint" style="font-family:Tahoma; font-size:12px;">
+            <center>
+                <div><strong>bida69<sup>.com</sup></strong></div>
+                <div style="width:180px;"><i>Phố Thanh Xuân, TT Đồi Ngô, Lục Nam, Bắc Giang</i></div>
+                <div><b>Hotline: 0984309543</b></div>
+                <div style="margin:6px 0;">
+                    <div style="font-size:18px;"><b>HÓA ĐƠN <span class="order-title">BIDA 69</span></b></div>
+                </div>
+                @*Hiển thị thông tin bàn*@
+                <div class="timeInfo">
+                    <div class="timeInfoItem display-flex">
+                        <div class="timeLabel text-align-left">Giờ vào:</div>
+                        <div class="timeDetail text-align-right timeStart">00:00:00 (--/--/----)</div><span>&nbsp;&nbsp;&nbsp;</span>
+                    </div>
+                    <div class="timeInfoItem display-flex">
+                        <div class="timeLabel text-align-left">Giờ ra:</div>
+                        <div class="timeDetail text-align-right timeEnd">00:00:00 (--/--/----)</div><span>&nbsp;&nbsp;&nbsp;</span>
+                    </div>
+                    <div class="timeInfoItem display-flex">
+                        <div class="timeLabel text-align-left" style="width:140px">Tổng thời gian:</div>
+                        <div class="timeTotal text-align-right" style="text-align:right; width:100%">00:00:00</div><span>&nbsp;&nbsp;&nbsp;</span>
+                    </div>
+                </div>
+            </center>
+            <hr />
+            @*Hiển thị thông tin chi tiết các dịch vụ ăn, uống*@
+            <div id="refDetail" class="refDetail">
+                @*<div class="refItem">
+                        <div class="itemName"><b>Cukcuk.VN</b></div>
+                        <div class="itemDetail display-flex" style="display:flex">
+                            <div class="quantity text-align-left">2 x 20.000</div>
+                            <div class="total text-align-right">40,000<sup>đ</sup></div>
+                        </div>
+                    </div>
+                    <div class="refItem">
+                        <div class="itemName"><b>MShopkeeper</b></div>
+                        <div class="itemDetail display-flex">
+                            <div class="quantity text-align-left">1 x 12.000</div>
+                            <div class="total text-align-right">12,000<sup>đ</sup></div>
+                        </div>
+                    </div>*@
+            </div>
+            @*THÔNG TIN TỔNG TIỀN THANH TOÁN*@
+            <div class="totalInfo">
+                <div style="border-top:1px dashed #ccc; margin:4px 0;">
+                    <div class="refService display-flex">
+                        <div class="itemName text-align-left" style="width:100%;">Tổng dịch vụ:</div>
+                        <div class="itemDetail text-align-right" style="width:100%">
+                            <span class="totalInventoryInfo">0</span><sup>đ</sup><span>&nbsp;&nbsp;&nbsp;</span>
+
+                        </div>
+                    </div>
+                    <div class="refDetail display-flex">
+                        <div class="itemName text-align-left" style="width:100%;">Tổng tiền giờ:</div>
+                        <div class="itemDetail text-align-right" style="width:100%">
+                            <span class="totalServiceInfo">0</span><sup>đ</sup><span>&nbsp;&nbsp;&nbsp;</span>
+                        </div>
+                    </div>
+                    <div class="refDetail display-flex">
+                        <div class="itemName text-align-left" style="width:100%;">Chiết khấu:</div>
+                        <div class="itemDetail text-align-right" style="width:100%">
+                            <div class="discount"><span>0</span><sup>đ</sup><span>&nbsp;&nbsp;&nbsp;</span></div>
+                            <div class="txtDiscount" style="display:none">
+                                <input type="text" value="0" style="text-align: right;height:24px; width:90px" /><sup>đ</sup><span>&nbsp;&nbsp;&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+                    @*Thanh toán*@
+                    <div class="itemName text-align-left" style="width:100%; line-height:30px"><u>Thanh toán:</u></div>
+                    <div>
+                        <div class="itemDetail text-align-right" style="width:100%; font-weight:bold;font-size: 24px;">
+                            <div class="totalAmount"><span>0</span><sup>đ</sup>&nbsp;&nbsp;&nbsp;</div>
+                            <div class="txtTotalAmount" style="display:none"><input type="text" value="0" style="width:190px;text-align: right;" /><sup>đ</sup><span>&nbsp;&nbsp;&nbsp;</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div style="width:210px;margin-bottom:20px;font-style:italic; text-align:center">
+                Quý khách vui lòng kiểm tra kỹ hóa đơn trước khi thanh toán.
+                <br />Trân trọng cám ơn quý khách đã sử dụng dịch vụ!
+                <br /><b>(bida69: Thân Văn Thịnh)</b>
+            </div>
+            <div style="border:1px dashed #ccc; padding:4px 0">
+                <center>
+                    <i>Mạnh Software - <b>www.msoft.vn</b></i><br />
+                </center>
+            </div>
+            <br />
+        </div>
+    </div>
+    <div class="dialog-footer">
+        <button id="btnPayAndPrintOrder" class="btn btn-success"><i class="fa fa-print"></i> In hóa đơn</button>
+        <button id="btnCancelPayOrder" class="btn btn-danger"><i class="fas fa-close"></i> Hủy</button>
+    </div>
+</div>
+@*Form chi tiết thông tin bàn*@
+<div id="frmBidaDetail" FORM-MASTER class="frm-detail container" title="Thông tin chi tiết hóa đơn" style="display:none">
+    <form id="frmBidaOrderDetail" method="post" class="needs-validation container" novalidate>
+        <div id="orderPrint2">
+            <div class="row">
+                <div class="bida-detail-title">
+                    BIDA 01
+                </div>
+            </div>
+            <div class="card" style="margin:10px 0;">
+                <div class="row">
+                    <div class="col col-sm-8">
+                        <div class="row" style="min-width:256px;">
+                            <div class="label-custom">Giờ bắt đầu: </div>
+                            <div class="timeStartService" style="color:#0600ff"><b>--:--:--</b> (--/--/----) </div>
+                        </div>
+                        <div class="row">
+                            <div class="label-custom">Đã sử dụng: </div>
+                            <div class="timeUsedService" style="color:#0600ff"><b>--:--:--</b></div>
+                        </div>
+                        <div class="row">
+                            <div class="label-custom">Tổng tiền bàn: </div>
+                            <div class="totalAmountService">---,---<sup>đ</sup></div>
+                        </div>
+                    </div>
+                    <div class="col col-sm-4" style="padding:0 4px;">
+                        <div class="service-toolbar w-100 h-100">
+                            <button id="btnUpdateTimeStart" type="button" class="btn btn-sm btn-outline-primary" style=""><i class="fa fa-clock-o"></i> Sửa thời gian</button>
+                            <button id="btnForwardService" type="button" class="btn btn-sm btn-outline-danger"><i class="fa fa-forward"></i> Chuyển bàn</button>
+                            <button id="btnHistoryService" type="button" class="btn btn-sm btn-outline-info" disabled><i class="fa fa-history"></i> Lịch sử sử dụng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="display:none">
+                <label>Dịch vụ</label>
+                <table id="tbServiceUsed" class="table tableFixHead table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" fieldData="ServiceName">Dịch vụ</th>
+                            <th scope="col" fieldData="UnitName">ĐVT</th>
+                            <th scope="col" fieldData="StartTime" Format="time" datatype="datetime">Giờ bắt đầu</th>
+                            <th scope="col" fieldData="UnitPrice">ĐG</th>
+                            <th scope="col" fieldData="TotalAmount" width="100px">TT</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="card" style="padding:4px;">
+                <div class="row">
+                    <div class="refDetailToolbar">
+                        <div class="w-100" style="display:flex"><div>Dịch vụ khác: </div><div class="refDetailToolbar-title">---,---<sup>đ</sup></div></div>
+                        <div class="refDetailToolbar-btn">
+                            <button class="btnAddInventoryToOrder btn btn-sm btn-primary" style="margin-bottom:0px; width:100px; border-radius:0 3px 3px 0"><i class="fa fa-plus"></i>  Thêm đồ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <table id="tbInventotySelected" class="tbInventotySelected table table-bordered table-hover table-sm" keyRow="RefDetailID" style="margin-bottom:0px;">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" fieldData="InventoryName">Tên hàng</th>
+                            <th scope="col" fieldData="Quantity">SL</th>
+                            <th scope="col" fieldData="UnitName">ĐVT</th>
+                            <th scope="col" fieldData="UnitPrice">ĐG</th>
+                            <th scope="col" fieldData="TotalAmount">TT</th>
+                            <th scope="col" Actions="delete"></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="totalMoneyInfo"><div><strong><u>Tổng tiền:</u> </strong></div><div class="totalMoney">9.000.000<sup>đ</sup></div></div>
+            </div>
+        </div>
+    </form>
+    <hr />
+    <div class="dialog-footer">
+        <button type="submit" class="btnAcceptPayOrder btn btn-success" form="frmBidaOrderDetail" ><i class="fa fa-print"></i> Thanh toán & In hóa đơn</button>
+        <button type="reset" class="btn btn-danger"><i class="btnDeleteOrder fa fa-close"></i> Hủy hóa đơn</button>
+        <button type="reset" class="btnCloseOrderDetail btn btn-warning"><i class="fa fa-power-off"></i> Đóng</button>
+    </div>
+</div>
+
+@*Thông tin chi tiết hóa đơn bán hàng*@
+<div id="frmOrderDetail" FORM-MASTER class="frm-detail container" title="Thông tin hóa đơn bán hàng" style="display:none">
+    <form id="frmBidaOrderDetail" method="post" class="needs-validation container" novalidate>
+        <div id="orderPrint2">
+            <div class="row">
+                <div class="bida-detail-title">
+                    Hóa đơn bán hàng
+                </div>
+            </div>
+
+            <div class="card" style="padding:4px;">
+                <div class="row">
+                    <div class="refDetailToolbar">
+                        <div class="w-100" style="display:flex"><div>Dịch vụ khác: </div><div class="refDetailToolbar-title">---,---<sup>đ</sup></div></div>
+                        <div class="refDetailToolbar-btn">
+                            <button class="btnAddInventoryToOrder btn  btn-sm btn-primary" style="margin-bottom:0px; width:100px; border-radius:0 3px 3px 0"><i class="fa fa-plus"></i>  Thêm đồ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <table id="tbInventotySelected" class=" tbInventotySelected table table-bordered table-hover table-sm" keyRow="RefDetailID" style="margin-bottom:0px;">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" fieldData="InventoryName">Tên hàng</th>
+                            <th scope="col" fieldData="Quantity">SL</th>
+                            <th scope="col" fieldData="UnitName">ĐVT</th>
+                            <th scope="col" fieldData="UnitPrice">ĐG</th>
+                            <th scope="col" fieldData="TotalAmount">TT</th>
+                            <th scope="col" Actions="delete"></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="totalMoneyInfo"><div><strong><u>Tổng tiền:</u> </strong></div><div class="totalMoney">9.000.000<sup>đ</sup></div></div>
+            </div>
+        </div>
+    </form>
+    <hr />
+    <div class="dialog-footer">
+        <button id="btnAcceptPayOrder" type="submit" form="frmBidaOrderDetail" class="btn btn-success"><i class="fa fa-print"></i> Thanh toán & In hóa đơn</button>
+        <button id="btnDeleteOrder" type="reset" class="btn btn-danger"><i class="fa fa-close"></i> Hủy hóa đơn</button>
+        <button id="btnCloseOrderDetail" type="reset" class="btn btn-warning"><i class="fa fa-power-off"></i> Đóng</button>
+    </div>
+</div>
+
+@*Form lựa chọn hàng hóa*@
+<div id="frmSelectInventory" class="frm-detail container" title="Chọn mặt hàng" style="display:none;">
+    <div class="grid" style="height:400px;">
+        <table id="tbListInventotyToSelect" cellpadding="0" class="table table-hover table-sm tableFixHead" keyRow="InventoryID">
+            <thead>
+                <tr>
+                    <th scope="col" width="50px" style="text-align:center;"># STT</th>
+                    <th scope="col" fieldData="InventoryName">Tên mặt hàng</th>
+                    <th scope="col" fieldData="Price">Đơn giá</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <hr />
+    <div class="dialog-footer">
+        <button id="btnCancelSelectInventory" type="button" class="btn btn-danger"><i class="fa fa-close"></i> Đóng</button>
+    </div>
+</div>
+
+@*Form nhập số lượng hàng hóa chọn vào hóa đơn*@
+<div id="frmInputQuantityInventory" class="container" title="Nhập số lượng" style="display:none">
+    <form method="post" id="frmSubmitQuantity" class="needs-validation container" novalidate>
+        <div class="row">
+            <div id="ivt-name-selected"></div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="lbl-custom">Số lượng <span class="lbl-required">(*)</span>: </label>
+                <input type="number" min="1" step="1" class="form-control" id="txtQuantity" placeholder="" value="1" required>
+                <div class="invalid-feedback">Vui lòng nhập số lượng</div>
+            </div>
+        </div>
+        <hr />
+    </form>
+    <div class="dialog-footer">
+        <button id="btnSubmitQuantity" type="submit" form="frmSubmitQuantity" class="btn btn-primary"><i class="fa fa-check"></i> Đồng ý</button>
+        <button id="btnCancelSubmitQuantity" type="reset" class="btn btn-danger"><i class="fa fa-close"></i> Hủy bỏ</button>
+    </div>
+</div>
+
+@*Form chuyển bàn*@
+<div id="frmSelectServiceChange" class="container" title="Chuyển hóa đơn" style="display:none">
+    <form method="post" id="frmSubmitServiceChange" class="needs-validation container" novalidate>
+        <div class="row">
+            <div>Bàn hiện tại:</div>
+            <div class="bida-name-service">BIDA 01</div>
+        </div>
+        <div class="row">
+            <div>Chuyển hóa đơn tới:</div>
+            <combobox type="combobox-data"
+                      id="cbxService"
+                      AutoLoadData="false"
+                      Entity="Service"
+                      GetDataUrl="/service/ServiceNotInUse"
+                      FieldValue="ServiceID"
+                      FieldDisplay="ServiceName"
+                      ShowOptionAll="false">
+            </combobox>
+        </div>
+        <div class="row">
+            <div style="color:#f00; width:100%; font-size:12px"><i class="fa fa-warning"></i> <i> Chỉ chọn các bàn không sử dụng!</i></div>
+        </div>
+        <hr />
+    </form>
+    <div class="dialog-footer">
+        <button id="btnSubmitServiceChange" type="submit" form="frmSubmitServiceChange" class="btn btn-primary"><i class="fa fa-check"></i> Đồng ý</button>
+        <button id="btnCancelSubmitServiceChange" type="reset" class="btn btn-danger"><i class="fa fa-close"></i> Hủy bỏ</button>
+    </div>
+</div>
+
+@*Form cập nhật thời gian sử dụng bàn *@
+<div id="frmSelectTimeClock" class="container" title="Nhập thời gian" style="display:none">
+    <form method="post" id="frmSubmitTimeClock" class="needs-validation container" novalidate>
+        <div class="row">
+            <div id="service-name-selected"></div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="lbl-custom">Giờ bắt đầu <span class="lbl-required">(*)</span>: </label>
+                <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                    <input id="timeStartPicker" class="inputClockPicker form-control border-right-0" type="text" value="13:14" required>
+                    <span class="clock-icon-box input-group-addon">
+                        <span class="clock-icon fa fa-clock"></span>
+                    </span>
+                    <div class="invalid-feedback">Vui lòng nhập thời gian</div>
+                </div>
+                <label class="lbl-custom">Ngày <span class="lbl-required">(*)</span>: </label>
+                <input type="text" class="inputDatePicker form-control" id="dtDateSelect" aria-describedby="Từ ngày" required>
+                <div class="invalid-feedback">Vui lòng nhập ngày sử dụng</div>
+            </div>
+        </div>
+        <hr />
+    </form>
+    <div class="dialog-footer">
+        <button id="btnSubmitSelectTimeClock" type="submit" form="frmSubmitTimeClock" class="btn btn-primary"><i class="fa fa-check"></i> Đồng ý</button>
+        <button id="btnCancelSelectTimeClock" type="reset" class="btn btn-danger"><i class="fa fa-close"></i> Hủy bỏ</button>
+    </div>
+</div>
+
+@*Form chi tiết hàng hóa*@
+<div id="FrmInventoryDetail" class="frm-detail" title="Chi tiết sản phẩm" style="display:none">
+    <form method="post" id="frmSubmit" class="needs-validation container" novalidate>
+        <div class="row">
+            <div class="col-md-6 col-custom">
+                <div class="form-group">
+                    <label class="lbl-custom">Tên mặt hàng <span class="lbl-required">(*)</span>: </label>
+                    <input type="text" dataindex="InventoryName" class="form-control" id="txtInventoryName" placeholder="Tên mặt hàng/ dịch vụ" aria-describedby="inputGroupPrepend" required>
+                    <div class="invalid-feedback">Vui lòng nhập tên mặt hàng</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-custom">
+                <div class="form-group">
+                    <label class="lbl-custom">Mã mặt hàng <span class="lbl-required">(*)</span>: </label>
+                    <input type="text" dataindex="InventoryCode" class="form-control" id="txtInventoryCode" placeholder="" aria-describedby="inputGroupPrepend" required>
+                    <div class="invalid-feedback">Mã mặt hàng không được phép trống</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-custom">
+                <div class="form-group">
+                    <combobox type="combobox-data"
+                              Label="Đơn vị tính"
+                              AutoLoadData="true"
+                              id="cbxUnit"
+                              Entity="Unit"
+                              GetDataUrl="/unit"
+                              FieldValue="UnitID"
+                              FieldDisplay="UnitName"
+                              ShowOptionAll="true">
+                    </combobox>
+                    @*<combobox type="combobox-data" GetDataUrl="/ic" FieldValue="UnitID" FieldDisplay="UnitName" ShowOptionAll="true"></combobox>*@
+                    @*<select id="cbxUnit" class="form-control">
+                            <option selected>Cái</option>
+                            <option>Chiếc</option>
+                        </select>*@
+                    <div class="invalid-feedback">Vui lòng chọn Đơn vị tính</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-custom">
+                <div class="form-group">
+                    <label class="lbl-custom">Đơn giá bán <span class="lbl-required">(*)</span>: </label>
+                    <input type="number" min="0" step="500" dataindex="Price" class="form-control" id="txtPrice" placeholder="" aria-describedby="inputGroupPrepend" required>
+                    <div class="invalid-feedback">Vui lòng nhập giá bán</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-custom">
+                <div class="form-group">
+                    <combobox type="combobox-data"
+                              Label="Nhóm hàng"
+                              AutoLoadData="true"
+                              id="cbxInventoryCategory"
+                              Entity="InventoryCategory"
+                              GetDataUrl="/inventories"
+                              FieldValue="InventoryCategoryID"
+                              FieldDisplay="InventoryCategoryName"
+                              ShowOptionAll="true">
+                    </combobox>
+                    @*<select id="inputState" class="form-control" combobox-data>
+                            <option selected>Chọn nhóm hàng...</option>
+                            <option value="1">Đồ ăn</option>
+                            <option value="2">Đồ uống</option>
+                            <option value="3">Khác</option>
+                        </select>*@
+                    <div class="invalid-feedback">Vui lòng chọn nhóm hàng</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-custom">
+                <div class="form-group">
+                    <label class="lbl-custom">Thuộc loại: </label>
+                    <select id="inputState" class="form-control" dataindex="InventoryType" disabled>
+                        <option selected value="2">Hàng hóa</option>
+                        <option value="1">Dịch vụ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-custom">
+                <div class="form-group">
+                    <label>Mô tả</label>
+                    <textarea id="txtNote" type="text" name="txtNote" dataindex="Description" class="form-control" value=""></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr />
+    <div class="dialog-footer">
+        <button id="btnSaveDetail" type="submit" form="frmSubmit" class="btn btn-primary"><i class="fa fa-check"></i> Đồng ý</button>
+        <button id="btnCancel" type="reset" class="btn btn-danger"><i class="fa fa-close"></i> Hủy bỏ</button>
+    </div>
+</div>
+<div id="btnSale" class="btnSale btn btn-primary">Bán hàng</div>
+@section scripts{
+    <script src="~/Scripts/Controls/combobox.js?version=1.0.0"></script>
+    <script src="~/Scripts/Admin/views/admin.js?version=1.0.1"></script>
+    <script src="~/Scripts/Admin/inventory.js?version=1.0.1"></script>
+    <script src="~/Scripts/Admin/views/statistic.js?version=1.0.1"></script>
+    <script src="~/Scripts/Admin/views/sale.js"></script>
+}

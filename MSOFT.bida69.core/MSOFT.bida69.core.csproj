@@ -1,0 +1,88 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MSOFT.BL\MSOFT.BL.csproj" />
+    <ProjectReference Include="..\MSOFT.Common\MSOFT.Common.csproj" />
+    <ProjectReference Include="..\MSOFT.DL\MSOFT.DL.csproj" />
+    <ProjectReference Include="..\MSOFT.Entities\MSOFT.Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\CSS\" />
+    <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Content\Libraries\bootstrap-4.3.1\.github\CODEOWNERS" />
+    <None Include="wwwroot\Content\Libraries\bootstrap-4.3.1\.github\CONTRIBUTING.md" />
+    <None Include="wwwroot\Content\Libraries\bootstrap-4.3.1\.github\ISSUE_TEMPLATE\bug.md" />
+    <None Include="wwwroot\Content\Libraries\bootstrap-4.3.1\.github\ISSUE_TEMPLATE\bug_report.md" />
+    <None Include="wwwroot\Content\Libraries\bootstrap-4.3.1\.github\ISSUE_TEMPLATE\feature.md" />
+    <None Include="wwwroot\Content\Libraries\bootstrap-4.3.1\.github\ISSUE_TEMPLATE\feature_request.md" />
+    <None Include="wwwroot\Content\Libraries\bootstrap-4.3.1\.github\SUPPORT.md" />
+    <None Include="wwwroot\Scripts\Admin\account.js" />
+    <None Include="wwwroot\Scripts\Admin\inventory.js" />
+    <None Include="wwwroot\Scripts\Admin\views\admin.js" />
+    <None Include="wwwroot\Scripts\Admin\views\statistic.js" />
+    <None Include="wwwroot\Scripts\Commons\ajaxService.js" />
+    <None Include="wwwroot\Scripts\Commons\common.js" />
+    <None Include="wwwroot\Scripts\Controls\button.js" />
+    <None Include="wwwroot\Scripts\Controls\combobox.js" />
+    <None Include="wwwroot\Scripts\Controls\dialog.js" />
+    <None Include="wwwroot\Scripts\Libraries\jquery-3.3.1.intellisense.js" />
+    <None Include="wwwroot\Scripts\Libraries\jquery-3.3.1.js" />
+    <None Include="wwwroot\Scripts\Libraries\jquery-3.3.1.min.js" />
+    <None Include="wwwroot\Scripts\Libraries\jquery-3.3.1.min.map" />
+    <None Include="wwwroot\Scripts\Libraries\jquery-3.3.1.slim.js" />
+    <None Include="wwwroot\Scripts\Libraries\jquery-3.3.1.slim.min.js" />
+    <None Include="wwwroot\Scripts\Libraries\jquery-3.3.1.slim.min.map" />
+    <None Include="wwwroot\Scripts\Libraries\jquery-ui.min.js" />
+    <None Include="wwwroot\Scripts\Libraries\jquery.validate-vsdoc.js" />
+    <None Include="wwwroot\Scripts\Libraries\jquery.validate.js" />
+    <None Include="wwwroot\Scripts\Libraries\jquery.validate.min.js" />
+    <None Include="wwwroot\Scripts\Libraries\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\Scripts\Libraries\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\Scripts\Libraries\modernizr-2.8.3.js" />
+    <None Include="wwwroot\Scripts\Libraries\popper.min.js" />
+  </ItemGroup>
+
+</Project>
