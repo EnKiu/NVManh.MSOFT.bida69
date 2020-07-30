@@ -211,6 +211,7 @@ var commonJS = {
                     }
                     rowHTML.append(cellHTML);
                     rowHTML.data("id", item[keyRow]);
+                    rowHTML.data("dataJson", item);
                 });
                 tbody.append(rowHTML);
             });

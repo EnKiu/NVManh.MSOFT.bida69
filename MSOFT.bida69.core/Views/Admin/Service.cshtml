@@ -453,15 +453,15 @@
     </form>
     <hr />
     <div class="dialog-footer">
-        <button type="submit" class="btnAcceptPayOrder btn btn-success" form="frmBidaOrderDetail" ><i class="fa fa-print"></i> Thanh toán & In hóa đơn</button>
-        <button type="reset" class="btn btn-danger"><i class="btnDeleteOrder fa fa-close"></i> Hủy hóa đơn</button>
-        <button type="reset" class="btnCloseOrderDetail btn btn-warning"><i class="fa fa-power-off"></i> Đóng</button>
+        <button id="btnAcceptPayBidaOrder" type="submit" form="frmBidaOrderDetail" class="btnAcceptPayOrder btn btn-success"><i class="fa fa-print"></i> Thanh toán &amp; In hóa đơn</button>
+        <button id="btnDeleteBidaOrder" type="reset" class="btn btn-danger"><i class="fa fa-close"></i> Hủy hóa đơn</button>
+        <button id="btnCloseBidaOrderDetail" type="reset" class="btn btn-warning"><i class="fa fa-power-off"></i> Đóng</button>
     </div>
 </div>
 
 @*Thông tin chi tiết hóa đơn bán hàng*@
 <div id="frmOrderDetail" FORM-MASTER class="frm-detail container" title="Thông tin hóa đơn bán hàng" style="display:none">
-    <form id="frmBidaOrderDetail" method="post" class="needs-validation container" novalidate>
+    <form id="frmInventoryOrderDetail" method="post" class="needs-validation container" novalidate>
         <div id="orderPrint2">
             <div class="row">
                 <div class="bida-detail-title">
@@ -472,7 +472,7 @@
             <div class="card" style="padding:4px;">
                 <div class="row">
                     <div class="refDetailToolbar">
-                        <div class="w-100" style="display:flex"><div>Dịch vụ khác: </div><div class="refDetailToolbar-title">---,---<sup>đ</sup></div></div>
+                        <div class="w-100" style="display:flex"></div>
                         <div class="refDetailToolbar-btn">
                             <button class="btnAddInventoryToOrder btn  btn-sm btn-primary" style="margin-bottom:0px; width:100px; border-radius:0 3px 3px 0"><i class="fa fa-plus"></i>  Thêm đồ</button>
                         </div>
@@ -486,7 +486,7 @@
                             <th scope="col" fieldData="InventoryName">Tên hàng</th>
                             <th scope="col" fieldData="Quantity">SL</th>
                             <th scope="col" fieldData="UnitName">ĐVT</th>
-                            <th scope="col" fieldData="UnitPrice">ĐG</th>
+                            <th scope="col" fieldData="Price">ĐG</th>
                             <th scope="col" fieldData="TotalAmount">TT</th>
                             <th scope="col" Actions="delete"></th>
                         </tr>
@@ -496,13 +496,13 @@
             </div>
             <hr />
             <div class="row">
-                <div class="totalMoneyInfo"><div><strong><u>Tổng tiền:</u> </strong></div><div class="totalMoney">9.000.000<sup>đ</sup></div></div>
+                <div class="totalMoneyInfo"><div><strong><u>Tổng tiền:</u> </strong></div><div class="totalMoney">0<sup>đ</sup></div></div>
             </div>
         </div>
     </form>
     <hr />
     <div class="dialog-footer">
-        <button id="btnAcceptPayOrder" type="submit" form="frmBidaOrderDetail" class="btn btn-success"><i class="fa fa-print"></i> Thanh toán & In hóa đơn</button>
+        <button id="btnAcceptPayOrder" type="submit" form="frmInventoryOrderDetail" class="btnAcceptPayOrder btn btn-success"><i class="fa fa-print"></i> Thanh toán &amp; In hóa đơn</button>
         <button id="btnDeleteOrder" type="reset" class="btn btn-danger"><i class="fa fa-close"></i> Hủy hóa đơn</button>
         <button id="btnCloseOrderDetail" type="reset" class="btn btn-warning"><i class="fa fa-power-off"></i> Đóng</button>
     </div>

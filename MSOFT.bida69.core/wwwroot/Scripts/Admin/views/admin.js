@@ -46,18 +46,21 @@ class Admin {
         $("#btnCancelSelectInventory").click(function () { this.FrmSelectInventory.close() }.bind(this));
         $("#btnCancelPayOrder").click(function () { this.FrmOrderPrint.close() }.bind(this));
         $("#btnSaveOrderDetail").click(this.btnAcceptPayOrderOnClick.bind(this));
-        $("#frmBidaDetail .btnCloseOrderDetail").click(function () { this.FrmBidaDetail.close(); clearInterval(this.FrmBidaDetail.Interval); }.bind(this));
+        // Sự kiện trên Form chi tiết hóa đơn theo từng bàn:
+        $('[FORM-MASTER]').on('click', '.btnAcceptPayOrder', this.btnAcceptPayOrderOnClick.bind(this)); // Nhấn vào hiển thị form thông tin hóa đơn.
+        $("#frmBidaDetail #btnCloseBidaOrderDetail").click(function () { this.FrmBidaDetail.close(); clearInterval(this.FrmBidaDetail.Interval); }.bind(this));
+        $('#frmBidaDetail').on('click', '#btnDeleteBidaOrder', this.btnDeleteOrderOnClick.bind(this)); // Hủy hóa đơn
+        $('#frmBidaDetail').on('click', "#btnUpdateTimeStart", this.btnUpdateTimeStartOnClick.bind(this));
+        $('#frmBidaDetail').on('click', "#btnForwardService", this.btnForwardServiceOnClick.bind(this));
+        $('#frmBidaDetail').on('click', ".cell-delete", this.refDetailOnDelete.bind(this)); // Xóa 1 dòng chi tiết trong hóa đơn
+        
+
         $("#btnPayAndPrintOrder").click(this.payAndPrintOrder.bind(this));
-        $('#frmOrderPrint').on('click', '.btnAcceptPayOrder', this.btnAcceptPayOrderOnClick.bind(this));
         $('#frmOrderPrint').on('click', '.discount', this.discountInfoOnClick.bind(this));
         $('#frmOrderPrint').on('click', '.totalAmount', this.totalAmountInfoOnClick.bind(this));
         $('#frmOrderPrint').on('blur', '.txtTotalAmount input', this.txtTotalAmountOnBlur.bind(this));
         $('#frmOrderPrint').on('blur', '.txtDiscount input', this.txtDiscountOnBlur.bind(this));
-        $('#frmBidaDetail').on('click', '.btnDeleteOrder', this.btnDeleteOrderOnClick.bind(this));
-        $('#frmBidaDetail').on('click', "#btnUpdateTimeStart", this.btnUpdateTimeStartOnClick.bind(this));
-        $('#frmBidaDetail').on('click', "#btnForwardService", this.btnForwardServiceOnClick.bind(this));
-        $('#frmBidaDetail').on('click', ".cell-delete", this.refDetailOnDelete.bind(this));
-
+        
         $('#frmBidaDetail .tbInventotySelected').on('dblclick', "tr", this.changeQuantityInventorySelected.bind(this));
         $('#frmSelectTimeClock').on('click', '#btnSubmitSelectTimeClock', this.btnSubmitSelectTimeClockOnClick.bind(this));
         $('#frmSelectTimeClock').on('click', '#btnCancelSelectTimeClock', function () { this.FrmSelectTimeClock.close() }.bind(this));
@@ -90,7 +93,6 @@ class Admin {
      * CreatedBy: NVMANH (01/07/2019)
      * ----------------------------------*/
     btnAddInventoryToOrderOnClick(sender) {
-        debugger
         var formMaster = $(sender.currentTarget).closest("[form-master]");
         // Gán để xác định khi lựa chọn chi tiết hàng hóa sẽ đổ dữ liệu về form nào:
         this.DialogDetailMaster = formMaster;
@@ -315,23 +317,37 @@ class Admin {
      * */
     addNewRefDetail() {
         var me = this;
-        //TODO:
-        var dialogDetaiMaster = me.DialogDetailMaster;
+        //TODO: thực hiện cập nhật số lượng hàng hóa với Form chi tiết hóa đơn tương ứng:
+        var dialogDetaiMaster = me.DialogDetailMaster; //-- xác định xem Form chi tiết là form nào (bán hàng hay có kèm dịch vụ)
         // Get Quantity:
         var quantity = $('#txtQuantity').val();
         var inventoryID = commonJS.getFirstItemIdSelectedInTable($('table#tbListInventotyToSelect'));
-        // Get RefID:
-        var refId = $('.bida-item.item-selected').data("refid");// this.RefId;
-        // Call service:
-        var refDetail = {
-            RefID: refId,
-            InventoryID: inventoryID,
-            Quantity: quantity
+        var recordSelected = commonJS.getFirstRowTableSelected($('table#tbListInventotyToSelect')).data('dataJson');
+        var formId = this.DialogDetailMaster.attr('id');// frmBidaDetail
+        // Nếu là cập nhật cho hóa đơn của bàn bida:
+        switch (formId) {
+            case "frmOrderDetail":
+                recordSelected.Quantity = quantity;
+                recordSelected.TotalAmount = recordSelected.Price * parseInt(quantity);
+                saleJS.data.push(recordSelected);
+                saleJS.buildRowHtmlData(saleJS.data);
+                break;
+            case "frmBidaDetail":
+                // Get RefID:
+                var refId = $('.bida-item.item-selected').data("refid");// this.RefId;
+                // Call service:
+                var refDetail = {
+                    RefID: refId,
+                    InventoryID: inventoryID,
+                    Quantity: quantity
+                }
+                ajaxJSON.post("/rd", refDetail, true, function (data) {
+                    //Load lại dữ liệu chi tiết hóa đơn:
+                    me.loadOrderDetail();
+                })
+                break;
+            default:
         }
-        ajaxJSON.post("/rd", refDetail, true, function (data) {
-            //Load lại dữ liệu chi tiết hóa đơn:
-            me.loadOrderDetail();
-        })
     }
 
     /**
@@ -573,7 +589,6 @@ class Admin {
      */
     loadOrderDetail() {
         var me = this;
-        debugger;
         $('.totalMoney').empty();
         var refid = me.FrmBidaDetail.RefID;
 
@@ -852,6 +867,7 @@ class Admin {
      * Author: NVMANH (31/07/2019)
      */
     btnAcceptPayOrderOnClick(event) {
+        debugger
         event.preventDefault();
         this.FrmOrderPrint.show();
         event.stopPropagation();
