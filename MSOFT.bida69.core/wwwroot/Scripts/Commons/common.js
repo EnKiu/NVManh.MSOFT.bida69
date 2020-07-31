@@ -144,13 +144,13 @@ var commonJS = {
      * Hiển thị hộp thoại thông báo thành công
      * Created by: NVMANH (03/03/2018)
      */
-    showSuccessMsg2: function () {
-        $('body').append('<div class="msg-success" style="display:none">Thành công</div>');
-        $('.msg-success').slideDown(1000);
+    showSuccessMsg2: function (msg) {
+        $('body').append('<div class="msg-success" style="display:none">' + (msg || 'Thành công') + '</div>');
+        $('.msg-success').slideDown(100);
         setTimeout(function () {
-            $('.msg-success').slideUp(1000);
+            $('.msg-success').slideUp(100);
             $('.msg-success').remove();
-        }, 3000);
+        }, 1500);
     },
     showSuccessMsg() {
         $('body').append(' <div class="box-msg-success"><div class= "content-msg-success" >Thành công</div></div >');
@@ -510,7 +510,7 @@ var commonJS = {
         var hours = Math.floor(distance % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
         var minutes = Math.floor(distance % (1000 * 60 * 60) / (1000 * 60));
         var seconds = Math.floor(distance % (1000 * 60) / 1000);
-      
+
         return {
             Days: days,
             Hours: hours,
@@ -741,7 +741,7 @@ if (!Date.prototype.formatDateStringInvariantCulture) {
         second = (second > 9 ? '' : '0') + second;
 
         // After this construct a string with the above results as below
-        return time = day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + second; 
+        return time = day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + second;
     };
 }
 

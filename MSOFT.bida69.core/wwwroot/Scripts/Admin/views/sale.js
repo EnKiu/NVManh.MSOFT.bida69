@@ -37,13 +37,22 @@ class SaleJS {
         totalAmountEl.html(totalAmountHTML);
     }
 
+    /**
+     * Thực hiện hủy hóa đơn
+     * */
     btnDeleteOrderOnClick() {
         var me = this;
         commonJS.showConfirm("<div style='color:red'><b>Chú có chắc chắn muốn hủy hóa đơn này?</b></div>", function () {
-            alert("đã hủy");
+            commonJS.showSuccessMsg2("Đã hủy hóa đơn!");
+            me.FrmOrderDetail.hide();
         })
     }
 
+    /**
+     * Xóa hàng hóa trong hóa đơn bán hàng
+     * @param {any} sender
+     * Author: NVMANH (31/07/2020)
+     */
     refDetailOnDelete(sender) {
         var me = this;
         var currentTarget = $(sender.currentTarget);
@@ -54,7 +63,7 @@ class SaleJS {
         commonJS.showConfirm("Chú có chắc chắn muốn xóa <b><span style='color:red'>{0}</span></b> khỏi hóa đơn này?".format(inventoryName), function () {
             me.data = me.data.filter(function (obj) { return obj['InventoryID'] != currentRecordId });
             me.buildRowHtmlData(me.data);
-            alert("đã xóa");
+            commonJS.showSuccessMsg2("Đã xóa <b><span style='color:red'>{0}</span></b> khỏi hóa đơn!".format(inventoryName));
         })
     }
 }

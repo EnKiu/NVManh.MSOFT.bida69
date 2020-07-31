@@ -53,14 +53,14 @@ class Admin {
         $('#frmBidaDetail').on('click', "#btnUpdateTimeStart", this.btnUpdateTimeStartOnClick.bind(this));
         $('#frmBidaDetail').on('click', "#btnForwardService", this.btnForwardServiceOnClick.bind(this));
         $('#frmBidaDetail').on('click', ".cell-delete", this.refDetailOnDelete.bind(this)); // Xóa 1 dòng chi tiết trong hóa đơn
-        
+
 
         $("#btnPayAndPrintOrder").click(this.payAndPrintOrder.bind(this));
         $('#frmOrderPrint').on('click', '.discount', this.discountInfoOnClick.bind(this));
         $('#frmOrderPrint').on('click', '.totalAmount', this.totalAmountInfoOnClick.bind(this));
         $('#frmOrderPrint').on('blur', '.txtTotalAmount input', this.txtTotalAmountOnBlur.bind(this));
         $('#frmOrderPrint').on('blur', '.txtDiscount input', this.txtDiscountOnBlur.bind(this));
-        
+
         $('#frmBidaDetail .tbInventotySelected').on('dblclick', "tr", this.changeQuantityInventorySelected.bind(this));
         $('#frmSelectTimeClock').on('click', '#btnSubmitSelectTimeClock', this.btnSubmitSelectTimeClockOnClick.bind(this));
         $('#frmSelectTimeClock').on('click', '#btnCancelSelectTimeClock', function () { this.FrmSelectTimeClock.close() }.bind(this));
@@ -587,9 +587,12 @@ class Admin {
      * Thiết lập dữ liệu và hiển thị cho Form chi tiết hóa đơn
      * Author: NVMANH (07/07/2019)
      */
-    loadOrderDetail() {
+    loadOrderDetail(sender) {
         var me = this;
         $('.totalMoney').empty();
+        var formMaster = this.FrmBidaDetail.Dialog;
+        // Gán để xác định khi lựa chọn chi tiết hàng hóa sẽ đổ dữ liệu về form nào:
+        this.DialogDetailMaster = formMaster;
         var refid = me.FrmBidaDetail.RefID;
 
         // Clear interval nếu có tránh lỗi thực hiện tính toán bị ghi đè nhiều lần:
@@ -784,9 +787,63 @@ class Admin {
      * Author: NVMANH (30/07/2019)
      * */
     initFrmOrderPrint() {
+        $('.totalMoney').empty();
         // Lấy thông tin chi tiết hóa đơn:
         var me = this;
-        $('.totalMoney').empty();
+        // thực hiện cập nhật số lượng hàng hóa với Form chi tiết hóa đơn tương ứng:
+        var dialogDetaiMaster = me.DialogDetailMaster; //-- xác định xem Form chi tiết là form nào (bán hàng hay có kèm dịch vụ)
+        var formId = this.DialogDetailMaster.attr('id');// frmBidaDetail
+        switch (formId) {
+            case "frmOrderDetail":
+                me.initFrmOrderPrintForSaleOrder();
+                break;
+            case "frmBidaDetail":
+                me.initFrmOrderPrintForBidaOrderDetail();
+                break;
+            default:
+        }
+    }
+
+    /**
+     * Hiển thị chi tiết hóa đơn bán hàng (chỉ bán hàng không có dịch vụ kèm theo)
+     * */
+    initFrmOrderPrintForSaleOrder() {
+        $("#frmOrderPrint .order-title").html("Bán hàng");
+        $("#frmOrderPrint .timeInfo").hide();
+        $("#frmOrderPrint #total-info-box").hide();
+        $('#frmOrderPrint #refDetail').empty();
+        var refDetails = saleJS.data;
+        if (refDetails.length > 0) {
+            var totalAmount = 0;
+            $.each(refDetails, function (index, item) {
+                var itemName = item["InventoryName"],
+                    unitPrice = item["Price"],
+                    quantity = parseInt(item["Quantity"]),
+                    amount = unitPrice * quantity;
+                totalAmount += amount;
+                var itemHTML = '<div class="refItem">'
+                    + '<div class="itemName"> <b>{0}</b></div >'
+                    + '<div class="itemDetail display-flex" style="display:flex; padding:0 3px;">'
+                    + '    <div class="quantity text-align-left">{1} x {2}</div>'
+                    + '    <div class="total text-align-right">{3}<sup>đ</sup><span>&nbsp;&nbsp;&nbsp;</span></div>'
+                    + '</div>'
+                    + '</div>';
+                itemHTML = itemHTML.format(itemName, unitPrice.formatMoney(), quantity, amount.formatMoney());
+                $('#frmOrderPrint #refDetail').append(itemHTML);
+            })
+            // Tổng tiền:
+            $('#frmOrderPrint .totalAmount span').html(totalAmount.formatMoney());
+            $('#frmOrderPrint .txtTotalAmount input').val(totalAmount);
+        }
+    }
+
+    /**
+     * Hiển thị chi tiết hóa đơn bán hàng (Hóa đơn theo bàn Bida)
+     * */
+    initFrmOrderPrintForBidaOrderDetail() {
+        var me = this;
+        $("#frmOrderPrint .timeInfo").show();
+        $("#frmOrderPrint #total-info-box").show();
         var refid = $('.bida-item.item-selected').data("refid");
         if (refid) {
             me.FrmOrderPrint.RefID = refid;
@@ -855,7 +912,6 @@ class Admin {
         } else {
             commonJS.showWarning("Vui lòng chọn bàn trước khi thực hiện In hóa đơn thanh toán!");
         }
-
     }
     save() {
 
@@ -879,6 +935,58 @@ class Admin {
      * Author: NVMANH (31/07/2019)
      */
     payAndPrintOrder(event) {
+        var me = this;
+        // thực hiện cập nhật số lượng hàng hóa với Form chi tiết hóa đơn tương ứng:
+        var dialogDetaiMaster = me.DialogDetailMaster; //-- xác định xem Form chi tiết là form nào (bán hàng hay có kèm dịch vụ)
+        var formId = this.DialogDetailMaster.attr('id');// frmBidaDetail
+        debugger;
+        switch (formId) {
+            case "frmOrderDetail":
+                return me.payAndPrintSaleOrder();
+                break;
+            case "frmBidaDetail":
+                return me.payAndPrintBidaOrder();
+                break;
+            default:
+        }
+        return true;
+    }
+
+    payAndPrintSaleOrder() {
+        var me = this;
+        // Update ref and service:
+        //var refId = me.FrmOrderPrint.RefID,
+        //    totalAmount = me.FrmOrderPrint.TotalAmount,
+        //    timeEnd = me.FrmOrderPrint.EndTime.formatDateStringInvariantCulture();
+        //var paramObject = {
+        //    refId: refId,
+        //    totalAmount: totalAmount,
+        //    timeEnd: timeEnd
+        //}
+        //ajaxJSON.put("/ref/RefAndService", paramObject, true, function (data) {
+        //    me.FrmOrderPrint.close();
+        //    me.FrmOrderPrint.RefID = null;
+        //    me.FrmOrderPrint.TotalAmount = 0;
+        //    me.FrmOrderPrint.EndTime = null;
+        //    me.FrmBidaDetail.close();
+        //    clearInterval($('.bida-item.item-selected')[0].Interval); // Xóa bộ đếm thời gian.
+        //    me.loadBidaStatus();
+        //});
+
+        var mywindow = window.open('Hóa đơn thanh toán', 'PRINT', 'height=1024,width=1280');
+        mywindow.document.write('<html><head><title>In hóa đơn thanh toán</title>');
+        mywindow.document.write(document.getElementById("orderPrint").innerHTML);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+        return true;
+    }
+
+    payAndPrintBidaOrder() {
         var me = this;
         // Update ref and service:
         var refId = me.FrmOrderPrint.RefID,
