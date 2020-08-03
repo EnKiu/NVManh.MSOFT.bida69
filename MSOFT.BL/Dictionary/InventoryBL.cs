@@ -10,6 +10,10 @@ namespace MSOFT.BL
 {
     public class InventoryBL:EntityBL<Inventory>
     {
+        public InventoryBL():base()
+        {
+
+        }
         public override IEnumerable<Inventory> GetData()
         {
             InventoryDL inventoryDL = new InventoryDL();
