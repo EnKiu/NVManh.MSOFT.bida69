@@ -1,4 +1,5 @@
 ﻿using MSOFT.Common;
+using MSOFT.DL.Interfaces;
 using MSOFT.DL.Properties;
 using MSOFT.Entities;
 using System;
@@ -12,9 +13,8 @@ using System.Threading.Tasks;
 
 namespace MSOFT.DL
 {
-    public class BaseDL
+    public class BaseDL: IBaseDL
     {
-        protected string _getDataStoreName;
         private string _tableName;
         public BaseDL()
         {

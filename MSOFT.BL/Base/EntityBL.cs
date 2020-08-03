@@ -1,4 +1,5 @@
 ﻿using MSOFT.DL;
+using MSOFT.DL.Interfaces;
 using MSOFT.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,38 +11,37 @@ namespace MSOFT.BL
 {
     public class EntityBL<T>
     {
+        IBaseDL _baseDL;
+        public EntityBL(IBaseDL baseDL)
+        {
+            _baseDL = baseDL;
+        }
         public virtual IEnumerable<T> GetData()
         {
-            BaseDL baseDL = new BaseDL();
-            return baseDL.GetEntities<T>();
+            return _baseDL.GetEntities<T>();
         }
         public virtual T GetEntityByID(object entityID)
         {
-            BaseDL baseDL = new BaseDL();
-            return baseDL.GetEntityByID<T>(entityID);
+            return _baseDL.GetEntityByID<T>(entityID);
         }
 
         public virtual int InsertEntity(T entity)
         {
-            BaseDL baseDL = new BaseDL();
-            return baseDL.InsertEntity(entity);
+            return _baseDL.InsertEntity(entity);
         }
 
         public virtual int UpdateEntity(T entity)
         {
-            BaseDL baseDL = new BaseDL();
-            return baseDL.UpdateEntity(entity);
+            return _baseDL.UpdateEntity(entity);
         }
 
         public virtual int UpdateEntity(object[] param)
         {
-            BaseDL baseDL = new BaseDL();
-            return baseDL.UpdateEntity(param);
+            return _baseDL.UpdateEntity(param);
         }
 
         public virtual int DeleteEntityByID(string entityId)
         {
-            BaseDL baseDL = new BaseDL();
             return baseDL.DeleteEntityByID<T>(entityId);
         }
     }

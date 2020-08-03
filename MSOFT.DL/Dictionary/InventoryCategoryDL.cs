@@ -9,9 +9,6 @@ namespace MSOFT.DL
 {
     public class InventoryCategoryDL:BaseDL
     {
-        public InventoryCategoryDL()
-        {
-            _getDataStoreName = "[dbo].[Proc_GetInventoryCategories]";
-        }
+       
     }
 }
