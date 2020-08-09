@@ -14,7 +14,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MSOFT.bida69.core.Helpers;
 using MSOFT.bida69.Services;
+using MSOFT.BL;
+using MSOFT.BL.Interfaces;
 using MSOFT.DL;
+using MSOFT.DL.Interfaces;
 using Newtonsoft.Json.Serialization;
 
 namespace MSOFT.bida69.core
@@ -67,7 +70,24 @@ namespace MSOFT.bida69.core
                 };
             });
             // configure DI for application services
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped(typeof(IBaseBL<>), typeof(EntityBL<>));
+            services.AddScoped<IBaseRepository, BaseDL>();
+
+            services.AddScoped<IInventoryBL, InventoryBL>();
+            services.AddScoped<IInventoryCategoryBL, InventoryCategoryBL>();
+            services.AddScoped<IRefBL, RefBL>();
+            services.AddScoped<IRefDetailBL, RefDetailBL>();
+            services.AddScoped<IRefServiceBL, RefServiceBL>();
+            services.AddScoped<IServiceBL, ServiceBL>();
+            services.AddScoped<IUserBL, UserService>();
+
+            services.AddScoped<IInventoryCategoryRepository, InventoryCategoryDL>();
+            services.AddScoped<IInventoryRepository, InventoryDL>();
+            services.AddScoped<IRefDetailRepository, RefDetailDL>();
+            services.AddScoped<IRefRepository, RefDL>();
+            services.AddScoped<IRefServiceRepository, RefServiceDL>();
+            services.AddScoped<IServiceRepository, ServiceDL>();
+            services.AddScoped<IUserRepository, UserDL>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

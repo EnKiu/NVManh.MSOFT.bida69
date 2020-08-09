@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MSOFT.bida69.core.Properties;
 using MSOFT.BL;
+using MSOFT.BL.Interfaces;
 using MSOFT.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,19 @@ namespace MSOFT.bida69.com.Controllers
 {
     public class ServiceController : EntityController<Service>
     {
+        IServiceBL _serviceBL;
+        public ServiceController(IServiceBL serviceBL) : base(serviceBL)
+        {
+            _serviceBL = serviceBL;
+        }
+
         [HttpPatch]
         [Route("edit/inuser")]
         public async Task<AjaxResult> UpdateInUserForService([FromBody]object[] param)
         {
             try
             {
-                var serviceBL = new ServiceBL();
-                ajaxResult.Data = serviceBL.UpdateInUserForService(param);
+                ajaxResult.Data = _serviceBL.UpdateInUserForService(param);
             }
             catch (Exception ex)
             {
@@ -39,8 +45,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                var serviceBL = new ServiceBL();
-                ajaxResult.Data = serviceBL.GetServiceNotInUse();
+                ajaxResult.Data = _serviceBL.GetServiceNotInUse();
             }
             catch (Exception ex)
             {

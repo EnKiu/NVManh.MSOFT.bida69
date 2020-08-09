@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MSOFT.BL;
+using MSOFT.BL.Interfaces;
 using MSOFT.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace MSOFT.bida69.com.Controllers
     [Route("ic")]
     public class InventoryCategoryController : EntityController<InventoryCategory>
     {
-       
+        public InventoryCategoryController(IBaseBL<InventoryCategory> baseBL) : base(baseBL)
+        {
+        }
     }
 }

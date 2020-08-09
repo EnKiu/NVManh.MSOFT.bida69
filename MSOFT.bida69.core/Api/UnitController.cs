@@ -1,4 +1,5 @@
 ﻿using MSOFT.BL;
+using MSOFT.BL.Interfaces;
 using MSOFT.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace MSOFT.bida69.com.Controllers
 {
     public class UnitController : EntityController<Unit>
     {
-       
+        public UnitController(IBaseBL<Unit> baseBL) : base(baseBL)
+        {
+        }
     }
 }

@@ -11,6 +11,7 @@ using MSOFT.bida69.core.Properties;
 using Microsoft.AspNetCore.Mvc;
 using MSOFT.bida69.Services;
 using Microsoft.AspNetCore.Authorization;
+using MSOFT.BL.Interfaces;
 
 namespace MSOFT.bida69.com.Controllers
 {
@@ -20,16 +21,17 @@ namespace MSOFT.bida69.com.Controllers
     public abstract class EntityController<T> : ControllerBase
     {
         protected AjaxResult ajaxResult;
-        protected EntityBL<T> entityBL;
-        private IUserService _userService;
+        //protected EntityBL<T> entityBL;
+        private IUserBL _userService;
+        IBaseBL<T> _baseBL;
 
-        public EntityController()
+        public EntityController(IBaseBL<T> baseBL)
         {
-            
+            _baseBL = baseBL;
             ajaxResult = new AjaxResult();
-            entityBL = new EntityBL<T>();
+            //entityBL = new EntityBL<T>();
         }
-        public EntityController(IUserService userService)
+        public EntityController(IUserBL userService)
         {
             _userService = userService;
         }
@@ -43,7 +45,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = entityBL.GetData();
+                ajaxResult.Data = _baseBL.GetData();
                 //await Task.Delay(3000);
             }
             catch (Exception ex)
@@ -62,7 +64,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = entityBL.GetEntityByID(id);
+                ajaxResult.Data = _baseBL.GetEntityByID(id);
             }
             catch (Exception ex)
             {
@@ -80,7 +82,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = entityBL.InsertEntity(entity);
+                ajaxResult.Data = _baseBL.InsertEntity(entity);
             }
             catch (Exception ex)
             {
@@ -98,7 +100,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = entityBL.UpdateEntity(entity);
+                ajaxResult.Data = _baseBL.UpdateEntity(entity);
             }
             catch (Exception ex)
             {
@@ -116,7 +118,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = entityBL.UpdateEntity(param);//entityBL.UpdateEntity(entity);
+                ajaxResult.Data = _baseBL.UpdateEntity(param);//entityBL.UpdateEntity(entity);
             }
             catch (Exception ex)
             {
@@ -134,7 +136,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = entityBL.DeleteEntityByID(id);
+                ajaxResult.Data = _baseBL.DeleteEntityByID(id);
             }
             catch (Exception ex)
             {

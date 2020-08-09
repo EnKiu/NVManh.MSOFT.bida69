@@ -12,25 +12,24 @@ using MSOFT.Entities;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Web.Http.ModelBinding;
+using MSOFT.BL.Interfaces;
+using MSOFT.DL.Interfaces;
 
 namespace MSOFT.bida69.Services
 {
-    public interface IUserService
+    public class UserService: EntityBL<User>, IUserBL
     {
-        object Register(User user);
-        User Authenticate(string username, string password);
-        IEnumerable<User> GetAll();
-        User GetById(Guid id);
-        object LogOut();
-    }
-
-    public class UserService : IUserService
-    {
+        private readonly AppSettings _appSettings;
+        IUserRepository _iUserRepository;
+        public UserService(IUserRepository iUserRepository, IOptions<AppSettings> appSettings) :base(iUserRepository)
+        {
+            _iUserRepository = iUserRepository;
+            _appSettings = appSettings.Value;
+        }
         public object Register(User user)
         {
-            var userBL = new UserBL();
             user.PasswordHash = HashPassword(user.Password);
-            return userBL.Register(user);
+            return InsertEntity(user);
             //return HashPassword(user.Password);
         }
 
@@ -74,18 +73,12 @@ namespace MSOFT.bida69.Services
             //new User { Id = 4, FirstName = "Thân Văn", LastName = "Thịnh", Username = "bida69.com@gmail.com", Password = "12345678@Abc", Role = Role.Admin }
         };
 
-        private readonly AppSettings _appSettings;
-
-        public UserService(IOptions<AppSettings> appSettings)
-        {
-            _appSettings = appSettings.Value;
-        }
+       
 
         public User Authenticate(string username, string password)
         {
             // Lấy thông tin Users:
-            var userBL = new UserBL();
-            var user = userBL.GetUserAuthenticate(username, HashPassword(password));
+            var user = _iUserRepository.GetUserAuthenticate(username, HashPassword(password));
             //var user = _users.SingleOrDefault(x => x.Username.ToLower() == username.ToLower() && x.Password == password);
 
             // return null if user not found

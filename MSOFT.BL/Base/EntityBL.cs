@@ -1,4 +1,5 @@
-﻿using MSOFT.DL;
+﻿using MSOFT.BL.Interfaces;
+using MSOFT.DL;
 using MSOFT.DL.Interfaces;
 using MSOFT.Entities;
 using System;
@@ -9,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace MSOFT.BL
 {
-    public class EntityBL<T>
+    public class EntityBL<T>:IBaseBL<T>
     {
-        IBaseDL _baseDL;
-        public EntityBL(IBaseDL baseDL)
+        IBaseRepository _baseDL;
+        public EntityBL(IBaseRepository baseDL)
         {
             _baseDL = baseDL;
         }
@@ -42,7 +43,7 @@ namespace MSOFT.BL
 
         public virtual int DeleteEntityByID(string entityId)
         {
-            return baseDL.DeleteEntityByID<T>(entityId);
+            return _baseDL.DeleteEntityByID<T>(entityId);
         }
     }
 }

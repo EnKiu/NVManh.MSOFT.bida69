@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MSOFT.bida69.core.Properties;
 using MSOFT.BL;
+using MSOFT.BL.Interfaces;
 using MSOFT.Entities;
 using Newtonsoft.Json.Linq;
 using System;
@@ -15,6 +16,11 @@ namespace MSOFT.bida69.com.Controllers
     [Route("rd")]
     public class RefDetailController : EntityController<RefDetail>
     {
+        IRefDetailBL _refDetailBL;
+        public RefDetailController(IRefDetailBL refDetailBL) : base(refDetailBL)
+        {
+            _refDetailBL = refDetailBL;
+        }
         /// <summary>
         /// Cập nhật lại số lượng cho RefDetail
         /// </summary>
@@ -30,8 +36,7 @@ namespace MSOFT.bida69.com.Controllers
             {
                 var refDetailID = Guid.Parse(data["RefDetailID"].ToString());
                 var quantity = (int)data["Quantity"];
-                var refDetalBL = new RefDetailBL();
-                ajaxResult.Data = refDetalBL.UpdateQuantityForRefDetail(refDetailID, quantity);
+                ajaxResult.Data = _refDetailBL.UpdateQuantityForRefDetail(refDetailID, quantity);
             }
             catch (Exception ex)
             {

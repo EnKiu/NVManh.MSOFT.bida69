@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MSOFT.bida69.core.Properties;
 using MSOFT.BL;
+using MSOFT.BL.Interfaces;
 using MSOFT.Entities;
 using Newtonsoft.Json.Linq;
 using System;
@@ -16,14 +17,18 @@ namespace MSOFT.bida69.com.Controllers
     [Route("ref")]
     public class RefController : EntityController<Ref>
     {
+        IRefBL _refBL;
+        public RefController(IRefBL refBL):base(refBL)
+        {
+            _refBL = refBL;
+        }
         [HttpGet]
         [Route("refdetail/{id}")]
         public async Task<AjaxResult> GetRefDetail(string id)
         {
             try
             {
-                var refBL = new RefBL();
-                ajaxResult.Data = refBL.GetRefDetail(Guid.Parse(id));
+                ajaxResult.Data = _refBL.GetRefDetail(Guid.Parse(id));
             }
             catch (Exception ex)
             {
@@ -47,8 +52,7 @@ namespace MSOFT.bida69.com.Controllers
                 //var timeEnd = ((DateTime)data["timeEnd"]).ToLocalTime();
                 //var timeEnd2 = ((DateTime)data["timeEnd"]);
                 var timeEnd = DateTime.ParseExact(data["timeEnd"].ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture); ;
-                var refBL = new RefBL();
-                ajaxResult.Data = refBL.UpdateRefAndServiceWhenPayOrder(refId, totalAmount, timeEnd);
+                ajaxResult.Data = _refBL.UpdateRefAndServiceWhenPayOrder(refId, totalAmount, timeEnd);
                 //ajaxResult.Data = new DateTime[] { timeEnd, timeEnd2 , timeEnd3 };
             }
             catch (Exception ex)
@@ -68,8 +72,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                var refBL = new RefBL();
-                ajaxResult.Data = refBL.DeleteRefDetailRefServiceAndUpdateServiceByRefID(refId);
+                ajaxResult.Data = _refBL.DeleteRefDetailRefServiceAndUpdateServiceByRefID(refId);
             }
             catch (Exception ex)
             {
@@ -97,8 +100,7 @@ namespace MSOFT.bida69.com.Controllers
             try
             {
                 toDate = toDate.AddDays(1);
-                var refBL = new RefBL();
-                ajaxResult.Data = refBL.GetRefDataStatistic(fromDate, toDate);
+                ajaxResult.Data = _refBL.GetRefDataStatistic(fromDate, toDate);
             }
             catch (Exception ex)
             {

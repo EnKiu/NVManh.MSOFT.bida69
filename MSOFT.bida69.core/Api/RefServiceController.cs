@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MSOFT.bida69.core.Properties;
 using MSOFT.BL;
+using MSOFT.BL.Interfaces;
 using MSOFT.Entities;
 using Newtonsoft.Json.Linq;
 using System;
@@ -15,6 +16,12 @@ namespace MSOFT.bida69.com.Controllers
     [Route("rs")]
     public class RefServiceController : EntityController<RefService>
     {
+        IRefServiceBL _refServiceBL;
+        public RefServiceController(IRefServiceBL refServiceBL) : base(refServiceBL)
+        {
+            _refServiceBL = refServiceBL;
+        }
+
         [HttpPut]
         [Route("timeStart")]
         public async virtual Task<AjaxResult> Put([FromBody]JObject data)
@@ -23,8 +30,7 @@ namespace MSOFT.bida69.com.Controllers
             {
                 var refDetailID = Guid.Parse(data["RefServiceID"].ToString());
                 DateTime timeStart = (DateTime)data["TimeStart"];
-                var refServiceBL = new RefServiceBL();
-                ajaxResult.Data = refServiceBL.UpdateTimeStartForRefService(refDetailID, timeStart);
+                ajaxResult.Data = _refServiceBL.UpdateTimeStartForRefService(refDetailID, timeStart);
             }
             catch (Exception ex)
             {
@@ -42,8 +48,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                var refServiceBL = new RefServiceBL();
-                ajaxResult.Data = refServiceBL.ChangeServiceForRefService(new object[] { refServiceID, serviceID });
+                ajaxResult.Data = _refServiceBL.ChangeServiceForRefService(new object[] { refServiceID, serviceID });
             }
             catch (Exception ex)
             {

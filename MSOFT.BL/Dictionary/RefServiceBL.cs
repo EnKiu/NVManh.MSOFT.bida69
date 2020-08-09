@@ -1,4 +1,6 @@
-﻿using MSOFT.DL;
+﻿using MSOFT.BL.Interfaces;
+using MSOFT.DL;
+using MSOFT.DL.Interfaces;
 using MSOFT.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,8 +10,14 @@ using System.Threading.Tasks;
 
 namespace MSOFT.BL
 {
-    public class RefServiceBL: EntityBL<RefService>
+    public class RefServiceBL: EntityBL<RefService>,IRefServiceBL
     {
+        IRefServiceRepository _iRefServiceRepository;
+        public RefServiceBL(IRefServiceRepository iRefServiceRepository) : base(iRefServiceRepository)
+        {
+            _iRefServiceRepository = iRefServiceRepository;
+        }
+
         /// <summary>
         /// Cập nhật thời gian bắt đầu sử dụng dịch vụ
         /// </summary>
@@ -19,8 +27,7 @@ namespace MSOFT.BL
         /// CreatedBy: NVMANH (04/08/2019)
         public int UpdateTimeStartForRefService(Guid refServiceID, DateTime timeStart)
         {
-            RefServiceDL refServiceDL = new RefServiceDL(); 
-            return refServiceDL.UpdateTimeStartForRefService( refServiceID, timeStart);
+            return _iRefServiceRepository.UpdateTimeStartForRefService( refServiceID, timeStart);
         }
 
         /// <summary>
@@ -31,8 +38,7 @@ namespace MSOFT.BL
         /// CreatedBy: NVMANH (04/08/2019)
         public int ChangeServiceForRefService(object[] param)
         {
-            RefServiceDL refServiceDL = new RefServiceDL();
-            return refServiceDL.ChangeServiceForRefService(param);
+            return _iRefServiceRepository.ChangeServiceForRefService(param);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MSOFT.Entities;
+﻿using MSOFT.DL.Interfaces;
+using MSOFT.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MSOFT.DL
 {
-    public class RefDetailDL:BaseDL
+    public class RefDetailDL:BaseDL, IRefDetailRepository
     {
         /// <summary>
         /// Cập nhật lại số lượng cho RefDetail

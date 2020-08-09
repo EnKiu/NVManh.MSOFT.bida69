@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MSOFT.DL
 {
-    public class BaseDL: IBaseDL
+    public class BaseDL: IBaseRepository
     {
         private string _tableName;
         public BaseDL()

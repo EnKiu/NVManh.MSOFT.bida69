@@ -1,4 +1,6 @@
-﻿using MSOFT.DL;
+﻿using MSOFT.BL.Interfaces;
+using MSOFT.DL;
+using MSOFT.DL.Interfaces;
 using MSOFT.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,12 +10,16 @@ using System.Threading.Tasks;
 
 namespace MSOFT.BL
 {
-    public class RefBL:EntityBL<Ref>
+    public class RefBL:EntityBL<Ref>,IRefBL
     {
+        IRefRepository _iRefRepository;
+        public RefBL(IRefRepository iRefRepository) : base(iRefRepository)
+        {
+            _iRefRepository = iRefRepository;
+        }
         public Ref GetRefDetail(Guid id)
         {
-            var refDL = new RefDL();
-            return refDL.GetRefDetail(id);
+            return _iRefRepository.GetRefDetail(id);
         }
         /// <summary>
         /// Thực hiện cập nhật thông tin hóa đơn và các dữ liệu trong  hóa đơn liên quan khi thực hiện thanh toàn và In Hóa đơn.
@@ -24,8 +30,7 @@ namespace MSOFT.BL
         /// Author: NVMANH (31/07/2019)
         public int UpdateRefAndServiceWhenPayOrder(Guid refID, decimal totalAmount, DateTime timeEnd)
         {
-            var refDL = new RefDL();
-            return refDL.UpdateRefAndServiceWhenPayOrder(refID, totalAmount, timeEnd);
+            return _iRefRepository.UpdateRefAndServiceWhenPayOrder(refID, totalAmount, timeEnd);
         }
 
         /// <summary>
@@ -36,8 +41,7 @@ namespace MSOFT.BL
         /// Author: NVMANH (31/07/2019) 
         public int DeleteRefDetailRefServiceAndUpdateServiceByRefID(Guid refID)
         {
-            var refDL = new RefDL();
-            return refDL.DeleteRefDetailRefServiceAndUpdateServiceByRefID(refID);
+            return _iRefRepository.DeleteRefDetailRefServiceAndUpdateServiceByRefID(refID);
         }
 
         /// <summary>
@@ -49,8 +53,7 @@ namespace MSOFT.BL
         /// CreatedBy : NVMANH (02/08/2019)
         public IEnumerable<Ref> GetRefDataStatistic(DateTime fromDate, DateTime toDate)
         {
-            var refDL = new RefDL();
-            return refDL.GetRefDataStatistic(fromDate, toDate);
+            return _iRefRepository.GetRefDataStatistic(fromDate, toDate);
         }
     }
 }

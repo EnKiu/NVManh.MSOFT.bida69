@@ -1,4 +1,5 @@
-﻿using MSOFT.Entities;
+﻿using MSOFT.DL.Interfaces;
+using MSOFT.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MSOFT.DL
 {
-    public class RefDL : BaseDL
+    public class RefDL : BaseDL, IRefRepository
     {
         public Ref GetRefDetail(Guid id)
         {

@@ -4,7 +4,8 @@ using System.Text;
 
 namespace MSOFT.DL.Interfaces
 {
-    public interface IInventoryCategoryDL
+    public interface IInventoryRepository: IBaseRepository
     {
+
     }
 }

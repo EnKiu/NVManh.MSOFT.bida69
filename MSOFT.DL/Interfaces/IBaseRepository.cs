@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MSOFT.DL.Interfaces
 {
-    public interface IBaseDL
+    public interface IBaseRepository
     {
         IEnumerable<T> GetEntities<T>();
         T GetEntityByID<T>(object entityID);
