@@ -127,7 +127,7 @@ class Admin {
             // Lấy RefID và ServiceID:
             var refId = $('.bida-item.item-selected').data("refid");
             // Thực hiện xóa và cập nhật trạng thái bàn:
-            ajaxJSON.delete("ref/RefDetailAndRefService/{0}".format(refId), {}, true, function () {
+            ajaxJSON.delete("refs/RefDetailAndRefService/{0}".format(refId), {}, true, function () {
                 me.FrmBidaDetail.close();
                 var intervalID = $('.bida-item.item-selected')[0].Interval;
                 if (commonJS.Interval.indexOf(intervalID) >= 0) {
@@ -599,7 +599,7 @@ class Admin {
         if (me.FrmBidaDetail.Interval) {
             clearInterval(this.FrmBidaDetail.Interval);
         }
-        ajaxJSON.get("/ref/refdetail/" + refid, {}, true, function (data) {
+        ajaxJSON.get("/refs/refdetail/" + refid, {}, true, function (data) {
             var refDetails = data["RefDetails"];
             var refServices = data["RefServices"];
             var refState = data["RefState"];
@@ -788,7 +788,13 @@ class Admin {
      * */
     initFrmOrderPrint() {
         $('.totalMoney').empty();
-        // Lấy thông tin chi tiết hóa đơn:
+        // Sinh hóa đơn mới, sinh mã hóa đơn mới:
+        var orderCode;
+        ajaxJSON.get("/refs/NewRefCode", {}, true, function (res) {
+            if (res) {
+                $("#REF_CODE").html(res);
+            }
+        })
         var me = this;
         // thực hiện cập nhật số lượng hàng hóa với Form chi tiết hóa đơn tương ứng:
         var dialogDetaiMaster = me.DialogDetailMaster; //-- xác định xem Form chi tiết là form nào (bán hàng hay có kèm dịch vụ)
@@ -847,7 +853,7 @@ class Admin {
         var refid = $('.bida-item.item-selected').data("refid");
         if (refid) {
             me.FrmOrderPrint.RefID = refid;
-            ajaxJSON.get("/ref/refdetail/" + refid, {}, true, function (data) {
+            ajaxJSON.get("/refs/refdetail/" + refid, {}, true, function (data) {
                 var refDetails = data["RefDetails"];
                 var refServices = data["RefServices"];
                 // Hiển thị thông tin bàn:
@@ -954,36 +960,28 @@ class Admin {
 
     payAndPrintSaleOrder() {
         var me = this;
-        // Update ref and service:
-        //var refId = me.FrmOrderPrint.RefID,
-        //    totalAmount = me.FrmOrderPrint.TotalAmount,
-        //    timeEnd = me.FrmOrderPrint.EndTime.formatDateStringInvariantCulture();
-        //var paramObject = {
-        //    refId: refId,
-        //    totalAmount: totalAmount,
-        //    timeEnd: timeEnd
-        //}
-        //ajaxJSON.put("/ref/RefAndService", paramObject, true, function (data) {
-        //    me.FrmOrderPrint.close();
-        //    me.FrmOrderPrint.RefID = null;
-        //    me.FrmOrderPrint.TotalAmount = 0;
-        //    me.FrmOrderPrint.EndTime = null;
-        //    me.FrmBidaDetail.close();
-        //    clearInterval($('.bida-item.item-selected')[0].Interval); // Xóa bộ đếm thời gian.
-        //    me.loadBidaStatus();
-        //});
+        // Build Ref:
+        var ref = {
+            RefNo: $("#REF_CODE").html(),
+            RefDate: new Date(),
+            RefDetail: saleJS.data
+        }
 
-        var mywindow = window.open('Hóa đơn thanh toán', 'PRINT', 'height=1024,width=1280');
-        mywindow.document.write('<html><head><title>In hóa đơn thanh toán</title>');
-        mywindow.document.write(document.getElementById("orderPrint").innerHTML);
-        mywindow.document.write('</body></html>');
+        ajaxJSON.post("/refs/RefSale", ref, true, function (res) {
+            console.log(ref);
+        })
 
-        mywindow.document.close(); // necessary for IE >= 10
-        mywindow.focus(); // necessary for IE >= 10*/
+        //var mywindow = window.open('Hóa đơn thanh toán', 'PRINT', 'height=1024,width=1280');
+        //mywindow.document.write('<html><head><title>In hóa đơn thanh toán</title>');
+        //mywindow.document.write(document.getElementById("orderPrint").innerHTML);
+        //mywindow.document.write('</body></html>');
 
-        mywindow.print();
-        mywindow.close();
-        return true;
+        //mywindow.document.close(); // necessary for IE >= 10
+        //mywindow.focus(); // necessary for IE >= 10*/
+
+        //mywindow.print();
+        //mywindow.close();
+        //return true;
     }
 
     payAndPrintBidaOrder() {
@@ -997,7 +995,7 @@ class Admin {
             totalAmount: totalAmount,
             timeEnd: timeEnd
         }
-        ajaxJSON.put("/ref/RefAndService", paramObject, true, function (data) {
+        ajaxJSON.put("/refs/RefAndService", paramObject, true, function (data) {
             me.FrmOrderPrint.close();
             me.FrmOrderPrint.RefID = null;
             me.FrmOrderPrint.TotalAmount = 0;

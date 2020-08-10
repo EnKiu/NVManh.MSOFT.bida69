@@ -1,52 +1,148 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MSOFT.bida69.com.Controllers;
+using MSOFT.bida69.core.Properties;
+using MSOFT.BL.Interfaces;
+using MSOFT.Common;
 using MSOFT.DL;
+using MSOFT.Entities;
 using MSOFT.Entities.Models;
+using Newtonsoft.Json.Linq;
 
 namespace MSOFT.bida69.core.Api
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RefsController : ControllerBase
+    [Route("refs")]
+    public class RefsController : EntityController<MSOFT.Entities.Ref>
     {
         private readonly bida69Context _context;
-
-        public RefsController(bida69Context context)
+        IRefBL _refBL;
+        public RefsController(IRefBL refBL, bida69Context context) : base(refBL)
         {
             _context = context;
+            _refBL = refBL;
         }
-
-        // GET: api/Refs
+        #region ADO.NET
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Ref>>> GetRef()
+        [Route("refdetail/{id}")]
+        public async Task<AjaxResult> GetRefDetail(string id)
         {
-            return await _context.Ref.ToListAsync();
-        }
-
-        // GET: api/Refs/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Ref>> GetRef(Guid id)
-        {
-            var @ref = await _context.Ref.FindAsync(id);
-
-            if (@ref == null)
+            try
             {
-                return NotFound();
+                ajaxResult.Data = _refBL.GetRefDetail(Guid.Parse(id));
+            }
+            catch (Exception ex)
+            {
+                ajaxResult.Success = false;
+                ajaxResult.Data = ex;
+                ajaxResult.Message = Resources.ExceptionErroMsg;
             }
 
-            return @ref;
+            return await Task.FromResult(ajaxResult);
         }
+
+        [HttpPut]
+        [Route("RefAndService")]
+        //[AllowAnonymous]
+        public async Task<AjaxResult> UpdateRefAndServiceWhenPayOrder([FromBody] JObject data)
+        {
+            try
+            {
+                var refId = data["refId"] != null ? Guid.Parse(data["refId"].ToString()) : Guid.Empty;
+                var totalAmount = (decimal)data["totalAmount"];
+                //var timeEnd = ((DateTime)data["timeEnd"]).ToLocalTime();
+                //var timeEnd2 = ((DateTime)data["timeEnd"]);
+                var timeEnd = DateTime.ParseExact(data["timeEnd"].ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture); ;
+                ajaxResult.Data = _refBL.UpdateRefAndServiceWhenPayOrder(refId, totalAmount, timeEnd);
+                //ajaxResult.Data = new DateTime[] { timeEnd, timeEnd2 , timeEnd3 };
+            }
+            catch (Exception ex)
+            {
+                ajaxResult.Success = false;
+                ajaxResult.Data = ex;
+                ajaxResult.Message = Resources.ExceptionErroMsg;
+            }
+
+            return await Task.FromResult(ajaxResult);
+        }
+
+        [HttpDelete]
+        [Route("RefDetailAndRefService/{refId}")]
+        //[AllowAnonymous]
+        public async Task<AjaxResult> DeleteRefDetailRefServiceAndUpdateServiceByRefID(Guid refId)
+        {
+            try
+            {
+                ajaxResult.Data = _refBL.DeleteRefDetailRefServiceAndUpdateServiceByRefID(refId);
+            }
+            catch (Exception ex)
+            {
+                ajaxResult.Success = false;
+                ajaxResult.Data = ex;
+                ajaxResult.Message = Resources.ExceptionErroMsg;
+            }
+
+            return await Task.FromResult(ajaxResult);
+        }
+
+
+        /// <summary>
+        /// Thực hiện thống kê dữ liệu hóa đơn theo khoảng thời gian
+        /// </summary>
+        /// <param name="fromDate">Thời gian bắt đầu thống kê</param>
+        /// <param name="toDate">Thời gian kế thúc thống kê</param>
+        /// <returns>Danh sách thống kê chi tiết các hóa đơn</returns>
+        /// CreatedBy: NVMANH (03/08/2019)
+        [HttpGet]
+        [Route("RefDataStatistic/{fromDate}/{toDate}")]
+        //[AllowAnonymous]
+        public async Task<AjaxResult> GetRefDataStatistic(DateTime fromDate, DateTime toDate)
+        {
+            try
+            {
+                toDate = toDate.AddDays(1);
+                ajaxResult.Data = _refBL.GetRefDataStatistic(fromDate, toDate);
+            }
+            catch (Exception ex)
+            {
+                ajaxResult.Success = false;
+                ajaxResult.Data = ex;
+                ajaxResult.Message = Resources.ExceptionErroMsg;
+            }
+
+            return await Task.FromResult(ajaxResult);
+        }
+        #endregion
+
+        #region EF
+
+        [HttpGet("NewRefCode")]
+        public async Task<Entities.AjaxResult> GetNewRef()
+        {
+            // Lấy phiếu gần nhất:
+            var lastRef = await _context.Ref.OrderByDescending(r => r.CreatedDate).FirstOrDefaultAsync();
+            if (lastRef != null)
+            {
+                var refCode = lastRef.RefNo;
+                var subFix = refCode.Substring(2);
+                var nextCodeNumber = Double.Parse(subFix) + 1;
+                ajaxResult.Data = string.Format("HD{0}", nextCodeNumber);
+                return ajaxResult;
+            }
+            return ajaxResult;
+        }
+
 
         // PUT: api/Refs/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRef(Guid id, Ref @ref)
+        public async Task<IActionResult> PutRef(Guid id, ViewRef @ref)
         {
             if (id != @ref.RefId)
             {
@@ -74,29 +170,45 @@ namespace MSOFT.bida69.core.Api
             return NoContent();
         }
 
-        // POST: api/Refs
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<ActionResult<Ref>> PostRef(Ref @ref)
+       /// <summary>
+       /// Thêm mới hóa đơn khi thực hiện thanh toán bán lẻ
+       /// </summary>
+       /// <param name="ref"></param>
+       /// <returns></returns>
+       /// CreatedBy: NVMANH (09/08/2020)
+        [HttpPost("RefSale")]
+        public async Task<AjaxResult> PostRef(Entities.Models.Ref @ref)
         {
+            @ref.RefState = (int)RefState.Payed;
+            @ref.CreatedDate = DateTime.Now;
+            @ref.JournalMemo = "Thanh toán bán lẻ";
             _context.Ref.Add(@ref);
+            await Task.Delay(1000);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRef", new { id = @ref.RefId }, @ref);
+            return ajaxResult;
         }
+
+        //[HttpPost]
+        //public async Task<ActionResult<ViewRef>> PostRef(Entities.Models.Ref @ref)
+        //{
+        //    _context.Ref.Add(@ref);
+        //    await _context.SaveChangesAsync();
+
+        //    return CreatedAtAction("GetRef", new { id = @ref.RefId }, @ref);
+        //}
 
         // DELETE: api/Refs/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Ref>> DeleteRef(Guid id)
+        public async Task<ActionResult<ViewRef>> DeleteRef(Guid id)
         {
-            var @ref = await _context.Ref.FindAsync(id);
+            var @ref = await _context.ViewRef.FindAsync(id);
             if (@ref == null)
             {
                 return NotFound();
             }
 
-            _context.Ref.Remove(@ref);
+            _context.ViewRef.Remove(@ref);
             await _context.SaveChangesAsync();
 
             return @ref;
@@ -106,5 +218,7 @@ namespace MSOFT.bida69.core.Api
         {
             return _context.Ref.Any(e => e.RefId == id);
         }
+
+        #endregion
     }
 }

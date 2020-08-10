@@ -1,6 +1,7 @@
 ﻿using MSOFT.BL;
 using MSOFT.BL.Interfaces;
 using MSOFT.Entities;
+using MSOFT.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

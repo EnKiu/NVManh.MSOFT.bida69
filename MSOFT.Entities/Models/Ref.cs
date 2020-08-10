@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MSOFT.Entities.Models
 {
-    public partial class Ref
+    public partial class Ref:Entity
     {
         public Ref()
         {
@@ -19,10 +19,6 @@ namespace MSOFT.Entities.Models
         public string JournalMemo { get; set; }
         public Guid? EmployeeId { get; set; }
         public Guid? CustomerId { get; set; }
-        public DateTime? ModifiedDate { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public string CreatedBy { get; set; }
         public int? RefState { get; set; }
 
         public virtual Customer Customer { get; set; }

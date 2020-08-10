@@ -29,7 +29,7 @@ class Statistic {
             fromDate = '{0}-{1}-{2}'.format(fromDate.getFullYear(), fromDate.getMonth() + 1, fromDate.getDate());
             toDate = '{0}-{1}-{2}'.format(toDate.getFullYear(), toDate.getMonth() + 1, toDate.getDate());
             // Gọi Service thực hiện thống kê:
-            ajaxJSON.get("/ref/RefDataStatistic/{0}/{1}".format(fromDate, toDate), {}, true, this.buidRefDataStatistic.bind(this));
+            ajaxJSON.get("/refs/RefDataStatistic/{0}/{1}".format(fromDate, toDate), {}, true, this.buidRefDataStatistic.bind(this));
         }
     }
 
