@@ -179,7 +179,7 @@
     color: #33cc66;
 }
 
-.bida-detail-title {
+.bida-detail-title, .order-detail-title {
     width: 100%;
     font-size: 30px;
     font-weight: bold;

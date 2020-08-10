@@ -4,7 +4,7 @@
 
 class SaleJS {
     constructor() {
-        this.FrmOrderDetail = new Dialog('#frmOrderDetail', this, null);
+        this.FrmOrderDetail = new Dialog('#frmOrderDetail', this, null, this.loadOrderDetail.bind(this));
         this.initEvents();
         this.data = [];
         this.totalAmount = 0;
@@ -58,12 +58,34 @@ class SaleJS {
         var currentTarget = $(sender.currentTarget);
         var currentRow = currentTarget.parents('tr');
         var currentRecordId = currentRow.data('dataJson')['InventoryID'];
-        debugger;
         var inventoryName = currentRow.find('td')[1].textContent;
         commonJS.showConfirm("Chú có chắc chắn muốn xóa <b><span style='color:red'>{0}</span></b> khỏi hóa đơn này?".format(inventoryName), function () {
             me.data = me.data.filter(function (obj) { return obj['InventoryID'] != currentRecordId });
             me.buildRowHtmlData(me.data);
             commonJS.showSuccessMsg2("Đã xóa <b><span style='color:red'>{0}</span></b> khỏi hóa đơn!".format(inventoryName));
         })
+    }
+    loadOrderDetail() {
+        var me = this;
+        me.data = [];
+        $('.totalMoney').empty();
+        $('#frmOrderDetail #tbInventotySelected tbody').empty();
+        if (me.FrmOrderDetail.ViewMode) {
+            var refid = me.FrmOrderDetail.RefID;
+            ajaxJSON.get("/refs/refdetail/" + refid, {}, true, function (data) {
+                me.buildRowHtmlData(data["RefDetails"]);
+                $('.service-toolbar').hide();
+                $('.refDetailToolbar-btn').hide();
+                $('.cell-delete').hide();
+                $('#btnAcceptPayOrder').hide();
+                $('#btnDeleteOrder').hide();
+            })
+        } else {
+            $('.service-toolbar').show();
+            $('.refDetailToolbar-btn').show();
+            $('.cell-delete').show();
+            $('#btnAcceptPayOrder').show();
+            $('#btnDeleteOrder').show();
+        }
     }
 }

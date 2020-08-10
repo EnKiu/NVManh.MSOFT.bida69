@@ -180,6 +180,7 @@ namespace MSOFT.bida69.core.Api
         public async Task<AjaxResult> PostRef(Entities.Models.Ref @ref)
         {
             @ref.RefState = (int)RefState.Payed;
+            @ref.RefType = (int)RefType.Sale;
             @ref.CreatedDate = DateTime.Now;
             @ref.JournalMemo = "Thanh toán bán lẻ";
             _context.Ref.Add(@ref);

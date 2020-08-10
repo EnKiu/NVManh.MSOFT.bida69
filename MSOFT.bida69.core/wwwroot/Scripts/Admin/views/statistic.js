@@ -120,6 +120,9 @@ class Statistic {
                         break;
                 }
             }
+            if (item['RefType'] == 2 && fieldName === "RefTypeName") {
+                fieldValue = $('<span style="color:#f0ad4e"></span>').append(fieldValue);
+            }
             if (item['RefState'] === 3) {
                 fieldValue = $('<span class="text-decoration-through-red"></span>').append(fieldValue);
             }
@@ -141,14 +144,25 @@ class Statistic {
     }
 
     rowStatisticOnClick() {
-        adminJS.FrmBidaDetail.RefID = $(this).data('id');
-        adminJS.FrmBidaDetail.ViewMode = true;
-        adminJS.FrmBidaDetail.show();
-        $('.service-toolbar').hide();
-        $('.refDetailToolbar-btn').hide();
-        $('.cell-delete').hide();
-        $('#btnAcceptPayOrder').hide();
-        $('#btnDeleteOrder').hide();
+        var record = $(this).data('dataJson');
+        var refType = record["RefType"];
+        switch (refType) {
+            case 1:
+                adminJS.FrmBidaDetail.RefID = $(this).data('id');
+                adminJS.FrmBidaDetail.ViewMode = true;
+                adminJS.FrmBidaDetail.show();
+                $('.service-toolbar').hide();
+                $('.refDetailToolbar-btn').hide();
+                $('.cell-delete').hide();
+                $('#btnAcceptPayBidaOrder').hide();
+                $('#btnDeleteBidaOrder').hide();
+                break;
+            default:
+                saleJS.FrmOrderDetail.RefID = $(this).data('id');
+                saleJS.FrmOrderDetail.ViewMode = true;
+                saleJS.FrmOrderDetail.show();
+                break;
+        }
     }
 }
 $(function () {

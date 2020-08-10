@@ -251,6 +251,9 @@ class Admin {
      * CreatedBy: NVMANH (01/07/2019)
      * ----------------------------------*/
     changeQuantityInventorySelected() {
+        if (this.FrmBidaDetail.ViewMode) {
+            return;
+        }
         var inventorySelected = $('#frmBidaDetail .tbInventotySelected tr.row-selected');
         var refDetailId = inventorySelected.data('id'),
             inventoryName = inventorySelected.find('td')[1].textContent,
@@ -328,6 +331,7 @@ class Admin {
         switch (formId) {
             case "frmOrderDetail":
                 recordSelected.Quantity = quantity;
+                recordSelected["UnitPrice"] = recordSelected.Price;
                 recordSelected.TotalAmount = recordSelected.Price * parseInt(quantity);
                 saleJS.data.push(recordSelected);
                 saleJS.buildRowHtmlData(saleJS.data);
@@ -760,14 +764,14 @@ class Admin {
             $('.service-toolbar').hide();
             $('.refDetailToolbar-btn').hide();
             $('.cell-delete').hide();
-            $('#btnAcceptPayOrder').hide();
-            $('#btnDeleteOrder').hide();
+            $('#btnAcceptPayBidaOrder').hide();
+            $('#btnDeleteBidaOrder').hide();
         } else {
             $('.service-toolbar').show();
             $('.refDetailToolbar-btn').show();
             $('.cell-delete').show();
-            $('#btnAcceptPayOrder').show();
-            $('#btnDeleteOrder').show();
+            $('#btnAcceptPayBidaOrder').show();
+            $('#btnDeleteBidaOrder').show();
         }
     }
 
@@ -787,7 +791,8 @@ class Admin {
      * Author: NVMANH (30/07/2019)
      * */
     initFrmOrderPrint() {
-        $('.totalMoney').empty();
+        //$('.totalAmount').empty();
+        //$('.txtTotalAmount').empty();
         // Sinh hóa đơn mới, sinh mã hóa đơn mới:
         var orderCode;
         ajaxJSON.get("/refs/NewRefCode", {}, true, function (res) {
@@ -929,7 +934,6 @@ class Admin {
      * Author: NVMANH (31/07/2019)
      */
     btnAcceptPayOrderOnClick(event) {
-        debugger
         event.preventDefault();
         this.FrmOrderPrint.show();
         event.stopPropagation();
