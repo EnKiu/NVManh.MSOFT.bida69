@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MSOFT.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,8 @@ namespace MSOFT.Entities
     {
         public bool Success { get; set; }
         public object Data { get; set; }
-        public string Message { get; set; }
-        public string Code { get; set; }
+        public string Messenge { get; set; }
+        public MNVCode Code { get; set; }
         public AjaxResult()
         {
             Success = true;

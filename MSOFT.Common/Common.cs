@@ -13,6 +13,7 @@ namespace MSOFT.Common
         {
 
         }
+        public static string TimeZoneId = string.Empty;
         public static string GetConnectionString()
         {
             var keyConnectionString = GetAppsettingbyKey("KeyConnection");

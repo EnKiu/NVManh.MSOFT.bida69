@@ -1,12 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 using MSOFT.Entities.Models;
 
 namespace MSOFT.DL
 {
     public partial class bida69Context : DbContext
     {
+        public static string ConnectionString;
         public bida69Context()
         {
         }
@@ -40,8 +42,7 @@ namespace MSOFT.DL
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.;Database=bida69;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(ConnectionString);
             }
         }
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MSOFT.bida69.com.Controllers;
 using MSOFT.bida69.core.Properties;
 using MSOFT.BL.Interfaces;
@@ -21,11 +22,13 @@ namespace MSOFT.bida69.core.Api
     public class RefsController : EntityController<MSOFT.Entities.Ref>
     {
         private readonly bida69Context _context;
+        IConfiguration _configuration;
         IRefBL _refBL;
-        public RefsController(IRefBL refBL, bida69Context context) : base(refBL)
+        public RefsController(IRefBL refBL, bida69Context context, IConfiguration configuration) : base(refBL)
         {
             _context = context;
             _refBL = refBL;
+            _configuration = configuration;
         }
         #region ADO.NET
         [HttpGet]
@@ -40,7 +43,7 @@ namespace MSOFT.bida69.core.Api
             {
                 ajaxResult.Success = false;
                 ajaxResult.Data = ex;
-                ajaxResult.Message = Resources.ExceptionErroMsg;
+                ajaxResult.Messenge = Resources.ExceptionErroMsg;
             }
 
             return await Task.FromResult(ajaxResult);
@@ -65,7 +68,7 @@ namespace MSOFT.bida69.core.Api
             {
                 ajaxResult.Success = false;
                 ajaxResult.Data = ex;
-                ajaxResult.Message = Resources.ExceptionErroMsg;
+                ajaxResult.Messenge = Resources.ExceptionErroMsg;
             }
 
             return await Task.FromResult(ajaxResult);
@@ -84,7 +87,7 @@ namespace MSOFT.bida69.core.Api
             {
                 ajaxResult.Success = false;
                 ajaxResult.Data = ex;
-                ajaxResult.Message = Resources.ExceptionErroMsg;
+                ajaxResult.Messenge = Resources.ExceptionErroMsg;
             }
 
             return await Task.FromResult(ajaxResult);
@@ -112,7 +115,7 @@ namespace MSOFT.bida69.core.Api
             {
                 ajaxResult.Success = false;
                 ajaxResult.Data = ex;
-                ajaxResult.Message = Resources.ExceptionErroMsg;
+                ajaxResult.Messenge = Resources.ExceptionErroMsg;
             }
 
             return await Task.FromResult(ajaxResult);
@@ -125,7 +128,7 @@ namespace MSOFT.bida69.core.Api
         public async Task<Entities.AjaxResult> GetNewRef()
         {
             // Lấy phiếu gần nhất:
-            var lastRef = await _context.Ref.OrderByDescending(r => r.CreatedDate).FirstOrDefaultAsync();
+            var lastRef = await _context.Ref.OrderByDescending(r => r.RefDate).FirstOrDefaultAsync();
             if (lastRef != null)
             {
                 var refCode = lastRef.RefNo;
@@ -170,21 +173,24 @@ namespace MSOFT.bida69.core.Api
             return NoContent();
         }
 
-       /// <summary>
-       /// Thêm mới hóa đơn khi thực hiện thanh toán bán lẻ
-       /// </summary>
-       /// <param name="ref"></param>
-       /// <returns></returns>
-       /// CreatedBy: NVMANH (09/08/2020)
+        /// <summary>
+        /// Thêm mới hóa đơn khi thực hiện thanh toán bán lẻ
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        /// CreatedBy: NVMANH (09/08/2020)
         [HttpPost("RefSale")]
-        public async Task<AjaxResult> PostRef(Entities.Models.Ref @ref)
+        public async Task<AjaxResult> PostRef(Entities.Models.Ref order)
         {
-            @ref.RefState = (int)RefState.Payed;
-            @ref.RefType = (int)RefType.Sale;
-            @ref.CreatedDate = DateTime.Now;
-            @ref.JournalMemo = "Thanh toán bán lẻ";
-            _context.Ref.Add(@ref);
-            await Task.Delay(1000);
+            // Điều chỉnh thời gian đúng múi giờ được thiết lập (tránh tính toán sai sót thời gian)
+            //string windowsZoneId = TimeZoneConvert.RailsToWindows(Common.Common.TimeZoneId);
+            //TimeZoneInfo timeInfo = TimeZoneInfo.FindSystemTimeZoneById(windowsZoneId);
+            //order.RefDate = TimeZoneInfo.ConvertTimeFromUtc((DateTime)order.RefDate, timeInfo);
+            order.RefState = (int)RefState.Payed;
+            order.RefType = (int)RefType.Sale;
+            order.CreatedDate = DateTime.Now.AddHours(7);
+            order.JournalMemo = "Thanh toán bán lẻ";
+            _context.Ref.Add(order);
             await _context.SaveChangesAsync();
 
             return ajaxResult;

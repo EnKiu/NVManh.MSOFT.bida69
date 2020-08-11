@@ -33,7 +33,7 @@ namespace MSOFT.bida69.com.Controllers
             {
                 ajaxResult.Success = false;
                 ajaxResult.Data = ex;
-                ajaxResult.Message = Resources.ExceptionErroMsg;
+                ajaxResult.Messenge = Resources.ExceptionErroMsg;
             }
 
             return await Task.FromResult(ajaxResult);
@@ -51,7 +51,7 @@ namespace MSOFT.bida69.com.Controllers
             {
                 ajaxResult.Success = false;
                 ajaxResult.Data = ex;
-                ajaxResult.Message = Resources.ExceptionErroMsg;
+                ajaxResult.Messenge = Resources.ExceptionErroMsg;
             }
 
             return await Task.FromResult(ajaxResult);

@@ -324,16 +324,29 @@ class Admin {
         var dialogDetaiMaster = me.DialogDetailMaster; //-- xác định xem Form chi tiết là form nào (bán hàng hay có kèm dịch vụ)
         // Get Quantity:
         var quantity = $('#txtQuantity').val();
+        quantity = (quantity ? parseFloat(quantity) : 0);
         var inventoryID = commonJS.getFirstItemIdSelectedInTable($('table#tbListInventotyToSelect'));
         var recordSelected = commonJS.getFirstRowTableSelected($('table#tbListInventotyToSelect')).data('dataJson');
         var formId = this.DialogDetailMaster.attr('id');// frmBidaDetail
         // Nếu là cập nhật cho hóa đơn của bàn bida:
         switch (formId) {
             case "frmOrderDetail":
-                recordSelected.Quantity = quantity;
-                recordSelected["UnitPrice"] = recordSelected.Price;
-                recordSelected.TotalAmount = recordSelected.Price * parseInt(quantity);
-                saleJS.data.push(recordSelected);
+                debugger
+                var inventoryHasExist = false;
+                var newData = saleJS.data.map((item, index) => {
+                    if (item["InventoryID"] == recordSelected["InventoryID"]) {
+                        inventoryHasExist = true;
+                        item.Quantity = item.Quantity + quantity;
+                    }
+                    return item;
+                })
+                saleJS.data = newData;
+                if (!inventoryHasExist) {
+                    recordSelected.Quantity = quantity;
+                    recordSelected["UnitPrice"] = recordSelected.Price;
+                    recordSelected.TotalAmount = recordSelected.Price * parseInt(quantity);
+                    saleJS.data.push(recordSelected);
+                }
                 saleJS.buildRowHtmlData(saleJS.data);
                 break;
             case "frmBidaDetail":
@@ -681,8 +694,8 @@ class Admin {
 
         // Cập nhật tổng tiền của hóa đơn lên giao diện:
         var totalAmount = "{0}{1}".format(currentTotalAmount.formatMoney(), '<sup>đ</sup>');
-        $('.totalMoney').data('totalMoney', currentTotalAmount);
-        $('.totalMoney').html(totalAmount);
+        $('#frmBidaOrderDetail .totalMoney').data('totalMoney', currentTotalAmount);
+        $('#frmBidaOrderDetail .totalMoney').html(totalAmount);
     }
 
     /** ----------------------------------------------------------------------------
@@ -706,12 +719,12 @@ class Admin {
             $(elTotalAmountService).data("totalAmountService", amount);
             // Cập nhật tổng tiền của hóa đơn lên giao diện:
             // Lấy tổng tiền hiện tại:
-            var currentTotalAmount = $('.totalMoney').data('totalMoney');
+            var currentTotalAmount = $('#frmBidaOrderDetail .totalMoney').data('totalMoney');
             var totalAmountInventory = $("#frmBidaDetail table.tbInventotySelected").data('totalAmountInventory');
             currentTotalAmount = (amount + totalAmountInventory);
             var totalAmount = "{0}{1}".format(currentTotalAmount.formatMoney(), '<sup>đ</sup>');
-            $('.totalMoney').data('totalMoney', currentTotalAmount);
-            $('.totalMoney').html(totalAmount);
+            $('#frmBidaOrderDetail .totalMoney').data('totalMoney', currentTotalAmount);
+            $('#frmBidaOrderDetail .totalMoney').html(totalAmount);
             $('.timeStartService').html('<b>{0}</b> ({1})'.format(startTime.hhmmss(), startTime.ddmmyyyy()));
             $('.timeStartService')[0].StartTime = startTime;
         }.bind(this));
@@ -740,7 +753,7 @@ class Admin {
                 //if (amount != oldTotalAmountService) {
                 // Cập nhật tổng tiền của hóa đơn lên giao diện:
                 // Lấy tổng tiền hiện tại:
-                var currentTotalAmount = $('.totalMoney').data('totalMoney');
+                var currentTotalAmount = $('#frmBidaOrderDetail .totalMoney').data('totalMoney');
                 var totalAmountInventory = $("#frmBidaDetail table.tbInventotySelected").data('totalAmountInventory');
                 //console.log('------------------------------------------------------');
                 //console.log(amount);
@@ -748,8 +761,8 @@ class Admin {
                 //console.log(currentTotalAmount);
                 currentTotalAmount = (amount + totalAmountInventory);
                 var totalAmount = "{0}{1}".format(currentTotalAmount.formatMoney(), '<sup>đ</sup>');
-                $('.totalMoney').data('totalMoney', currentTotalAmount);
-                $('.totalMoney').html(totalAmount);
+                $('#frmBidaOrderDetail .totalMoney').data('totalMoney', currentTotalAmount);
+                $('#frmBidaOrderDetail .totalMoney').html(totalAmount);
                 //}
             }.bind(this));
             fieldValue = el;
@@ -819,6 +832,7 @@ class Admin {
      * Hiển thị chi tiết hóa đơn bán hàng (chỉ bán hàng không có dịch vụ kèm theo)
      * */
     initFrmOrderPrintForSaleOrder() {
+        var me = this;
         $("#frmOrderPrint .order-title").html("Bán hàng");
         $("#frmOrderPrint .timeInfo").hide();
         $("#frmOrderPrint #total-info-box").hide();
@@ -845,6 +859,7 @@ class Admin {
             // Tổng tiền:
             $('#frmOrderPrint .totalAmount span').html(totalAmount.formatMoney());
             $('#frmOrderPrint .txtTotalAmount input').val(totalAmount);
+            me.FrmOrderPrint.TotalAmount = totalAmount;
         }
     }
 
@@ -967,25 +982,30 @@ class Admin {
         // Build Ref:
         var ref = {
             RefNo: $("#REF_CODE").html(),
-            RefDate: new Date(),
-            RefDetail: saleJS.data
+            RefDate: (new Date()).toLocaleString(),
+            RefDetail: saleJS.data,
+            TotalAmount: me.FrmOrderPrint.TotalAmount
         }
 
         ajaxJSON.post("/refs/RefSale", ref, true, function (res) {
-            console.log(ref);
+            me.FrmOrderPrint.close();
+            me.FrmOrderPrint.RefID = null;
+            me.FrmOrderPrint.TotalAmount = 0;
+            me.FrmOrderPrint.EndTime = null;
+            saleJS.FrmOrderDetail.close();
         })
 
-        //var mywindow = window.open('Hóa đơn thanh toán', 'PRINT', 'height=1024,width=1280');
-        //mywindow.document.write('<html><head><title>In hóa đơn thanh toán</title>');
-        //mywindow.document.write(document.getElementById("orderPrint").innerHTML);
-        //mywindow.document.write('</body></html>');
+        var mywindow = window.open('Hóa đơn thanh toán', 'PRINT', 'height=1024,width=1280');
+        mywindow.document.write('<html><head><title>In hóa đơn thanh toán</title>');
+        mywindow.document.write(document.getElementById("orderPrint").innerHTML);
+        mywindow.document.write('</body></html>');
 
-        //mywindow.document.close(); // necessary for IE >= 10
-        //mywindow.focus(); // necessary for IE >= 10*/
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
 
-        //mywindow.print();
-        //mywindow.close();
-        //return true;
+        mywindow.print();
+        mywindow.close();
+        return true;
     }
 
     payAndPrintBidaOrder() {

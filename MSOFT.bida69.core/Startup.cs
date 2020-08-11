@@ -35,12 +35,13 @@ namespace MSOFT.bida69.core
         // This method gets called by the runtime. Use this method to add servicefs to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Common.Common.TimeZoneId = Configuration.GetSection("TimeZoneId").Value;
             services.AddCors();
             // Bổ sung thông tin kết nối với Database:
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             //services.Add(new ServiceDescriptor(typeof(DatabaseContext), new DatabaseContext(Configuration.GetConnectionString("LadizoneConnection"))));
             DataAccess.ConnectionString = connectionString;
-
+            bida69Context.ConnectionString = connectionString;
             //Entity Framework  
             services.AddDbContext<bida69Context>(options => options.UseSqlServer(connectionString));
 

@@ -188,7 +188,7 @@
                             </div>
 
                             <div class="row" style="font-size:24px;font-weight:bold;line-height: 24px;margin-top:10px">
-                                <div class="col col-sm-3" style="white-space:nowrap"><label>Tiền dịch vụ: </label></div>
+                                <div class="col col-sm-3" style="white-space:nowrap"><label>Tiền dịch vụ/bán lẻ: </label></div>
                                 <div class="col col-sm-9">
                                     <span id="totalAmountInventory" style="color:#4cff00;padding-left: 10px;"></span>
                                 </div>
@@ -216,7 +216,7 @@
                     <th scope="col" fieldData="RefTypeName">Loại hóa đơn</th>
                     <th scope="col" fieldData="ServiceName">Bàn</th>
                     <th scope="col" style="width:150px" fieldData="TotalAmountService">Tiền bàn</th>
-                    <th scope="col" style="width:150px" fieldData="TotalAmountInventory" title="Tổng tiền dịch vụ">Tiền DV</th>
+                    <th scope="col" style="width:150px" fieldData="TotalAmountInventory" title="Tổng tiền dịch vụ">Tiền DV/Bán lẻ</th>
                     <th scope="col" fieldData="TotalAmount">Tổng tiền</th>
                     <th scope="col" fieldData="TotalAmountPay">Tổng tiền thanh toán</th>
                     <th scope="col" fieldData="RefState" style="width:150px">Trạng thái</th>
@@ -507,8 +507,8 @@
     <hr />
     <div class="dialog-footer">
         <button id="btnAcceptPayOrder" type="submit" form="frmInventoryOrderDetail" class="btnAcceptPayOrder btn btn-success"><i class="fa fa-print"></i> Thanh toán &amp; In hóa đơn</button>
-        <button id="btnDeleteOrder" type="reset" class="btn btn-danger"><i class="fa fa-close"></i> Hủy hóa đơn</button>
-        <button id="btnCloseOrderDetail" type="reset" class="btn btn-warning"><i class="fa fa-power-off"></i> Đóng</button>
+        @*<button id="btnDeleteOrder" type="reset" class="btn btn-danger"><i class="fa fa-close"></i> Hủy hóa đơn</button>*@
+        <button id="btnCloseOrderDetail" type="reset" class="btn btn-warning"><i class="fa fa-power-off"></i> Đóng/Hủy</button>
     </div>
 </div>
 

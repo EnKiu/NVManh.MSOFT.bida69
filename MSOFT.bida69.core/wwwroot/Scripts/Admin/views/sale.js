@@ -21,6 +21,7 @@ class SaleJS {
     btnSaleOnClick() {
         var me = this;
         this.totalAmount = 0;
+        me.FrmOrderDetail.ViewMode = false;
         me.FrmOrderDetail.show();
     }
 
