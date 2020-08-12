@@ -1,4 +1,6 @@
-﻿.navbar-brand {
+﻿@import url("https://fonts.googleapis.com/css?family=Lato:300");
+
+.navbar-brand {
     float: left;
     padding: 8px 4px;
     line-height: 11px;
@@ -18,11 +20,9 @@
 }
 
 .bida-item {
-    border: 2px solid #28a745;
     border-radius: 3px;
     min-height: 100px;
-    margin: 20px 0px;
-    height: 200px;
+    margin: 15px 0px;
 }
 
     .bida-item:hover, .item-selected {
@@ -38,9 +38,10 @@
         text-transform: uppercase;
         font-weight: bold;
         align-items: center;
-        padding-bottom: 2px;
+        /*        padding-bottom: 2px;*/
         text-align: center;
         cursor: pointer;
+/*        border-radius: 3px 3px 0;*/
     }
 
         .bida-item .bida-header.bida-header-active {
@@ -53,16 +54,54 @@
         text-align: center;
         font-size: 22px;
         line-height: 22px;
+        padding: 3px;
     }
 
     .bida-item .bida-title {
         width: 100%;
         color: #4e73df;
         background-color: #ffffff;
-        border-radius: 3px;
+/*        border-radius: 3px 0 0;*/
         font-size: 22px;
         line-height: 22px;
+        padding: 3px;
     }
+
+
+    .bida-item.gradient-border {
+        --border-width: -10px;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        /*order-radius: var(--border-width);*/
+    }
+
+        .bida-item.gradient-border::after {
+            position: absolute;
+            content: "";
+            top: calc(-1 * var(--border-width));
+            left: calc(-1 * var(--border-width));
+            z-index: -1;
+            width: calc(100% + var(--border-width) * 2);
+            height: calc(100% + var(--border-width) * 2);
+            background: linear-gradient( 60deg, hsl(224, 85%, 66%), #ffc107, #dee2e6, hsl(359deg 1% 83%), hsl(44, 85%, 66%), hsl(89, 85%, 66%), hsl(134, 85%, 66%), hsl(179, 85%, 66%) );
+            background-size: 300% 300%;
+            background-position: 0 50%;
+            /*        border-radius: calc(2 * var(--border-width));*/
+            border-radius: 3px;
+            animation: moveGradient 4s alternate infinite;
+        }
+
+.gradient-border.bida-item-empty::after {
+    background: #ccc;
+}
+
+@keyframes moveGradient {
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
 .bida-item-flex {
     flex: 0 0 380px;
     min-width: 380px;
@@ -72,7 +111,7 @@
     position: relative;
     height: 128px;
     padding: 4px;
-    color: #4b4f56;
+    color: #ffffff;
 }
 
 .bida-info-time, .bida-info-price {
@@ -125,17 +164,19 @@
     padding: 4px;
     display: flex;
 }
+
 .bida-item .bida-totalAmount-box {
     position: absolute;
     bottom: 0px;
     right: 4px;
     background-color: #baffb1;
     padding: 0 8px 0 8px;
-    border-radius:3px;
-    font-weight:bold;
-    font-size:16px;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 16px;
     color: #0004FF;
 }
+
 .btn-ct {
     margin-left: 4px;
 }
@@ -215,6 +256,7 @@
     border-radius: 3px;
     /*align-items:center;*/
 }
+
     .refDetailToolbar .refDetailToolbar-title {
         padding-left: 4px;
         color: #33cc66;
@@ -225,12 +267,12 @@
         justify-content: center;
     }
 
-    #boxInventotySelected, #boxInventotyToSelect {
-        height: 300px;
-        border: 1px solid #ccc;
-        padding: 0px;
-        overflow-y: auto;
-    }
+#boxInventotySelected, #boxInventotyToSelect {
+    height: 300px;
+    border: 1px solid #ccc;
+    padding: 0px;
+    overflow-y: auto;
+}
 
 #tbListInventotyToSelect {
     min-width: 355px;
@@ -301,10 +343,11 @@
     right: 0;
     overflow-y: auto;
 }
-.container-statistic-general{
-    /*border:1px solid #ccc;*/
 
+.container-statistic-general {
+    /*border:1px solid #ccc;*/
 }
+
 .container-statistic {
     position: relative;
     bottom: 0;
@@ -319,26 +362,27 @@
     overflow-y: auto;
 }
 
-#tbStatistic td, #tbStatistic th{
+#tbStatistic td, #tbStatistic th {
     white-space: nowrap;
 }
+
 .ref-deleted-text {
     color: #ff0000;
 }
 
-.ref-payed-text{
+.ref-payed-text {
     color: #33cc66;
 }
 
 .text-decoration-through-red {
-    color:#ff0000;
+    color: #ff0000;
     text-decoration: line-through;
 }
 
 .btnSale {
-    position:fixed;
-    bottom:60px;
-    right:30px;
-    width:150px;
-    cursor:pointer;
+    position: fixed;
+    bottom: 60px;
+    right: 30px;
+    width: 150px;
+    cursor: pointer;
 }

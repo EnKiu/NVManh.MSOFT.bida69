@@ -337,6 +337,7 @@ class Admin {
                     if (item["InventoryID"] == recordSelected["InventoryID"]) {
                         inventoryHasExist = true;
                         item.Quantity = item.Quantity + quantity;
+                        item.TotalAmount = item.UnitPrice * item.Quantity;
                     }
                     return item;
                 })
@@ -396,7 +397,7 @@ class Admin {
                 var bidaItemID = item['ServiceID'];
                 var startTime = new Date(item["StartTime"]);
                 bidaItemHTML = $(bidaItemHTML + '<div class="col-sm-4 bida-item-flex">'
-                    + '<div class="bida-item w-100">'
+                    + '<div class="bida-item w-100 gradient-border">'
                     + '<div class="bida-header bida-header-active">'
                     + '<div class="bida-title">' + item['ServiceName'] + '</div>'
                     + '<div id="' + bidaItemID + '" class="bida-status"></div>'
@@ -950,7 +951,11 @@ class Admin {
      */
     btnAcceptPayOrderOnClick(event) {
         event.preventDefault();
-        this.FrmOrderPrint.show();
+        if (saleJS.data.length == 0) {
+            commonJS.showNotice("Chưa có mặt hàng trong hóa đơn! Vui lòng kiểm tra lại!");
+        } else {
+            this.FrmOrderPrint.show();
+        }
         event.stopPropagation();
     }
 

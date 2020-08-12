@@ -8,9 +8,10 @@ namespace MSOFT.DL
 {
     public partial class bida69Context : DbContext
     {
-        public static string ConnectionString;
+        public static string ConnectionString = string.Empty;
         public bida69Context()
         {
+            Database.OpenConnection();
         }
 
         public bida69Context(DbContextOptions<bida69Context> options)

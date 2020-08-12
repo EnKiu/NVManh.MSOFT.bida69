@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,7 +47,7 @@ namespace MSOFT.DL
                     {
                         var fieldName = sqlDataReader.GetName(i);
                         var fieldValue = sqlDataReader.GetValue(i);
-                        var property = entity.GetType().GetProperty(fieldName);
+                        var property = entity.GetType().GetProperty(fieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
                         if (fieldValue != System.DBNull.Value && property != null)
                         {
                             property.SetValue(entity, fieldValue);

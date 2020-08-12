@@ -1,8 +1,10 @@
-﻿body {
+﻿
+
+body {
     font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 400;
     line-height: 2.5;
-    font-size:13px;
+    font-size: 13px;
 }
 
 .m-content {
@@ -48,6 +50,7 @@ footer {
     background-color: #343a40;
     color: #fff;
 }
+
 .toolbar {
     background-color: #007bff;
     width: 100%;
@@ -70,7 +73,7 @@ footer {
     #frmBidaDetail {
         position: absolute;
         left: 0;
-        right:0;
+        right: 0;
         top: 0;
     }
 }

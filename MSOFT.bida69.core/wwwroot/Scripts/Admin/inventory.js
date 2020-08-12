@@ -122,11 +122,14 @@ class InventoryJS {
             var inventoryID = rowSelected.data("id");
             // Get data by id:
             ajaxJSON.get(this.ApiService + '/' + inventoryID, {}, true, function (data) {
-                    var inventory = data;
+                var inventory = data;
                     var inputs = me.DialogFormDetail.Dialog.find('[dataindex]');
                     $.each(inputs, function (index, input) {
                         var fieldName = input.getAttribute('dataindex');
-                        input.value = inventory[fieldName];
+                        var basicPropertyName = Object.GetBasicPropertyName(inventory, fieldName);
+                        if (basicPropertyName) {
+                            input.value = inventory[basicPropertyName];
+                        }
                     })
             })
         } else {
@@ -182,6 +185,8 @@ class InventoryJS {
                 })
             }
 
+        } else {
+            commonJS.showWarning('Vui lòng kiểm tra lại dữ liệu, dữ liệu không hợp lệ!');
         }
         event.stopPropagation();
     }
@@ -212,9 +217,9 @@ class InventoryJS {
      * Validate custom
      * CreateBy: NVMANH (06/07/2019)
      * */
-    doValidateCustom() {
+    doValidateCustom(form) {
         var isValidCustom = true;
-        var comboboxs = $('select');
+        var comboboxs = $(form).find('select');
         $.each(comboboxs, function (index, combobox) {
             var itemSelected = combobox.options[combobox.selectedIndex];
             var valueSelectedItem = $(itemSelected).attr("value");

@@ -745,7 +745,21 @@ if (!Date.prototype.formatDateStringInvariantCulture) {
     };
 }
 
-
+// Lấy tên Property chính xác (phân biệt hoa thường)
+// CreatedBy: NVMANH (12/08/2020)
+if (!Object.GetBasicPropertyName) {
+    Object.GetBasicPropertyName = function (obj,propertyName) {
+        for (var prop in obj) {
+            // force property name and value to lower case for comparison
+            if (prop.toLowerCase() === propertyName.toLowerCase()) {
+                duplicateFlag = true;
+                return prop;
+                break;
+            }   // No else branch needed because duplicate starts off false
+        }
+        return null;
+    }
+}
 
 // jqueryui defaults
 $.extend($.ui.dialog.prototype.options, {
