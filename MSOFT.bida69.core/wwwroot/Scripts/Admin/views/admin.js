@@ -951,7 +951,7 @@ class Admin {
      */
     btnAcceptPayOrderOnClick(event) {
         event.preventDefault();
-        if (saleJS.data.length == 0) {
+        if (saleJS.data.length == 0 && $(event.currentTarget).closest("[form-master]").attr('id') == "frmOrderDetail") {
             commonJS.showNotice("Chưa có mặt hàng trong hóa đơn! Vui lòng kiểm tra lại!");
         } else {
             this.FrmOrderPrint.show();
@@ -969,7 +969,6 @@ class Admin {
         // thực hiện cập nhật số lượng hàng hóa với Form chi tiết hóa đơn tương ứng:
         var dialogDetaiMaster = me.DialogDetailMaster; //-- xác định xem Form chi tiết là form nào (bán hàng hay có kèm dịch vụ)
         var formId = this.DialogDetailMaster.attr('id');// frmBidaDetail
-        debugger;
         switch (formId) {
             case "frmOrderDetail":
                 return me.payAndPrintSaleOrder();
