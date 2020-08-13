@@ -100,8 +100,27 @@ marquee {
     marquee-play-count: 5;
     background: #ffeb95;
 }
+nav {
+    border-right: 1px solid #e6e6e6;
+    position: absolute;
+    top: 50px;
+    height: calc(100vh - 50px);
+}
+.nav-tabs{
+    border-bottom:none;
+}
+.nav-tabs .nav-link {
+    color: #000;
+    border: none;
+    border-radius:unset;
+}
 
-.nav-tabs .nav-link.active{
-    font-weight:bold;
-    color:#ff0000;
+    .nav-tabs .nav-link:hover {
+        background-color: #f4f4f4;
+        border: none;
+    }
+.nav-tabs .nav-link.active {
+    color: #ff0000;
+    background-color: #e3f3ee;
+    color: rgb(1, 176, 117);
 }

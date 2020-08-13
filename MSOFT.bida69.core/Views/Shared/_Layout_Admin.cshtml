@@ -23,8 +23,9 @@
     <link href="~/CSS/Custom/table.css" rel="stylesheet" />
     <!-- Custom fonts for this template-->
     @*<link href="~/CSS/Libraries/font-nunito.css" rel="stylesheet" />
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">*@
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">*@
     <link href="~/CSS/Common/main.css" rel="stylesheet" />
+    <link href="~/CSS/Custom/nav.css" rel="stylesheet" />
     @if (IsSectionDefined("style"))
     {
         @RenderSection("style", required: false)
@@ -32,38 +33,44 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <div class="container">
-                <div class="navbar-header">
-                    <a href='@Url.Action("Index", "Home")' class="navbar-brand mx-3 bida-logo"><div class="fa-ct"><i class="far fa-laugh-wink"></i></div>bida69<sup>.com</sup></a>
-                </div>
+
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-white m-navbar">
+            <div class="navbar-header">
+                <div class="root-sibar"></div>
+                <a href='@Url.Action("Index", "Home")' class="navbar-brand bida-logo"><div class="fa-ct"><i class="far fa-laugh-wink"></i></div>bida69<sup>.com</sup></a>
+            </div>
+            <div class="navbar-header-right">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="true" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse hide" id="navbarCollapse" style="">
                     <ul class="navbar-nav mr-auto">
                         @*<li class="nav-item active">
-                                <a class="nav-link" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                @Html.ActionLink("API", "Index", "Help", new { area = "" }, new { @class = "nav-link" })
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#">Thống kê</a>
-                            </li>*@
+                    <a class="nav-link" href="@Url.Action("Index", "Home")">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("API", "Index", "Help", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Thống kê</a>
+                </li>*@
                     </ul>
                     <div class="btn-logout"><i class="ion ion-ios-log-out"></i>  Đăng xuất</div>
                 </div>
             </div>
+
+            @*<div class="container">
+
+                
+            </div>*@
         </nav>
     </header>
     @*TAB*@
-    <div class="container body-content" style="margin-top:70px">
+    <div class="body-content m-container">
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-                <a class="nav-item nav-link" id="nav-sale-tab" data-toggle="tab" href="#nav-sale" role="tab" aria-controls="nav-sale" aria-selected="false">Bán hàng</a>
-                <a class="nav-item nav-link" id="nav-inventory-tab" data-toggle="tab" href="#nav-inventory" role="tab" aria-controls="nav-inventory" aria-selected="false">Mặt hàng</a>
+                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Quản lý dịch vụ</a>
+                <a class="nav-item nav-link" id="nav-inventory-tab" data-toggle="tab" href="#nav-inventory" role="tab" aria-controls="nav-inventory" aria-selected="false">Quản lý mặt hàng</a>
                 <a class="nav-item nav-link" id="nav-statistic-tab" data-toggle="tab" href="#nav-statistic" role="tab" aria-controls="nav-statistic" aria-selected="false">Thống kê</a>
                 <a class="nav-item nav-link" id="nav-setting-tab" data-toggle="tab" href="#nav-setting" role="tab" aria-controls="nav-setting" aria-selected="false">Cài đặt</a>
             </div>
@@ -73,12 +80,13 @@
                 @RenderBody()
             </div>
         </div>
-        <footer>
-            <div class="container">
-                &copy; @DateTime.Now.Year - Bản quyền được cung cấp bởi Nguyễn Mạnh <a href="https://msoft.vn">https://www.msoft.vn/</a>
-            </div>
-        </footer>
+
     </div>
+    <footer>
+        <div class="container">
+            &copy; @DateTime.Now.Year - Bản quyền được cung cấp bởi Nguyễn Mạnh <a href="https://msoft.vn">https://www.msoft.vn/</a>
+        </div>
+    </footer>
     @*<div class="d-flex justify-content-center">
             <div class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>

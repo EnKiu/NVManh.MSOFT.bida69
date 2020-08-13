@@ -1,17 +1,11 @@
 ﻿@import url("https://fonts.googleapis.com/css?family=Lato:300");
 
-.navbar-brand {
-    float: left;
-    padding: 8px 4px;
-    line-height: 11px;
-}
-
 .text-read-color {
     color: #ff0000;
 }
 
 .tab-content-ct {
-    padding-top: 20px;
+/*    padding-top: 20px;*/
 }
 
 .fa-ct {
