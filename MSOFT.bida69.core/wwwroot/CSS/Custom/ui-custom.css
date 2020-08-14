@@ -28,7 +28,7 @@ select {
 fieldset {
     border: 1px solid #ddd !important;
     margin: 0;
-    xmin-width: 0;
+    min-width: 0;
     padding: 10px;
     position: relative;
     border-radius: 4px;
@@ -49,7 +49,9 @@ legend {
 }
 
 .btn-logout{
-    color:#fff;
+    position:absolute;
+    right:10px;
+    color:#000;
     cursor:pointer;
 }
 
@@ -103,17 +105,18 @@ marquee {
 nav {
     border-right: 1px solid #e6e6e6;
     position: absolute;
-    top: 50px;
     height: calc(100vh - 50px);
 }
 .nav-tabs{
     border-bottom:none;
 }
-.nav-tabs .nav-link {
-    color: #000;
-    border: none;
-    border-radius:unset;
-}
+    .nav-tabs .nav-link {
+        color: #000;
+        border: none;
+        border-radius: unset;
+        display: flex;
+        align-items: center;
+    }
 
     .nav-tabs .nav-link:hover {
         background-color: #f4f4f4;
@@ -124,3 +127,10 @@ nav {
     background-color: #e3f3ee;
     color: rgb(1, 176, 117);
 }
+.nav-link i.fa, .nav-link i.fas {
+    margin-right: 8px;
+}
+        .m-row {
+            margin-left: 0px;
+            margin-right: 0px;
+        }

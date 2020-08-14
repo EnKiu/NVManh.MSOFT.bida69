@@ -10,8 +10,9 @@ body {
 
 .m-container {
     display: flex;
-    position:relative;
-    height:calc(100vh - 64px);
+    position: relative;
+    margin-top: 50px;
+    height: calc(100vh - 64px);
 }
 
 .m-content {
