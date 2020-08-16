@@ -104,8 +104,8 @@ marquee {
 }
 nav {
     border-right: 1px solid #e6e6e6;
-    position: absolute;
-    height: calc(100vh - 50px);
+    position: fixed;
+    height: calc(100vh - 100px);
 }
 .nav-tabs{
     border-bottom:none;
@@ -134,3 +134,7 @@ nav {
             margin-left: 0px;
             margin-right: 0px;
         }
+.m-col {
+    padding-left: 0px;
+    padding-right: 0px;
+}

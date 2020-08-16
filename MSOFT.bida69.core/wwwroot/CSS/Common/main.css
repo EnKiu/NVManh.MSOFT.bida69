@@ -2,7 +2,6 @@
 
 body {
     font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif;
-/*    font-family: GoogleSansRegular;*/
     font-weight: 400;
     line-height: 2.5;
     font-size: 13px;
@@ -12,21 +11,39 @@ body {
     display: flex;
     position: relative;
     margin-top: 50px;
-    height: calc(100vh - 64px);
+    height: calc(100vh - 100px);
 }
 
 .m-content {
-/*    width: 100%;*/
+    width: 100%;
     position: absolute;
     margin-right: auto;
     margin-left: auto;
     top: 0;
-    right:0;
-    left:200px;
+    right: 0;
+    left: 200px;
     bottom: 60px;
+    padding: 10px;
 }
 
-@media (min-width: 576px) {
+.page-title {
+    line-height: 45px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-left: 20px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    color: rgb(1, 176, 117);
+    /*    border-left: 10px solid rgb(1, 176, 117);*/
+    background-color: #e3f3ee;
+}
+
+.m-max-with-790{
+    max-width:760px;
+}
+
+/*@media (min-width: 576px) {
     .m-content {
         max-width: 510px;
     }
@@ -58,9 +75,7 @@ body {
         max-width: 1110px;
     }
 }
-
-
-
+*/
 footer {
     position: fixed;
     bottom: 0;
