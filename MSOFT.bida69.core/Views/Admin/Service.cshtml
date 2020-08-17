@@ -6,41 +6,203 @@
 @section style{
     <link href="~/CSS/Admin/views/service.css?version=1.0.0" rel="stylesheet" />
     <link href="~/Content/Fonts/icofont/icofont.min.css" rel="stylesheet" />
+    <link href="~/CSS/Custom/history-service.css" rel="stylesheet" />
 }
 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
     @*<div style="display:flex; margin-bottom:10px;">
-        <div class="title-marquee">Thông báo:</div>
-        <marquee direction="right" speed="normal" behavior="loop">
-                Ovde ide neka vest sto se prikazuje traka sa vestima koja ce non stop da se krece :D
-            </marquee>
-            <marquee behavior="scroll" direction="right" scrollamount="1">Slow scroll speed</marquee>
-        <marquee behavior="scroll" direction="left" scrollamount="6">
-                Hiện ứng dụng đã bổ sung thêm các tính năng "siêu tiện" bao gồm <i>[Thay đổi giờ sử dụng bàn] [Chuyển bàn]</i>. Giao diện chi tiết đã đẹp hơn.
-                Trong quá trình sử dụng nếu gặp lỗi vui lòng liên hệ trực tiếp Mr Mạnh (0977 340 334) để được giải quyết.
-                Chân thành cám ơn <i>bida69</i> đã tin tưởng sử dụng dịch vụ của Mr Mạnh!
-            </marquee>
-        <marquee behavior="alternate" direction="left" speed="normal" scrollamount="6">
-                Thông báo quan trọng: Hiện ứng dụng đã bổ sung thêm các tính năng "siêu tiện" bao gồm [Thay đổi giờ sử dụng bàn] [Chuyển bàn]. Giao diện chi tiết đã đẹp hơn.
-                Trong quá trình sử dụng nếu gặp lỗi vui lòng liên hệ trực tiếp Mr Mạnh (0977340334) để được giải quyết.
-                Chân thành cám ơn bida69 đã tin tưởng sử dụng dịch vụ của Mr Mạnh!
-            </marquee>
-            <marquee behavior="slide" direction="right" scrollamount="6">slide scroll speed</marquee>
-            <marquee behavior="scroll" direction="right" scrollamount="10">Medium scroll speed</marquee>
-            <marquee behavior="scroll" direction="right" scrollamount="20">Fast scroll speed</marquee>
-    </div>*@
+            <div class="title-marquee">Thông báo:</div>
+            <marquee direction="right" speed="normal" behavior="loop">
+                    Ovde ide neka vest sto se prikazuje traka sa vestima koja ce non stop da se krece :D
+                </marquee>
+                <marquee behavior="scroll" direction="right" scrollamount="1">Slow scroll speed</marquee>
+            <marquee behavior="scroll" direction="left" scrollamount="6">
+                    Hiện ứng dụng đã bổ sung thêm các tính năng "siêu tiện" bao gồm <i>[Thay đổi giờ sử dụng bàn] [Chuyển bàn]</i>. Giao diện chi tiết đã đẹp hơn.
+                    Trong quá trình sử dụng nếu gặp lỗi vui lòng liên hệ trực tiếp Mr Mạnh (0977 340 334) để được giải quyết.
+                    Chân thành cám ơn <i>bida69</i> đã tin tưởng sử dụng dịch vụ của Mr Mạnh!
+                </marquee>
+            <marquee behavior="alternate" direction="left" speed="normal" scrollamount="6">
+                    Thông báo quan trọng: Hiện ứng dụng đã bổ sung thêm các tính năng "siêu tiện" bao gồm [Thay đổi giờ sử dụng bàn] [Chuyển bàn]. Giao diện chi tiết đã đẹp hơn.
+                    Trong quá trình sử dụng nếu gặp lỗi vui lòng liên hệ trực tiếp Mr Mạnh (0977340334) để được giải quyết.
+                    Chân thành cám ơn bida69 đã tin tưởng sử dụng dịch vụ của Mr Mạnh!
+                </marquee>
+                <marquee behavior="slide" direction="right" scrollamount="6">slide scroll speed</marquee>
+                <marquee behavior="scroll" direction="right" scrollamount="10">Medium scroll speed</marquee>
+                <marquee behavior="scroll" direction="right" scrollamount="20">Fast scroll speed</marquee>
+        </div>*@
     <div class="row m-row">
-        <div class="col col-sm-8 m-max-with-790 m-col">
+        <div class="col-xxl-6 col-xl-12 col-sm-12 m-col mb-xxl-0 mb-xl-2 mb-sm-2" style="border: 1px solid #e3f3ee; box-shadow:0 0.15rem 1.75rem 0 rgba(31, 45, 65, 0.15)">
             <div class="row m-row page-title">
-                Quản lý dịch vụ
+                Thông tin dịch vụ
             </div>
             <div id="listBida" class="row m-row">
             </div>
         </div>
-        <div class="col col-sm-4">
-            <div class="row">
-
+        <div class="col-xxl-4 col-xl-8 col-sm-8 pl-xl-0 pr-xl-0">
+            <div class="card card-header-actions h-100">
+                <div class="card-header">
+                    Recent Activity
+                    <div class="dropdown no-caret">
+                        <button class="btn btn-transparent-dark btn-icon dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical text-gray-500"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>
+                        <div class="dropdown-menu dropdown-menu-right animated--fade-in-up" aria-labelledby="dropdownMenuButton">
+                            <h6 class="dropdown-header">Filter Activity:</h6>
+                            <a class="dropdown-item" href="#!"><span class="badge badge-green-soft text-green my-1">Commerce</span></a>
+                            <a class="dropdown-item" href="#!"><span class="badge badge-blue-soft text-blue my-1">Reporting</span></a>
+                            <a class="dropdown-item" href="#!"><span class="badge badge-yellow-soft text-yellow my-1">Server</span></a>
+                            <a class="dropdown-item" href="#!"><span class="badge badge-purple-soft text-purple my-1">Users</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="timeline timeline-xs">
+                        <!-- Timeline Item 1-->
+                        <div class="timeline-item">
+                            <div class="timeline-item-marker">
+                                <div class="timeline-item-marker-text">27 min</div>
+                                <div class="timeline-item-marker-indicator bg-green"></div>
+                            </div>
+                            <div class="timeline-item-content">
+                                New order placed!
+                                <a class="font-weight-bold text-dark" href="#!">Order #2912</a>
+                                has been successfully placed.
+                            </div>
+                        </div>
+                        <!-- Timeline Item 2-->
+                        <div class="timeline-item">
+                            <div class="timeline-item-marker">
+                                <div class="timeline-item-marker-text">58 min</div>
+                                <div class="timeline-item-marker-indicator bg-blue"></div>
+                            </div>
+                            <div class="timeline-item-content">
+                                Your
+                                <a class="font-weight-bold text-dark" href="#!">weekly report</a>
+                                has been generated and is ready to view.
+                            </div>
+                        </div>
+                        <!-- Timeline Item 3-->
+                        <div class="timeline-item">
+                            <div class="timeline-item-marker">
+                                <div class="timeline-item-marker-text">2 hrs</div>
+                                <div class="timeline-item-marker-indicator bg-purple"></div>
+                            </div>
+                            <div class="timeline-item-content">
+                                New user
+                                <a class="font-weight-bold text-dark" href="#!">Valerie Luna</a>
+                                has registered
+                            </div>
+                        </div>
+                        <!-- Timeline Item 4-->
+                        <div class="timeline-item">
+                            <div class="timeline-item-marker">
+                                <div class="timeline-item-marker-text">1 day</div>
+                                <div class="timeline-item-marker-indicator bg-yellow"></div>
+                            </div>
+                            <div class="timeline-item-content">Server activity monitor alert</div>
+                        </div>
+                        <!-- Timeline Item 5-->
+                        <div class="timeline-item">
+                            <div class="timeline-item-marker">
+                                <div class="timeline-item-marker-text">1 day</div>
+                                <div class="timeline-item-marker-indicator bg-green"></div>
+                            </div>
+                            <div class="timeline-item-content">
+                                New order placed!
+                                <a class="font-weight-bold text-dark" href="#!">Order #2911</a>
+                                has been successfully placed.
+                            </div>
+                        </div>
+                        <!-- Timeline Item 6-->
+                        <div class="timeline-item">
+                            <div class="timeline-item-marker">
+                                <div class="timeline-item-marker-text">1 day</div>
+                                <div class="timeline-item-marker-indicator bg-purple"></div>
+                            </div>
+                            <div class="timeline-item-content">
+                                Details for
+                                <a class="font-weight-bold text-dark" href="#!">Marketing and Planning Meeting</a>
+                                have been updated.
+                            </div>
+                        </div>
+                        <!-- Timeline Item 7-->
+                        <div class="timeline-item">
+                            <div class="timeline-item-marker">
+                                <div class="timeline-item-marker-text">2 days</div>
+                                <div class="timeline-item-marker-indicator bg-green"></div>
+                            </div>
+                            <div class="timeline-item-content">
+                                New order placed!
+                                <a class="font-weight-bold text-dark" href="#!">Order #2910</a>
+                                has been successfully placed.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="col-xxl-2 col-xl-4 col-sm-4 pl-xxl-0 pr-0 pl-xl-2">
+            <div class="card card-header-actions h-100">
+                <div class="card-header">
+                    Thống kê tuần này
+                    @*<div class="dropdown no-caret">
+                            <button class="btn btn-transparent-dark btn-icon dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical text-gray-500"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>
+                            <div class="dropdown-menu dropdown-menu-right animated--fade-in-up" aria-labelledby="dropdownMenuButton">
+                                <h6 class="dropdown-header">Filter Activity:</h6>
+                                <a class="dropdown-item" href="#!"><span class="badge badge-green-soft text-green my-1">Commerce</span></a>
+                                <a class="dropdown-item" href="#!"><span class="badge badge-blue-soft text-blue my-1">Reporting</span></a>
+                                <a class="dropdown-item" href="#!"><span class="badge badge-yellow-soft text-yellow my-1">Server</span></a>
+                                <a class="dropdown-item" href="#!"><span class="badge badge-purple-soft text-purple my-1">Users</span></a>
+                            </div>
+                        </div>*@
+                </div>
+                <div class="card-body">
+                    <div class="card border-top-0 border-bottom-0 border-right-0 border-left-lg border-primary m-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="small font-weight-bold text-primary mb-1">Doanh thu bàn</div>
+                                    <div class="h5">14.000.000đ</div>
+                                    <div class="text-xs font-weight-bold text-success d-inline-flex align-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trending-up mr-1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                        12%
+                                    </div>
+                                </div>
+                                <div class="ml-2"><svg class="svg-inline--fa fa-dollar-sign fa-w-9 fa-2x text-gray-200" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dollar-sign" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 288 512" data-fa-i2svg=""><path fill="currentColor" d="M209.2 233.4l-108-31.6C88.7 198.2 80 186.5 80 173.5c0-16.3 13.2-29.5 29.5-29.5h66.3c12.2 0 24.2 3.7 34.2 10.5 6.1 4.1 14.3 3.1 19.5-2l34.8-34c7.1-6.9 6.1-18.4-1.8-24.5C238 74.8 207.4 64.1 176 64V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48h-2.5C45.8 64-5.4 118.7.5 183.6c4.2 46.1 39.4 83.6 83.8 96.6l102.5 30c12.5 3.7 21.2 15.3 21.2 28.3 0 16.3-13.2 29.5-29.5 29.5h-66.3C100 368 88 364.3 78 357.5c-6.1-4.1-14.3-3.1-19.5 2l-34.8 34c-7.1 6.9-6.1 18.4 1.8 24.5 24.5 19.2 55.1 29.9 86.5 30v48c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-48.2c46.6-.9 90.3-28.6 105.7-72.7 21.5-61.6-14.6-124.8-72.5-141.7z"></path></svg><!-- <i class="fas fa-dollar-sign fa-2x text-gray-200"></i> --></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-top-0 border-bottom-0 border-right-0 border-left-lg border-secondary m-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="small font-weight-bold text-secondary mb-1">Doanh thu bán lẻ</div>
+                                    <div class="h5">10.000.000đ</div>
+                                    <div class="text-xs font-weight-bold text-danger d-inline-flex align-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trending-down mr-1"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
+                                        3%
+                                    </div>
+                                </div>
+                                <div class="ml-2"><svg class="svg-inline--fa fa-tag fa-w-16 fa-2x text-gray-200" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="tag" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"></path></svg><!-- <i class="fas fa-tag fa-2x text-gray-200"></i> --></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-top-0 border-bottom-0 border-right-0 border-left-lg border-success m-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="small font-weight-bold text-success mb-1">Tổng doanh thu</div>
+                                    <div class="h5">24.000.000 đ</div>
+                                    <div class="text-xs font-weight-bold text-success d-inline-flex align-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trending-up mr-1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                        12%
+                                    </div>
+                                </div>
+                                <div class="ml-2"><svg class="svg-inline--fa fa-mouse-pointer fa-w-10 fa-2x text-gray-200" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="mouse-pointer" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M302.189 329.126H196.105l55.831 135.993c3.889 9.428-.555 19.999-9.444 23.999l-49.165 21.427c-9.165 4-19.443-.571-23.332-9.714l-53.053-129.136-86.664 89.138C18.729 472.71 0 463.554 0 447.977V18.299C0 1.899 19.921-6.096 30.277 5.443l284.412 292.542c11.472 11.179 3.007 31.141-12.5 31.141z"></path></svg><!-- <i class="fas fa-mouse-pointer fa-2x text-gray-200"></i> --></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!--<div id="listBida" class="row m-row">-->
