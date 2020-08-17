@@ -8,10 +8,6 @@
 /*    padding-top: 20px;*/
 }
 
-.fa-ct {
-    transform: rotate(-15deg);
-    width: 20px;
-}
 
 .bida-item {
     border-radius: 3px;
@@ -331,10 +327,10 @@
 
 .grid-inventory {
     position: absolute;
-    top: 83px;
+    top: 100px;
     bottom: 0;
-    left: 0;
-    right: 0;
+    left: 10px;
+    right: 10px;
     overflow-y: auto;
 }
 
@@ -374,8 +370,8 @@
 }
 
 .btnSale {
-    position: fixed;
-    bottom: 60px;
+    position: absolute;
+    bottom: 30px;
     right: 30px;
     width: 150px;
     cursor: pointer;

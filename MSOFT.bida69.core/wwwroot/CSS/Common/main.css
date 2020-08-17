@@ -7,29 +7,47 @@ body {
     font-size: 13px;
 }
 
+@font-face {
+    font-family: 'GoogleSansRegular';
+    src: url('/content/fonts/googlesans-regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: GoogleSansMedium;
+    src: url('/content/fonts/googlesans-regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: GoogleSansBold;
+    src: url('/content/fonts/googlesans-regular.otf') format('opentype');
+}
+
+* {
+    font-family: GoogleSansRegular;
+    font-size: 13px;
+}
+
 .m-container {
     display: flex;
     position: relative;
     margin-top: 50px;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 50px);
 }
 
 .m-content {
-    width: 100%;
+    width: calc(100% - 200px);
     position: absolute;
     margin-right: auto;
     margin-left: auto;
     top: 0;
     right: 0;
     left: 200px;
-    bottom: 60px;
+    bottom: 40px;
     padding: 10px;
 }
 
 .page-title {
     line-height: 45px;
-    margin-left: 10px;
-    margin-right: 10px;
     padding-left: 20px;
     font-size: 24px;
     font-weight: 700;
@@ -39,8 +57,8 @@ body {
     background-color: #e3f3ee;
 }
 
-.m-max-with-790{
-    max-width:760px;
+.m-max-with-790 {
+    max-width: 760px;
 }
 
 /*@media (min-width: 576px) {
@@ -86,12 +104,13 @@ footer {
 }
 
 .toolbar {
-    background-color: #007bff;
-    width: 100%;
+    background-color: rgb(1, 176, 117);
+    margin: 10px 0;
+    /*    width: 100%;*/
 }
 
 .row-selected {
-    background-color: rgba(0, 123, 255, 0.16);
+    background-color: rgb(227, 243, 238);
 }
 
 

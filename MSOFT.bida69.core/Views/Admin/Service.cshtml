@@ -8,26 +8,26 @@
     <link href="~/Content/Fonts/icofont/icofont.min.css" rel="stylesheet" />
 }
 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-    <div style="display:flex; margin-bottom:10px;">
-        @*<div class="title-marquee">Thông báo:</div>*@
-        @*<marquee direction="right" speed="normal" behavior="loop">
+    @*<div style="display:flex; margin-bottom:10px;">
+        <div class="title-marquee">Thông báo:</div>
+        <marquee direction="right" speed="normal" behavior="loop">
                 Ovde ide neka vest sto se prikazuje traka sa vestima koja ce non stop da se krece :D
             </marquee>
-            <marquee behavior="scroll" direction="right" scrollamount="1">Slow scroll speed</marquee>*@
-        @*<marquee behavior="scroll" direction="left" scrollamount="6">
+            <marquee behavior="scroll" direction="right" scrollamount="1">Slow scroll speed</marquee>
+        <marquee behavior="scroll" direction="left" scrollamount="6">
                 Hiện ứng dụng đã bổ sung thêm các tính năng "siêu tiện" bao gồm <i>[Thay đổi giờ sử dụng bàn] [Chuyển bàn]</i>. Giao diện chi tiết đã đẹp hơn.
                 Trong quá trình sử dụng nếu gặp lỗi vui lòng liên hệ trực tiếp Mr Mạnh (0977 340 334) để được giải quyết.
                 Chân thành cám ơn <i>bida69</i> đã tin tưởng sử dụng dịch vụ của Mr Mạnh!
-            </marquee>*@
-        @*<marquee behavior="alternate" direction="left" speed="normal" scrollamount="6">
+            </marquee>
+        <marquee behavior="alternate" direction="left" speed="normal" scrollamount="6">
                 Thông báo quan trọng: Hiện ứng dụng đã bổ sung thêm các tính năng "siêu tiện" bao gồm [Thay đổi giờ sử dụng bàn] [Chuyển bàn]. Giao diện chi tiết đã đẹp hơn.
                 Trong quá trình sử dụng nếu gặp lỗi vui lòng liên hệ trực tiếp Mr Mạnh (0977340334) để được giải quyết.
                 Chân thành cám ơn bida69 đã tin tưởng sử dụng dịch vụ của Mr Mạnh!
             </marquee>
             <marquee behavior="slide" direction="right" scrollamount="6">slide scroll speed</marquee>
             <marquee behavior="scroll" direction="right" scrollamount="10">Medium scroll speed</marquee>
-            <marquee behavior="scroll" direction="right" scrollamount="20">Fast scroll speed</marquee>*@
-    </div>
+            <marquee behavior="scroll" direction="right" scrollamount="20">Fast scroll speed</marquee>
+    </div>*@
     <div class="row m-row">
         <div class="col col-sm-8 m-max-with-790 m-col">
             <div class="row m-row page-title">
@@ -103,10 +103,10 @@
     </div>
     <div class="toolbar">
         <div class="btn-group" role="group" aria-label="Basic example">
-            <button id="btnAddInventory" type="button" class="btn btn-primary" command="Add"><i class="fa fa-plus"></i> Thêm mới</button>
-            <button id="btnEditInventory" type="button" class="btn btn-primary" command="Edit"><i class="fa fa-edit"></i> Sửa</button>
-            <button id="btnDeleteInventory" type="button" class="btn btn-primary" command="Delete"><i class="fa fa-remove"></i> Xóa</button>
-            <button id="btnRefreshInventory" type="button" class="btn btn-primary" command="Refresh"><i class="fa fa-refresh"></i> Nạp</button>
+            <button id="btnAddInventory" type="button" class="btn btn-default m-btn" command="Add"><i class="fa fa-plus"></i> Thêm mới</button>
+            <button id="btnEditInventory" type="button" class="btn btn-default m-btn" command="Edit"><i class="fa fa-edit"></i> Sửa</button>
+            <button id="btnDeleteInventory" type="button" class="btn btn-default m-btn" command="Delete"><i class="fa fa-remove"></i> Xóa</button>
+            <button id="btnRefreshInventory" type="button" class="btn btn-default m-btn" command="Refresh"><i class="fa fa-refresh"></i> Nạp</button>
         </div>
     </div>
     <div class="grid grid-inventory">
@@ -722,7 +722,7 @@
         <button id="btnCancel" type="reset" class="btn btn-danger"><i class="fa fa-close"></i> Hủy bỏ</button>
     </div>
 </div>
-<div id="btnSale" class="btnSale btn btn-primary"><i class="fas fa-cart-plus"></i> Bán hàng</div>
+
 @section scripts{
     <script src="~/Scripts/Controls/combobox.js?version=1.0.1"></script>
     <script src="~/Scripts/Admin/views/admin.js?version=1.0.2"></script>

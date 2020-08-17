@@ -33,7 +33,7 @@ td{
 }
 
 .rowSelected {
-    background-color: #c1ddf1;
+    background-color: rgb(227, 243, 238);
 }
 
 .validate-error {
