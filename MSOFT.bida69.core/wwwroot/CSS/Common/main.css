@@ -9,17 +9,17 @@ body {
 
 @font-face {
     font-family: 'GoogleSansRegular';
-    src: url('/content/fonts/googlesans-regular.otf') format('opentype');
+    src: url('/Content/Fonts/googlesans-regular.otf') format('opentype');
 }
 
 @font-face {
     font-family: GoogleSansMedium;
-    src: url('/content/fonts/googlesans-regular.otf') format('opentype');
+    src: url('/Content/Fonts/googlesans-regular.otf') format('opentype');
 }
 
 @font-face {
     font-family: GoogleSansBold;
-    src: url('/content/fonts/googlesans-regular.otf') format('opentype');
+    src: url('/Content/Fonts/googlesans-regular.otf') format('opentype');
 }
 
 * {
@@ -35,7 +35,7 @@ body {
 }
 
 .m-content {
-    width: calc(100% - 200px);
+/*    width: calc(100% - 200px);*/
     position: absolute;
     margin-right: auto;
     margin-left: auto;
@@ -62,39 +62,16 @@ body {
     max-width: 760px;
 }
 
-/*@media (min-width: 576px) {
-    .m-content {
-        max-width: 510px;
-    }
-    nav{
+@media only screen and (min-width: 360px) {
+    .m-nav {
         display: none;
     }
-}
 
-@media (min-width: 768px) {
-    .container.m-content {
-        max-width: 690px;
-    }
-    nav {
-        display: none;
-    }
-}
-
-@media (min-width: 992px) {
     .m-content {
-        max-width: 930px;
-    }
-    nav {
-        display: block;
+        left: 0;
     }
 }
 
-@media (min-width: 1200px) {
-    .m-content {
-        max-width: 1110px;
-    }
-}
-*/
 footer {
     position: fixed;
     bottom: 0;
@@ -107,7 +84,6 @@ footer {
 .toolbar {
     background-color: rgb(1, 176, 117);
     margin: 10px 0;
-    /*    width: 100%;*/
 }
 
 .row-selected {

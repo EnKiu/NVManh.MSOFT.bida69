@@ -116,7 +116,28 @@ namespace MSOFT.bida69.Services
 
         public object LogOut()
         {
-            throw new NotImplementedException();
+            // authentication successful so generate jwt token
+            var user = new User
+            {
+                Id = Guid.NewGuid(),
+                RoleName = String.Empty,
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.RoleName)
+                }),
+                Expires = DateTime.UtcNow.AddSeconds(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            user.Token = tokenHandler.WriteToken(token);
+
+            return null;
         }
     }
 }

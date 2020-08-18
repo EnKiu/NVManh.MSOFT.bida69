@@ -116,9 +116,8 @@ class Account {
     static Logout() {
         commonJS.showMask($('body'));
         var self = this;
-        sessionStorage.removeItem(self.TokenKey);
-        window.location.replace("/Admin/Login");
-        return;
+        //sessionStorage.removeItem(self.TokenKey);
+        //window.location.replace("/Admin/Login");
         //ajaxJSON.post('/api/Account/Logout', {}, true, function (data) {
         //    // Successfully logged out. Delete the token.
         //    sessionStorage.removeItem(self.TokenKey);
@@ -126,7 +125,7 @@ class Account {
         //});
         commonJS.showMask($('body'));
         $.ajax({
-            type: 'PUT',
+            method: 'PUT',
             url: '/users/logout',
             async: true,
             contentType: 'application/json; charset=utf-8',

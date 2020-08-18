@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MSOFT.bida69.core.Helpers;
+using MSOFT.bida69.core.Middleware;
 using MSOFT.bida69.Services;
 using MSOFT.BL;
 using MSOFT.BL.Interfaces;
@@ -123,7 +124,7 @@ namespace MSOFT.bida69.core
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseAuthentication();
             app.UseAuthorization();
 

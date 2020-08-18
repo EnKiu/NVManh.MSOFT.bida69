@@ -8,6 +8,9 @@
 /*    padding-top: 20px;*/
 }
 
+#listBida {
+    justify-content: center;
+}
 
 .bida-item {
     border-radius: 3px;
@@ -93,8 +96,8 @@
 }
 
 .bida-item-flex {
-    flex: 0 0 320px;
-    min-width: 320px;
+/*    flex: 0 0 360px;
+    min-width: 360px;*/
 }
 
 .bida-content {
@@ -371,8 +374,9 @@
 
 .btnSale {
     position: absolute;
-    bottom: 30px;
-    right: 30px;
+    top: 10px;
+    right: 95px;
     width: 150px;
+    z-index:9999;
     cursor: pointer;
 }

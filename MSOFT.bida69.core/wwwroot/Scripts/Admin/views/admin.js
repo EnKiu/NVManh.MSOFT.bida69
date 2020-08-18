@@ -396,7 +396,7 @@ class Admin {
                 var bidaItemHTML = '';
                 var bidaItemID = item['ServiceID'];
                 var startTime = new Date(item["StartTime"]);
-                bidaItemHTML = $(bidaItemHTML + '<div class="col-sm-4 bida-item-flex">'
+                bidaItemHTML = $(bidaItemHTML + '<div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 bida-item-flex">'
                     + '<div class="bida-item w-100 gradient-border">'
                     + '<div class="bida-header bida-header-active">'
                     + '<div class="bida-title">' + item['ServiceName'] + '</div>'

@@ -26,6 +26,7 @@
     @*<link href="~/CSS/Libraries/font-nunito.css" rel="stylesheet" />
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">*@
     <link href="~/CSS/Common/main.css" rel="stylesheet" />
+    <link href="~/CSS/Common/reponsive.css" rel="stylesheet" />
     <link href="~/CSS/Custom/nav.css" rel="stylesheet" />
     @if (IsSectionDefined("style"))
     {
@@ -52,15 +53,17 @@
     </header>
     @*TAB*@
     <div class="body-content m-container">
-        <nav>
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"><i class="fa fa-tasks fa-1x lds-circle"></i>  Quản lý dịch vụ</a>
-                <a class="nav-item nav-link" id="nav-inventory-tab" data-toggle="tab" href="#nav-inventory" role="tab" aria-controls="nav-inventory" aria-selected="false"><i class="fas fa-cart-arrow-down fa-1x"></i>  Quản lý mặt hàng</a>
-                <a class="nav-item nav-link" id="nav-statistic-tab" data-toggle="tab" href="#nav-statistic" role="tab" aria-controls="nav-statistic" aria-selected="false"><i class="fas fa-chart-line fa-1x"></i>  Thống kê</a>
-                <a class="nav-item nav-link" id="nav-setting-tab" data-toggle="tab" href="#nav-setting" role="tab" aria-controls="nav-setting" aria-selected="false"><i class="fas fa-cogs fa-1x"></i>  Cài đặt</a>
-            </div>
-            <div id="btnSale" class="btnSale btn btn-primary"><i class="fas fa-cart-plus"></i> Bán hàng</div>
-        </nav>
+        <div class="m-nav">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"><i class="fa fa-tasks fa-1x lds-circle"></i>  Quản lý dịch vụ</a>
+                    <a class="nav-item nav-link" id="nav-inventory-tab" data-toggle="tab" href="#nav-inventory" role="tab" aria-controls="nav-inventory" aria-selected="false"><i class="fas fa-cart-arrow-down fa-1x"></i>  Quản lý mặt hàng</a>
+                    <a class="nav-item nav-link" id="nav-statistic-tab" data-toggle="tab" href="#nav-statistic" role="tab" aria-controls="nav-statistic" aria-selected="false"><i class="fas fa-chart-line fa-1x"></i>  Thống kê</a>
+                    <a class="nav-item nav-link" id="nav-setting-tab" data-toggle="tab" href="#nav-setting" role="tab" aria-controls="nav-setting" aria-selected="false"><i class="fas fa-cogs fa-1x"></i>  Cài đặt</a>
+                </div>
+
+            </nav>
+        </div>
         <div class="m-content">
             <div class="tab-content tab-content-ct" id="nav-tabContent">
                 @RenderBody()
@@ -73,6 +76,7 @@
             &copy; @DateTime.Now.Year - Bản quyền được cung cấp bởi Nguyễn Mạnh <a href="https://msoft.vn">https://www.msoft.vn/</a>
         </div>
     </footer>
+    <div id="btnSale" class="btnSale btn btn-primary"><i class="fas fa-cart-plus"></i> Bán hàng</div>
     @*<div class="d-flex justify-content-center">
             <div class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>
@@ -87,6 +91,7 @@
     <script src="~/Scripts/Controls/dialog.js"></script>
     <script src="~/Scripts/Commons/common.js"></script>
     <script src="~/Scripts/Commons/ajaxService.js"></script>
+    <script src="~/Scripts/Commons/main.js"></script>
     <script src="~/Scripts/Admin/account.js"></script>
     @RenderSection("scripts", required: false)
 </body>

@@ -1,0 +1,70 @@
+﻿/*Smart phone nhỏ*/
+@media screen and (min-width: 240px) {
+    .m-nav {
+        display: none;
+        position: absolute;
+        border-bottom: 1px solid #dedede;
+        z-index: 999;
+    }
+
+    .m-content {
+        left: 0;
+    }
+}
+
+/*Iphone(480 x 640)*/
+@media screen and (min-width: 320px) {
+    .m-nav {
+        display: none;
+    }
+
+    .m-content {
+        left: 0;
+    }
+}
+
+/*Tablet nhỏ(480 x 640)*/
+@media screen and (min-width: 480px) {
+}
+
+@media only screen and (min-width: 576px) {
+   
+}
+
+/*Ipad dọc(768 x 1024)*/
+@media screen and (min-width: 768px) {
+    .m-nav {
+        display: block;
+    }
+
+    .m-content {
+        left: 200px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .m-nav {
+        display: block;
+        position:absolute;
+        height:calc(100% - 32px);
+        border-bottom:1px solid #dedede;
+    }
+
+    .m-content {
+        left: 200px;
+    }
+}
+/*Ipad ngang(1024 x 768)*/
+@media screen and (min-width: 1024px) {
+}
+
+
+@media only screen and (min-width: 1200px) {
+    .m-nav {
+        display: block;
+    }
+
+    .m-content {
+        left: 200px;
+    }
+}

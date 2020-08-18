@@ -14,17 +14,17 @@ table.loading tbody:after, *.loading:after {
     background-repeat: no-repeat;
     background-size: 40px 40px;
     content: "";
-    z-index:9999;
+    z-index: 9999;
 }
 
 tbody tr:hover {
     background-color: #c1ddf1;
-    cursor:pointer;
+    cursor: pointer;
 }
 
-td{
-    text-align:left;
-    padding:2px 4px;
+td {
+    text-align: left;
+    padding: 2px 4px;
 }
 
 
@@ -48,8 +48,9 @@ td{
     width: 26px !important;
     height: 24px !important;
 }
-.border-red{
-    border:1px solid #ff0000 !important;
+
+.border-red {
+    border: 1px solid #ff0000 !important;
 }
 
 .tool-img {
@@ -61,26 +62,30 @@ td{
     filter: alpha(opacity=50);
     opacity: .5;
 }
+
 .tool-close {
     background-position: 0 0;
 }
 
-.message-box{
-    width:200px;
-    height:100px;
-    border:1px solid #ccc;
-    background-color:#fafafa;
-}
-.text-italic{
-	font-style:italic;
+.message-box {
+    width: 200px;
+    height: 100px;
+    border: 1px solid #ccc;
+    background-color: #fafafa;
 }
 
-.text-align-right{
-    text-align:right;
+.text-italic {
+    font-style: italic;
 }
-.text-align-center{
-    text-align:center;
+
+.text-align-right {
+    text-align: right;
 }
+
+.text-align-center {
+    text-align: center;
+}
+
 .cell-delete {
     display: block;
     width: 20px;
@@ -90,26 +95,26 @@ td{
     background-size: contain;
     opacity: .3;
 }
+
     .cell-delete:hover {
         opacity: 1;
         cursor: pointer !important;
     }
 
-    .loading-body {
-        position: fixed;
-        left: 0px;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-        background: url(/Content/Icons/loadingData2.gif) center no-repeat #3c3333;
-        opacity: .2;
-        background-size: 50px;
-        
-    }
+.loading-body {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url(/Content/Icons/loadingData2.gif) center no-repeat #3c3333;
+    opacity: .2;
+    background-size: 50px;
+}
 
 .box-msg-success {
-    display:none;
+    display: none;
     position: fixed;
     left: 0px;
     top: 0px;
@@ -147,8 +152,11 @@ td{
     font-weight: bold;
 }
 
-.clockpicker{
+.m-nav-hidden {
+    display: none !important;
+}
 
+.clockpicker {
 }
 
     .clockpicker .clock-icon-box {
@@ -157,13 +165,13 @@ td{
         justify-content: center;
         background-color: #c1ddf1;
         border: 1px solid #ced4da;
-        border-left:none;
+        border-left: none;
         border-radius: 0 .25rem .25rem 0;
     }
 
     .clockpicker .clock-icon {
         font-size: 28px;
         color: #ff6a00;
-        padding:0 4px;
+        padding: 0 4px;
         align-self: center;
     }

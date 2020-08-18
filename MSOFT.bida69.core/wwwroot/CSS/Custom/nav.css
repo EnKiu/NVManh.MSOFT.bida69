@@ -3,7 +3,11 @@
     display: block;
     width: 200px;
 }
-
+.m-nav {
+    position: absolute;
+    width: 200px;
+    background-color:#fff;
+}
 .m-navbar {
     height: 50px;
     border-bottom: 1px solid #dedede;
@@ -31,23 +35,57 @@
     cursor: pointer;
     width: 200px;
     height: 100%;
+    z-index: 999;
 }
 
     .navbar-header .navbar-brand {
-        align-self:center;
+        align-self: center;
         color: #000000 !important;
         float: left;
-        font-size:20px;
+        font-size: 20px;
         /*        padding: 8px 4px;*/
         line-height: 11px;
     }
 
     .navbar-header .root-sibar {
         width: 50px;
-        background-image: url('/content/icons/root-sibar.png');
+        background-image: url('/Content/Icons/root-sibar.png');
         background-color: white;
         background-position-y: center;
         background-position: center;
         background-size: 30px;
         background-repeat: no-repeat;
     }
+
+nav {
+    border-right: 1px solid #e6e6e6;
+    position: relative;
+    height: 100%;
+}
+
+.nav-tabs {
+    border-bottom: none;
+}
+
+    .nav-tabs .nav-link {
+        color: #000;
+        border: none;
+        border-radius: unset;
+        display: flex;
+        align-items: center;
+    }
+
+        .nav-tabs .nav-link:hover {
+            background-color: #f4f4f4;
+            border: none;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #ff0000;
+            background-color: #e3f3ee;
+            color: rgb(1, 176, 117);
+        }
+
+.nav-link i.fa, .nav-link i.fas {
+    margin-right: 8px;
+}
