@@ -155,7 +155,9 @@ td {
 .m-nav-hidden {
     display: none !important;
 }
-
+.m-nav-block{
+    display:block !important;
+}
 .clockpicker {
 }
 

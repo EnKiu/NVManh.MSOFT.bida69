@@ -25,16 +25,40 @@
 
 /*Tablet nhỏ(480 x 640)*/
 @media screen and (min-width: 480px) {
+    .m-nav {
+        display: none;
+    }
+
+    .m-content {
+        left: 0;
+    }
 }
 
 @media only screen and (min-width: 576px) {
-   
+    .m-nav {
+        display: none;
+    }
+
+    .m-content {
+        left: 0;
+    }
+}
+
+@media only screen and (max-width: 577px) {
+    .m-nav {
+        display: none;
+    }
+
+    .m-content {
+        left: 0;
+    }
 }
 
 /*Ipad dọc(768 x 1024)*/
 @media screen and (min-width: 768px) {
     .m-nav {
         display: block;
+        height: calc(100% - 32px);
     }
 
     .m-content {
@@ -46,8 +70,6 @@
     .m-nav {
         display: block;
         position:absolute;
-        height:calc(100% - 32px);
-        border-bottom:1px solid #dedede;
     }
 
     .m-content {

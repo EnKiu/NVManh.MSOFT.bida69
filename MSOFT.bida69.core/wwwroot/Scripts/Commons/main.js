@@ -5,10 +5,12 @@
 class MainJS {
     constructor() {
         this.initEvents();
-    } 
+    }
 
     initEvents() {
         $('.root-sibar').on('click', this.rootSibarOnClick.bind(this));
+        $(window).resize(this.windowOnResize.bind(this));
+        $('.nav-item').click(this.navItemOnClick.bind(this));
     }
 
     rootSibarOnClick() {
@@ -28,11 +30,41 @@ class MainJS {
                 $('.m-content').css("with", "100%");
             }
         } else {
-            if (navBox.hasClass('m-nav-hidden')) {
+            $('.m-content').css("left", "0");
+            if (navBox.hasClass('m-nav-hidden') || navBox.css('display') == 'none') {
+                navBox.css({ 'display': '' });
                 navBox.removeClass('m-nav-hidden');
+                navBox.addClass('m-nav-block');
             } else {
                 navBox.addClass('m-nav-hidden');
+                navBox.removeClass('m-nav-block');
             }
+        }
+    }
+    windowOnResize(sender) {
+        if ($('.m-content').css('left') == '0px') {
+            $('.m-nav').removeClass('m-nav-block');
+        } 
+        var screen576Min = window.matchMedia("(min-width: 576px)");
+        var screen576Max = window.matchMedia("(min-width: 768px)");
+        if (screen576Min.matches) {
+            $('.m-content').css({ 'left': '' });
+            $('.m-nav').removeClass('m-nav-block');
+            $('.m-nav').css({ 'display': '' });
+        }
+        if (screen576Max.matches) {
+            $('.m-nav').removeClass('m-nav-hidden');
+            $('.m-nav').css('display', 'block');
+        }
+        
+    }
+
+    navItemOnClick() {
+        var screen576Min = window.matchMedia("(min-width: 768px)");
+        if (!screen576Min.matches) {
+            $('.m-nav').removeClass('m-nav-block');
+            $('.m-nav').addClass('m-nav-hidden');
+            $('.m-nav').css({ 'display': '' });
         }
     }
 }

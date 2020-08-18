@@ -62,16 +62,6 @@ body {
     max-width: 760px;
 }
 
-@media only screen and (min-width: 360px) {
-    .m-nav {
-        display: none;
-    }
-
-    .m-content {
-        left: 0;
-    }
-}
-
 footer {
     position: fixed;
     bottom: 0;
