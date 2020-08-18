@@ -353,6 +353,7 @@
     left: 0;
     right: 0;
     overflow-y: auto;
+    height:calc(100vh - 385px);
 }
 
 #tbStatistic td, #tbStatistic th {
