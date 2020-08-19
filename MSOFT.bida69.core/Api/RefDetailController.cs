@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using MSOFT.bida69.core.Properties;
 using MSOFT.BL;
 using MSOFT.BL.Interfaces;
@@ -17,7 +18,7 @@ namespace MSOFT.bida69.com.Controllers
     public class RefDetailController : EntityController<RefDetail>
     {
         IRefDetailBL _refDetailBL;
-        public RefDetailController(IRefDetailBL refDetailBL) : base(refDetailBL)
+        public RefDetailController(IRefDetailBL refDetailBL, IDistributedCache distributedCache) : base(refDetailBL, distributedCache)
         {
             _refDetailBL = refDetailBL;
         }

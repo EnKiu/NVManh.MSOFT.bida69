@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using MSOFT.bida69.com.Controllers;
 using MSOFT.bida69.core.Properties;
@@ -24,7 +25,7 @@ namespace MSOFT.bida69.core.Api
         private readonly bida69Context _context;
         IConfiguration _configuration;
         IRefBL _refBL;
-        public RefsController(IRefBL refBL, bida69Context context, IConfiguration configuration) : base(refBL)
+        public RefsController(IRefBL refBL, bida69Context context, IConfiguration configuration, IDistributedCache distributedCache) : base(refBL, distributedCache)
         {
             _context = context;
             _refBL = refBL;

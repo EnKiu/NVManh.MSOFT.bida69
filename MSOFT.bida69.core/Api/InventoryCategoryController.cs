@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using MSOFT.BL;
 using MSOFT.BL.Interfaces;
 using MSOFT.Entities;
@@ -13,7 +14,7 @@ namespace MSOFT.bida69.com.Controllers
     [Route("ic")]
     public class InventoryCategoryController : EntityController<InventoryCategory>
     {
-        public InventoryCategoryController(IBaseBL<InventoryCategory> baseBL) : base(baseBL)
+        public InventoryCategoryController(IBaseBL<InventoryCategory> baseBL, IDistributedCache distributedCache) : base(baseBL, distributedCache)
         {
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using MSOFT.BL;
 using MSOFT.BL.Interfaces;
 using MSOFT.Entities;
@@ -14,7 +15,7 @@ namespace MSOFT.bida69.com.Controllers
     public class InventoryController : EntityController<Inventory>
     {
         IInventoryBL _inventoryBL;
-        public InventoryController(IInventoryBL inventoryBL) : base(inventoryBL)
+        public InventoryController(IInventoryBL inventoryBL, IDistributedCache distributedCache) : base(inventoryBL, distributedCache)
         {
             _inventoryBL = inventoryBL;
         }

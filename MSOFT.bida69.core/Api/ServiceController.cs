@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using MSOFT.bida69.core.Properties;
 using MSOFT.BL;
 using MSOFT.BL.Interfaces;
@@ -16,7 +17,7 @@ namespace MSOFT.bida69.com.Controllers
     public class ServiceController : EntityController<Service>
     {
         IServiceBL _serviceBL;
-        public ServiceController(IServiceBL serviceBL) : base(serviceBL)
+        public ServiceController(IServiceBL serviceBL, IDistributedCache distributedCache) : base(serviceBL, distributedCache)
         {
             _serviceBL = serviceBL;
         }

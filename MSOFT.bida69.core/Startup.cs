@@ -53,6 +53,16 @@ namespace MSOFT.bida69.core
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 });
 
+            //services.AddStackExchangeRedisCache(options =>
+            //{
+            //    options.Configuration = "http://10.0.6.58:31079";
+            //    //options.InstanceName = "master";
+            //    options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions() { };
+            //});
+            services.AddDistributedRedisCache(o =>
+            {
+                o.Configuration = "http://10.0.6.58:31079";
+            });
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);

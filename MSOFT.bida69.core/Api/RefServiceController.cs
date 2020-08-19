@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using MSOFT.bida69.core.Properties;
 using MSOFT.BL;
 using MSOFT.BL.Interfaces;
@@ -17,7 +18,7 @@ namespace MSOFT.bida69.com.Controllers
     public class RefServiceController : EntityController<RefService>
     {
         IRefServiceBL _refServiceBL;
-        public RefServiceController(IRefServiceBL refServiceBL) : base(refServiceBL)
+        public RefServiceController(IRefServiceBL refServiceBL, IDistributedCache distributedCache) : base(refServiceBL, distributedCache)
         {
             _refServiceBL = refServiceBL;
         }

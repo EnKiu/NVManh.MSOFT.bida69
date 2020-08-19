@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using MSOFT.bida69.Services;
 using Microsoft.AspNetCore.Authorization;
 using MSOFT.BL.Interfaces;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace MSOFT.bida69.com.Controllers
 {
@@ -20,12 +21,13 @@ namespace MSOFT.bida69.com.Controllers
     [Route("[controller]")]
     public abstract class EntityController<T> : ControllerBase
     {
+        protected readonly IDistributedCache _distributedCache;
         protected AjaxResult ajaxResult;
         //protected EntityBL<T> entityBL;
         private IUserBL _userService;
         IBaseBL<T> _baseBL;
 
-        public EntityController(IBaseBL<T> baseBL)
+        public EntityController(IBaseBL<T> baseBL, IDistributedCache distributedCache)
         {
             _baseBL = baseBL;
             ajaxResult = new AjaxResult();
