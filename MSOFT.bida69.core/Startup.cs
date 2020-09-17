@@ -20,6 +20,9 @@ using MSOFT.BL;
 using MSOFT.BL.Interfaces;
 using MSOFT.DL;
 using MSOFT.DL.Interfaces;
+using MSOFT.Infrastructure.DatabaseContext;
+using MSOFT.Infrastructure.Interfaces;
+using MSOFT.Infrastructure.Repository;
 using Newtonsoft.Json.Serialization;
 
 namespace MSOFT.bida69.core
@@ -90,6 +93,8 @@ namespace MSOFT.bida69.core
             // configure DI for application services
             services.AddScoped(typeof(IBaseBL<>), typeof(EntityBL<>));
             services.AddScoped<IBaseRepository, BaseDL>();
+            services.AddScoped<MSOFT.Core.Interfaces.IBaseRepository, ADORepository>();
+            services.AddScoped<IDataContext, MySqlConnector>();
 
             services.AddScoped<IInventoryBL, InventoryBL>();
             services.AddScoped<IInventoryCategoryBL, InventoryCategoryBL>();

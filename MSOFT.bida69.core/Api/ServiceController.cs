@@ -3,6 +3,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using MSOFT.bida69.core.Properties;
 using MSOFT.BL;
 using MSOFT.BL.Interfaces;
+using MSOFT.Core.Interfaces;
 using MSOFT.Entities;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,11 @@ namespace MSOFT.bida69.com.Controllers
     public class ServiceController : EntityController<Service>
     {
         IServiceBL _serviceBL;
-        public ServiceController(IServiceBL serviceBL, IDistributedCache distributedCache) : base(serviceBL, distributedCache)
+        IBaseRepository _baseRepository;
+        public ServiceController(IServiceBL serviceBL, IDistributedCache distributedCache, IBaseRepository baseRepository) : base(serviceBL, distributedCache)
         {
             _serviceBL = serviceBL;
+            _baseRepository = baseRepository;
         }
 
         [HttpPatch]
@@ -57,5 +60,24 @@ namespace MSOFT.bida69.com.Controllers
 
             return await Task.FromResult(ajaxResult);
         }
+
+        [HttpGet]
+        [Route("ServiceTest")]
+        public async Task<AjaxResult> GetServiceNotInUse_Test()
+        {
+            try
+            {
+                ajaxResult.Data = _baseRepository.GetAll<Service>();
+            }
+            catch (Exception ex)
+            {
+                ajaxResult.Success = false;
+                ajaxResult.Data = ex;
+                ajaxResult.Messenge = Resources.ExceptionErroMsg;
+            }
+
+            return await Task.FromResult(ajaxResult);
+        }
+
     }
 }

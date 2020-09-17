@@ -1,7 +1,9 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MSOFT.Common;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
@@ -9,13 +11,14 @@ using System.Threading.Tasks;
 
 namespace MSFOT.Infrastructor.DatabaseContext
 {
-    public class ADOConnection : IDisposable
+    public class MySqlConnector : IDisposable
     {
+        #region Declare
         private readonly string connectionString = string.Empty;
         MySqlConnection sqlConnection;
         MySqlCommand sqlCommand;
-
-        public ADOConnection()
+        #endregion
+        public MySqlConnector()
         {
             sqlConnection = new MySqlConnection(connectionString);
             sqlCommand.CommandType = CommandType.StoredProcedure;
@@ -28,18 +31,17 @@ namespace MSFOT.Infrastructor.DatabaseContext
             if (sqlConnection.State == ConnectionState.Open)
                 sqlConnection.Close();
         }
-
-        public IEnumerable<T> GetData<T>()
-        {
-            sqlCommand.CommandText = $"Proc_Get{typeof(T).Name}";
-            MySqlDataReader mySqlDataReader = sqlCommand.ExecuteReader();
-            Func<MySqlDataReader, T> readRow = this.GetReader<T>(mySqlDataReader);
-
-            while (mySqlDataReader.Read())
-                yield return readRow(mySqlDataReader);
-        }
-
-
+        #region METHOD
+        #region GET
+        /// <summary>
+        /// Lấy dữ liệu
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="commandText">Sql Query hoặc tên thủ tục (procedure)</param>
+        /// <param name="parameters">Đối số truyền vào</param>
+        /// <param name="commandType">Thực thi chuỗi truy vấn hoặc qua thủ tục</param>
+        /// <returns>List dữ liệu</returns>
+        /// CreatedBy: NVMANH (17/09/2020)
         public async Task<List<T>> GetData<T>(string commandText, object[] parameters = null, CommandType commandType = CommandType.StoredProcedure)
         {
             var entities = new List<T>();
@@ -47,13 +49,72 @@ namespace MSFOT.Infrastructor.DatabaseContext
             sqlCommand.CommandText = commandText;
             MySqlDataReader mySqlDataReader = sqlCommand.ExecuteReader();
             Func<MySqlDataReader, T> readRow = this.GetReader<T>(mySqlDataReader);
-
             while (await mySqlDataReader.ReadAsync())
                 entities.Add(readRow(mySqlDataReader));
-
             return entities;
         }
+        #endregion
+        #region INSERT
+        /// <summary>
+        /// Thực hiện thêm mới đối tượng từ query
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="commandText">Câu lệnh truy vấn</param>
+        /// <param name="parammeters">Dic các tham số map tương ứng với các property</param>
+        /// <param name="commandType">Loại command</param>
+        /// <returns></returns>
+        /// CreatedBy: NVMANH (17/09/2020)
+        public async Task<int> Insert<T>(string commandText, IDictionary<string, object> parammeters, CommandType commandType = CommandType.Text)
+        {
+            sqlCommand.CommandType = commandType;
+            sqlCommand.CommandText = commandText;
+            foreach (var item in parammeters)
+            {
+                sqlCommand.Parameters.AddWithValue($"@{item.Key}", item.Value);
+            }
+            var res = await sqlCommand.ExecuteNonQueryAsync();
+            return res;
+        }
 
+        /// <summary>
+        /// Thêm mới dữ liệu bằng cách sử dụng các Procedure
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="procedureName">Tên Procedure đã viết trước</param>
+        /// <param name="parameters">Mảng các đối số truyền vào theo thứ tự Param trong procedure</param>
+        /// <returns>(int) - số bản ghi thêm mới được</returns>
+        /// CreatedBy: NVMANH (07/09/2020)
+        public async Task<int> Insert<T>(string procedureName, object[] parameters = null)
+        {
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.CommandText = procedureName;
+            MySqlCommandBuilder.DeriveParameters(sqlCommand);
+            var storeParameters = sqlCommand.Parameters;
+            if (storeParameters.Count > 1 && parameters != null)
+            {
+                for (int i = 1; i < storeParameters.Count; i++)
+                {
+                    if (i <= parameters.Length)
+                    {
+                        var value = parameters[i - 1].ToString();
+                        var result = Utinity.ConvertType(value, storeParameters[i].MySqlDbType);
+                        storeParameters[i].Value = result;
+                    }
+                }
+            }
+            var res = await sqlCommand.ExecuteNonQueryAsync();
+            return res;
+        }
+        #endregion
+
+        #region UPDATE
+
+        #endregion
+        #region DELETE
+
+        #endregion
+        #endregion
+        #region Utility
         /// <summary>
         /// GetReader and Dynamic Lambda Expressions
         /// </summary>
@@ -113,5 +174,7 @@ namespace MSFOT.Infrastructor.DatabaseContext
             resDelegate = lambda.Compile();
             return (Func<MySqlDataReader, T>)resDelegate;
         }
+
+        #endregion
     }
 }

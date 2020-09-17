@@ -2,6 +2,7 @@
 using MSFOT.Infrastructor.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,22 +45,37 @@ namespace MSFOT.Infrastructor.Repository
             throw new NotImplementedException();
         }
 
-        public Task<int> Insert<T>(T entity)
+        public async Task<int> Insert<T>(T entity)
         {
-            throw new NotImplementedException();
+            var propertyContainer = ParseProperties(entity);
+            var sql = string.Format("INSERT INTO {0} ({1}) VALUES(@{2})",
+                typeof(T).Name,
+                string.Join(", ", propertyContainer.ValueNames),
+                string.Join(", @", propertyContainer.ValueNames));
+            //var paramValue = param.SelectMany(x => x.Value);
+            using var sqlConnection = new MySqlConnector();
+            var paramDic = propertyContainer.ValuePairs;
+            return await sqlConnection.Insert<T>(sql, paramDic);
         }
 
+
+        /// <summary>
+        /// Select dữ liệu theo các tiêu chí
+        /// </summary>
+        /// <typeparam name="T">Type</typeparam>
+        /// <param name="criteria">Các tiêu chí</param>
+        /// <returns></returns>
+        /// CreatedBy: NVMANH (17/09/2020)
         public async Task<IEnumerable<T>> Select<T>(object criteria = null)
         {
-            IEnumerable<T> entities = new List<T>();
             var properties = ParseProperties(criteria);
             var tableName = typeof(T).Name;
             var sqlPairs = GetSqlPairs(properties.AllNames, " AND ");
             var sql = string.Format("SELECT * FROM {0} WHERE {1}", tableName, sqlPairs);
             if (criteria == null)
                 sql = $"SELECT * FROM {tableName}";
-            using var adoConnection = new ADOConnection();
-            return await adoConnection.GetData<T>(sql, commandType: System.Data.CommandType.Text);
+            using var dbConnection = new MySqlConnector();
+            return await dbConnection.GetData<T>(sql, commandType: CommandType.Text);
         }
     }
 
@@ -72,5 +88,4 @@ namespace MSFOT.Infrastructor.Repository
     {
         throw new NotImplementedException();
     }
-}
 }
