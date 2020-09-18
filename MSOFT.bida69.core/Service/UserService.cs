@@ -76,7 +76,7 @@ namespace MSOFT.bida69.Services
         public User Authenticate(string username, string password)
         {
             // Lấy thông tin Users:
-            var user = _iUserRepository.GetUserAuthenticate(username, HashPassword(password));
+            var user = _iUserRepository.GetUserAuthenticate(username, HashPassword(password)).Result;
             //var user = _users.SingleOrDefault(x => x.Username.ToLower() == username.ToLower() && x.Password == password);
 
             // return null if user not found

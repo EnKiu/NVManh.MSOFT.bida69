@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using MSOFT.BL;
 using MSOFT.BL.Interfaces;
+using MSOFT.Core.Interfaces;
 using MSOFT.Entities;
 using MSOFT.Entities.Models;
 using System;
@@ -13,7 +14,7 @@ namespace MSOFT.bida69.com.Controllers
 {
     public class UnitController : EntityController<Unit>
     {
-        public UnitController(IBaseBL<Unit> baseBL, IDistributedCache distributedCache) : base(baseBL, distributedCache)
+        public UnitController(IEntityService entityService, IDistributedCache distributedCache) : base(entityService, distributedCache)
         {
         }
     }
