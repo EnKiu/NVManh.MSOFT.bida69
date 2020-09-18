@@ -16,10 +16,8 @@ using Microsoft.IdentityModel.Tokens;
 using MSOFT.bida69.core.Helpers;
 using MSOFT.bida69.core.Middleware;
 using MSOFT.bida69.Services;
-using MSOFT.BL;
-using MSOFT.BL.Interfaces;
-using MSOFT.DL;
-using MSOFT.DL.Interfaces;
+using MSOFT.Core.Interfaces;
+using MSOFT.Core.Service;
 using MSOFT.Infrastructure.DatabaseContext;
 using MSOFT.Infrastructure.Interfaces;
 using MSOFT.Infrastructure.Repository;
@@ -42,12 +40,12 @@ namespace MSOFT.bida69.core
             Common.Common.TimeZoneId = Configuration.GetSection("TimeZoneId").Value;
             services.AddCors();
             // Bổ sung thông tin kết nối với Database:
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //var connectionString = Configuration.GetConnectionString("DefaultConnection");
             //services.Add(new ServiceDescriptor(typeof(DatabaseContext), new DatabaseContext(Configuration.GetConnectionString("LadizoneConnection"))));
-            DataAccess.ConnectionString = connectionString;
-            bida69Context.ConnectionString = connectionString;
+            //DataAccess.ConnectionString = connectionString;
+            //bida69Context.ConnectionString = connectionString;
             //Entity Framework  
-            services.AddDbContext<bida69Context>(options => options.UseSqlServer(connectionString));
+            //services.AddDbContext<bida69Context>(options => options.UseSqlServer(connectionString));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddControllers()
@@ -91,26 +89,28 @@ namespace MSOFT.bida69.core
                     };
                 });
             // configure DI for application services
-            services.AddScoped(typeof(IBaseBL<>), typeof(EntityBL<>));
-            services.AddScoped<IBaseRepository, BaseDL>();
-            services.AddScoped<MSOFT.Core.Interfaces.IBaseRepository, ADORepository>();
+            //services.AddScoped(typeof(IBaseBL<>), typeof(EntityBL<>));
+            services.AddScoped<IEntityService, EntityService>();
+            services.AddScoped<IBaseRepository, ADORepository>();
             services.AddScoped<IDataContext, MySqlConnector>();
 
-            services.AddScoped<IInventoryBL, InventoryBL>();
-            services.AddScoped<IInventoryCategoryBL, InventoryCategoryBL>();
-            services.AddScoped<IRefBL, RefBL>();
-            services.AddScoped<IRefDetailBL, RefDetailBL>();
-            services.AddScoped<IRefServiceBL, RefServiceBL>();
-            services.AddScoped<IServiceBL, ServiceBL>();
-            services.AddScoped<IUserBL, UserService>();
+            services.AddScoped<IInventoryService, InventoryService>();
+            services.AddScoped<IInventoryCategoryService, InventoryCategoryService>();
+            services.AddScoped<IRefService, RefService>();
+            services.AddScoped<IRefDetailService, RefDetailService>();
+            services.AddScoped<IRefServiceService, RefServiceService>();
+            services.AddScoped<IServiceService, ServiceService>();
+            services.AddScoped<IUserService, UserService>();
 
-            services.AddScoped<IInventoryCategoryRepository, InventoryCategoryDL>();
-            services.AddScoped<IInventoryRepository, InventoryDL>();
-            services.AddScoped<IRefDetailRepository, RefDetailDL>();
-            services.AddScoped<IRefRepository, RefDL>();
-            services.AddScoped<IRefServiceRepository, RefServiceDL>();
-            services.AddScoped<IServiceRepository, ServiceDL>();
-            services.AddScoped<IUserRepository, UserDL>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
+
+            services.AddScoped<IInventoryCategoryRepository, InventoryCategoryRepository>();
+            services.AddScoped<IInventoryRepository, InventoryRepository>();
+            services.AddScoped<IRefDetailRepository, RefDetailRepository>();
+            services.AddScoped<IRefRepository, RefRepository>();
+            services.AddScoped<IRefServiceRepository, RefServiceRepository>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

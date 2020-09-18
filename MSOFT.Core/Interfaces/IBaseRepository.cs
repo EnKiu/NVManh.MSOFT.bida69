@@ -62,7 +62,7 @@ namespace MSOFT.Core.Interfaces
         /// Createdby: NVMANH (17/09/2020)
         Task<int> Insert<T>(T entity);
         Task<int> Update<T>(T entity);
-        Task<int> Update<T>(string procedureName, object[] parameters);
+        Task<int> Update<T>(string procedureName = null, object[] parameters = null);
         Task<int> Delete<T>(object entityID);
         Task<int> Delete<T>(object[] parameters);
         Task<int> Delete<T>(string storeName, object[] parameters);

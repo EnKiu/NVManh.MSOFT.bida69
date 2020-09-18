@@ -18,11 +18,11 @@ namespace MSOFT.bida69.com.Controllers
     public class ServiceController : EntityController<Service>
     {
         IServiceBL _serviceBL;
-        IBaseRepository _baseRepository;
-        public ServiceController(IServiceBL serviceBL, IDistributedCache distributedCache, IBaseRepository baseRepository) : base(serviceBL, distributedCache)
+        IServiceRepository _serviceRepository;
+        public ServiceController(IServiceBL serviceBL, IDistributedCache distributedCache, IServiceRepository serviceRepository) : base(serviceBL, distributedCache)
         {
             _serviceBL = serviceBL;
-            _baseRepository = baseRepository;
+            _serviceRepository = serviceRepository;
         }
 
         [HttpPatch]
@@ -67,7 +67,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = _baseRepository.GetAll<Service>();
+                ajaxResult.Data = await _serviceRepository.GetServiceNotInUse();
             }
             catch (Exception ex)
             {
@@ -76,7 +76,7 @@ namespace MSOFT.bida69.com.Controllers
                 ajaxResult.Messenge = Resources.ExceptionErroMsg;
             }
 
-            return await Task.FromResult(ajaxResult);
+            return ajaxResult;
         }
 
     }

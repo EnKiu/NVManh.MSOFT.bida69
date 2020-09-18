@@ -5,7 +5,7 @@ using MSOFT.bida69.Models;
 using MSOFT.bida69.core.Properties;
 using MSOFT.Entities;
 using System;
-using MSOFT.BL.Interfaces;
+using MSOFT.Core.Interfaces;
 
 namespace MSOFT.bida69.Controllers
 {
@@ -14,9 +14,9 @@ namespace MSOFT.bida69.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        private IUserBL _userService;
+        private IUserService _userService;
 
-        public UsersController(IUserBL userService)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
         }

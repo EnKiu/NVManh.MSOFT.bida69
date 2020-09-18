@@ -58,6 +58,21 @@ namespace MSOFT.Infrastructure.DatabaseContext
                 entities.Add(readRow(mySqlDataReader));
             return entities;
         }
+
+        public async Task<T> GetById<T>(string commandText = null, object[] parameters = null, CommandType commandType = CommandType.StoredProcedure)
+        {
+            if (commandText == null)
+                commandText = QueryUtinity.GeneateStoreName<T>(Core.Enum.ProcdureTypeName.GetById);
+            sqlCommand.CommandType = commandType;
+            sqlCommand.CommandText = commandText;
+            MySqlDataReader mySqlDataReader = sqlCommand.ExecuteReader();
+            Func<MySqlDataReader, T> readRow = this.GetReader<T>(mySqlDataReader);
+            while (await mySqlDataReader.ReadAsync())
+            {
+                return readRow(mySqlDataReader);
+            }
+            return default;
+        }
         #endregion
         #region INSERT
         /// <summary>
@@ -89,7 +104,86 @@ namespace MSOFT.Infrastructure.DatabaseContext
         /// <param name="parameters">Mảng các đối số truyền vào theo thứ tự Param trong procedure</param>
         /// <returns>(int) - số bản ghi thêm mới được</returns>
         /// CreatedBy: NVMANH (07/09/2020)
-        public async Task<int> Insert<T>(string procedureName, object[] parameters = null)
+        public async Task<int> Insert<T>(string procedureName = null, object[] parameters = null)
+        {
+            if (procedureName == null)
+            {
+                procedureName = QueryUtinity.GeneateStoreName<T>(Core.Enum.ProcdureTypeName.Insert);
+            }
+            return await Save(procedureName, parameters);
+        }
+        #endregion
+
+        #region UPDATE
+        public async Task<int> Update<T>(string commandText, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.Text)
+        {
+            sqlCommand.CommandType = commandType;
+            sqlCommand.CommandText = commandText;
+            return await sqlCommand.ExecuteNonQueryAsync();
+        }
+
+        public async Task<int> Update<T>(string procedureName = null, object[] parameters = null)
+        {
+            if (procedureName == null)
+            {
+                procedureName = QueryUtinity.GeneateStoreName<T>(Core.Enum.ProcdureTypeName.Update);
+            }
+            return await Save(procedureName, parameters);
+        }
+        #endregion
+        #region DELETE
+        public async Task<int> Delete<T>(string commandText, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.Text)
+        {
+            sqlCommand.CommandType = commandType;
+            sqlCommand.CommandText = commandText;
+            return await sqlCommand.ExecuteNonQueryAsync();
+        }
+
+        public async Task<int> Delete<T>(string procedureName = null, object[] parameters = null)
+        {
+            if (procedureName == null)
+            {
+                procedureName = QueryUtinity.GeneateStoreName<T>(Core.Enum.ProcdureTypeName.Delete);
+            }
+            return await ExecuteNonQueryAsync(procedureName, parameters);
+        }
+        #endregion
+
+        #region Common
+        public async Task<int> Save(string procedureName, object[] parameters = null)
+        {
+            return await ExecuteNonQueryAsync(procedureName, parameters);
+        }
+
+        public async Task<int> ExecuteNonQueryAsync(string commandText = null,
+            object[] parameters = null,
+            CommandType commandType = CommandType.StoredProcedure)
+        {
+            if (sqlCommand != null)
+                sqlCommand.CommandText = commandText;
+
+            if (commandType == CommandType.StoredProcedure)
+                MappingStoreParameterValue(commandText, parameters);
+
+            var affectedRows = await sqlCommand.ExecuteNonQueryAsync();
+            return affectedRows;
+        }
+
+        public async Task<object> ExecuteScalarAsync(string commandText = null, object[] parameters = null, CommandType commandType = CommandType.StoredProcedure)
+        {
+            if (sqlCommand != null)
+                sqlCommand.CommandText = commandText;
+
+            if (commandType == CommandType.StoredProcedure)
+                MappingStoreParameterValue(commandText, parameters);
+
+            return await sqlCommand.ExecuteScalarAsync();
+        }
+        #endregion
+        #endregion
+        #region Utility
+
+        private void MappingStoreParameterValue(string procedureName, object[] parameters)
         {
             sqlCommand.CommandType = CommandType.StoredProcedure;
             sqlCommand.CommandText = procedureName;
@@ -107,41 +201,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
                     }
                 }
             }
-            var res = await sqlCommand.ExecuteNonQueryAsync();
-            return res;
         }
-        #endregion
-
-        #region UPDATE
-        public async Task<int> Update<T>(string commandText, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.Text)
-        {
-            sqlCommand.CommandType = commandType;
-            sqlCommand.CommandText = commandText;
-            var affectedRows = await sqlCommand.ExecuteNonQueryAsync();
-            return affectedRows;
-        }
-        #endregion
-        #region DELETE
-        public async Task<int> Delete<T>(string commandText, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.Text)
-        {
-            sqlCommand.CommandType = commandType;
-            sqlCommand.CommandText = commandText;
-            var affectedRows = await sqlCommand.ExecuteNonQueryAsync();
-            return affectedRows;
-        }
-        #endregion
-
-        #region ExecuteNonQueryAsync
-        public async Task<int> ExecuteNonQueryAsync(string commandText = null)
-        {
-            if (sqlCommand != null)
-                sqlCommand.CommandText = commandText;
-            var affectedRows = await sqlCommand.ExecuteNonQueryAsync();
-            return affectedRows;
-        }
-        #endregion
-        #endregion
-        #region Utility
         /// <summary>
         /// GetReader and Dynamic Lambda Expressions
         /// </summary>
@@ -159,7 +219,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
             // Step 2 - Setup Input ParameterExpression
             var readerParam = Expression.Parameter(typeof(MySqlDataReader), "reader");
             var readerGetValue = typeof(MySqlDataReader).GetMethod("GetValue");
-
+            var readerGetGUID = typeof(MySqlDataReader).GetMethod("GetGuid", new[] { typeof(Int32) });
             // Step 3 - Setup the DBNull Check
             var dbNullValue = typeof(System.DBNull).GetField("Value");
             //var dbNullExp = Expression.Field(Expression.Parameter(typeof(System.DBNull), "System.DBNull"), dbNullValue);
@@ -186,10 +246,11 @@ namespace MSOFT.Infrastructure.DatabaseContext
                     var testExp = Expression.NotEqual(dbNullExp, getValueExp);
                     var ifTrue = Expression.Convert(getValueExp, prop.PropertyType);
                     if (prop.PropertyType == typeof(Guid))
-                        ifTrue = Expression.Convert(getValueExp, prop.PropertyType);
-
+                    {
+                        var getGuidValueExp = Expression.Call(readerParam, readerGetGUID, new Expression[] { indexExpression });
+                        ifTrue = Expression.Convert(getGuidValueExp, prop.PropertyType);
+                    }
                     var ifFalse = Expression.Convert(Expression.Constant(defaultValue), prop.PropertyType);
-
                     // create the actual Bind expression to bind the value from the reader to the property value
                     MemberInfo mi = typeof(T).GetMember(prop.Name)[0];
                     MemberBinding mb = Expression.Bind(mi, Expression.Condition(testExp, ifTrue, ifFalse));

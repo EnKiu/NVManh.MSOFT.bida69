@@ -4,6 +4,7 @@ using MSOFT.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace MSOFT.Infrastructure.Repository
 {
     public class ADORepository : QueryUtinity, IBaseRepository
     {
-        IDataContext _dataContext;
+        protected readonly IDataContext _dataContext;
         public ADORepository(IDataContext dataContext)
         {
             _dataContext = dataContext;
@@ -39,14 +40,19 @@ namespace MSOFT.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<T>> Get<T>(string procedureName, object[] parameters)
+        public async Task<IEnumerable<T>> Get<T>(string procedureName, object[] parameters = null)
         {
-            throw new NotImplementedException();
+            return await _dataContext.GetData<T>(procedureName, parameters);
         }
 
-        public Task<T> GetById<T>(object entityID)
+        public async Task<T> GetById<T>(object entityID)
         {
-            throw new NotImplementedException();
+            var entity = Activator.CreateInstance<T>();
+            var propertyContainer = ParseProperties(entity);
+            var tableName = typeof(T).Name;
+            var sqlIdPairs = GetSqlPairs(propertyContainer.IdNames);
+            var sql = string.Format("SELECT * FROM {0} WHERE {1}", tableName, sqlIdPairs);
+            return (await _dataContext.GetData<T>(sql, commandType: CommandType.Text)).FirstOrDefault();
         }
         #endregion
 

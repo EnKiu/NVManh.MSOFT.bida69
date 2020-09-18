@@ -7,16 +7,15 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MSOFT.bida69.core.Helpers;
-using MSOFT.BL;
 using MSOFT.Entities;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using MSOFT.BL.Interfaces;
-using MSOFT.DL.Interfaces;
+using MSOFT.Core.Interfaces;
+using MSOFT.Core.Service;
 
 namespace MSOFT.bida69.Services
 {
-    public class UserService: EntityBL<User>, IUserBL
+    public class UserService: EntityService, IUserService
     {
         private readonly AppSettings _appSettings;
         IUserRepository _iUserRepository;

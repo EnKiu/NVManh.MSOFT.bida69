@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MSOFT.Core\MSOFT.Core.csproj" />
+    <ProjectReference Include="..\MSOFT.Entities\MSOFT.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
