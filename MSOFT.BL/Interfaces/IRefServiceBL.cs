@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MSOFT.BL.Interfaces
 {
-    public interface IRefServiceBL : IBaseBL<RefService>
+    public interface IRefServiceService : IBaseBL<RefService>
     {
         int UpdateTimeStartForRefService(Guid refServiceID, DateTime timeStart);
         int ChangeServiceForRefService(object[] param);

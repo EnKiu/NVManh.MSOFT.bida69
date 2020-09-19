@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using MSOFT.bida69.core.Properties;
-using MSOFT.BL;
-using MSOFT.BL.Interfaces;
+using MSOFT.Core.Interfaces;
 using MSOFT.Entities;
 using Newtonsoft.Json.Linq;
 using System;
@@ -17,10 +16,10 @@ namespace MSOFT.bida69.com.Controllers
     [Route("rd")]
     public class RefDetailController : EntityController<RefDetail>
     {
-        IRefDetailBL _refDetailBL;
-        public RefDetailController(IRefDetailBL refDetailBL, IDistributedCache distributedCache) : base(refDetailBL, distributedCache)
+        IRefDetailService _refDetailService;
+        public RefDetailController(IRefDetailService refDetailService, IDistributedCache distributedCache) : base(refDetailService, distributedCache)
         {
-            _refDetailBL = refDetailBL;
+            _refDetailService = refDetailService;
         }
         /// <summary>
         /// Cập nhật lại số lượng cho RefDetail
@@ -37,7 +36,7 @@ namespace MSOFT.bida69.com.Controllers
             {
                 var refDetailID = Guid.Parse(data["RefDetailID"].ToString());
                 var quantity = (int)data["Quantity"];
-                ajaxResult.Data = _refDetailBL.UpdateQuantityForRefDetail(refDetailID, quantity);
+                ajaxResult.Data = _refDetailService.UpdateQuantityForRefDetail(refDetailID, quantity);
             }
             catch (Exception ex)
             {

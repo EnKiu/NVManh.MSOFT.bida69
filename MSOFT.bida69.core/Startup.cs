@@ -18,6 +18,7 @@ using MSOFT.bida69.core.Middleware;
 using MSOFT.bida69.Services;
 using MSOFT.Core.Interfaces;
 using MSOFT.Core.Service;
+using MSOFT.DL;
 using MSOFT.Infrastructure.DatabaseContext;
 using MSOFT.Infrastructure.Interfaces;
 using MSOFT.Infrastructure.Repository;
@@ -40,12 +41,12 @@ namespace MSOFT.bida69.core
             Common.Common.TimeZoneId = Configuration.GetSection("TimeZoneId").Value;
             services.AddCors();
             // Bổ sung thông tin kết nối với Database:
-            //var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
             //services.Add(new ServiceDescriptor(typeof(DatabaseContext), new DatabaseContext(Configuration.GetConnectionString("LadizoneConnection"))));
             //DataAccess.ConnectionString = connectionString;
-            //bida69Context.ConnectionString = connectionString;
+            bida69Context.ConnectionString = connectionString;
             //Entity Framework  
-            //services.AddDbContext<bida69Context>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<bida69Context>(options => options.UseSqlServer(connectionString));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddControllers()

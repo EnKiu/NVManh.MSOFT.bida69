@@ -53,5 +53,10 @@ namespace MSOFT.Core.Service
         {
             return await _iRefRepository.GetRefDataStatistic(fromDate, toDate);
         }
+
+        public async Task<string> GetNewRefCode()
+        {
+            return await _iRefRepository.GetNewRefCode();
+        }
     }
 }

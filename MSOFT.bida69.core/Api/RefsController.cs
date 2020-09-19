@@ -10,11 +10,12 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using MSOFT.bida69.com.Controllers;
 using MSOFT.bida69.core.Properties;
-using MSOFT.BL.Interfaces;
 using MSOFT.Common;
+using MSOFT.Core.Interfaces;
 using MSOFT.DL;
 using MSOFT.Entities;
 using MSOFT.Entities.Models;
+using MSOFT.Infrastructure.DatabaseContext;
 using Newtonsoft.Json.Linq;
 
 namespace MSOFT.bida69.core.Api
@@ -24,8 +25,8 @@ namespace MSOFT.bida69.core.Api
     {
         private readonly bida69Context _context;
         IConfiguration _configuration;
-        IRefBL _refBL;
-        public RefsController(IRefBL refBL, bida69Context context, IConfiguration configuration, IDistributedCache distributedCache) : base(refBL, distributedCache)
+        IRefService _refBL;
+        public RefsController(IRefService refBL, bida69Context context, IConfiguration configuration, IDistributedCache distributedCache) : base(refBL, distributedCache)
         {
             _context = context;
             _refBL = refBL;
@@ -129,15 +130,7 @@ namespace MSOFT.bida69.core.Api
         public async Task<Entities.AjaxResult> GetNewRef()
         {
             // Lấy phiếu gần nhất:
-            var lastRef = await _context.Ref.OrderByDescending(r => r.RefDate).FirstOrDefaultAsync();
-            if (lastRef != null)
-            {
-                var refCode = lastRef.RefNo;
-                var subFix = refCode.Substring(2);
-                var nextCodeNumber = Double.Parse(subFix) + 1;
-                ajaxResult.Data = string.Format("HD{0}", nextCodeNumber);
-                return ajaxResult;
-            }
+            ajaxResult.Data = await _refBL.GetNewRefCode();
             return ajaxResult;
         }
 

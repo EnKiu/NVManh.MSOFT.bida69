@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using MSOFT.bida69.core.Properties;
-using MSOFT.BL;
-using MSOFT.BL.Interfaces;
+using MSOFT.Core.Interfaces;
 using MSOFT.Entities;
 using Newtonsoft.Json.Linq;
 using System;
@@ -18,10 +17,10 @@ namespace MSOFT.bida69.com.Controllers
     [Route("ref")]
     public class RefController : EntityController<Ref>
     {
-        IRefBL _refBL;
-        public RefController(IRefBL refBL, IDistributedCache distributedCache) : base(refBL, distributedCache)
+        IRefService _refService;
+        public RefController(IRefService refService, IDistributedCache distributedCache) : base(refService, distributedCache)
         {
-            _refBL = refBL;
+            _refService = refService;
         }
         [HttpGet]
         [Route("refdetail/{id}")]
@@ -29,7 +28,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = _refBL.GetRefDetail(Guid.Parse(id));
+                ajaxResult.Data = _refService.GetRefDetail(Guid.Parse(id));
             }
             catch (Exception ex)
             {
@@ -53,7 +52,7 @@ namespace MSOFT.bida69.com.Controllers
                 //var timeEnd = ((DateTime)data["timeEnd"]).ToLocalTime();
                 //var timeEnd2 = ((DateTime)data["timeEnd"]);
                 var timeEnd = DateTime.ParseExact(data["timeEnd"].ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture); ;
-                ajaxResult.Data = _refBL.UpdateRefAndServiceWhenPayOrder(refId, totalAmount, timeEnd);
+                ajaxResult.Data = _refService.UpdateRefAndServiceWhenPayOrder(refId, totalAmount, timeEnd);
                 //ajaxResult.Data = new DateTime[] { timeEnd, timeEnd2 , timeEnd3 };
             }
             catch (Exception ex)
@@ -73,7 +72,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = _refBL.DeleteRefDetailRefServiceAndUpdateServiceByRefID(refId);
+                ajaxResult.Data = _refService.DeleteRefDetailRefServiceAndUpdateServiceByRefID(refId);
             }
             catch (Exception ex)
             {
@@ -101,7 +100,7 @@ namespace MSOFT.bida69.com.Controllers
             try
             {
                 toDate = toDate.AddDays(1);
-                ajaxResult.Data = _refBL.GetRefDataStatistic(fromDate, toDate);
+                ajaxResult.Data = _refService.GetRefDataStatistic(fromDate, toDate);
             }
             catch (Exception ex)
             {

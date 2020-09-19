@@ -58,5 +58,10 @@ namespace MSOFT.Infrastructure.Repository
         {
             return await Get<Ref>("[dbo].[Proc_GetRefDataStatistic]", new object[] { fromDate, toDate });
         }
+
+        public async Task<string> GetNewRefCode()
+        {
+            return (string)await _dataContext.ExecuteScalarAsync("Proc_GetNewRefCode");
+        }
     }
 }

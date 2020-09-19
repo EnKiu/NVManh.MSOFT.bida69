@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MSOFT.BL.Interfaces
 {
-    public interface IRefBL : IBaseBL<Ref>
+    public interface IRefservice : IBaseBL<Ref>
     {
         Ref GetRefDetail(Guid id);
         int UpdateRefAndServiceWhenPayOrder(Guid refID, decimal totalAmount, DateTime timeEnd);

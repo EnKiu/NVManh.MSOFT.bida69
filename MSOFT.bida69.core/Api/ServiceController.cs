@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using MSOFT.bida69.core.Properties;
-using MSOFT.BL;
-using MSOFT.BL.Interfaces;
 using MSOFT.Core.Interfaces;
 using MSOFT.Entities;
 using System;
@@ -17,11 +15,9 @@ namespace MSOFT.bida69.com.Controllers
 {
     public class ServiceController : EntityController<Service>
     {
-        IServiceBL _serviceBL;
         IServiceRepository _serviceRepository;
-        public ServiceController(IServiceBL serviceBL, IDistributedCache distributedCache, IServiceRepository serviceRepository) : base(serviceBL, distributedCache)
+        public ServiceController(IServiceService serviceService, IDistributedCache distributedCache, IServiceRepository serviceRepository) : base(serviceService, distributedCache)
         {
-            _serviceBL = serviceBL;
             _serviceRepository = serviceRepository;
         }
 
@@ -31,7 +27,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = _serviceBL.UpdateInUserForService(param);
+                ajaxResult.Data = _serviceRepository.UpdateInUserForService(param);
             }
             catch (Exception ex)
             {
@@ -49,7 +45,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = _serviceBL.GetServiceNotInUse();
+                ajaxResult.Data = _serviceRepository.GetServiceNotInUse();
             }
             catch (Exception ex)
             {

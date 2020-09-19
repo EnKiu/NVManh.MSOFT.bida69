@@ -8,6 +8,7 @@ namespace MSOFT.Core.Interfaces
 {
     public interface IRefService : IEntityService
     {
+        Task<string> GetNewRefCode();
         Task<Ref> GetRefDetail(Guid id);
         Task<int> UpdateRefAndServiceWhenPayOrder(Guid refID, decimal totalAmount, DateTime timeEnd);
         Task<int> DeleteRefDetailRefServiceAndUpdateServiceByRefID(Guid refID);

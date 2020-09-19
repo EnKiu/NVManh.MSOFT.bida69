@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using MSOFT.bida69.core.Properties;
-using MSOFT.BL;
-using MSOFT.BL.Interfaces;
+using MSOFT.Core.Interfaces;
 using MSOFT.Entities;
 using Newtonsoft.Json.Linq;
 using System;
@@ -17,10 +16,10 @@ namespace MSOFT.bida69.com.Controllers
     [Route("rs")]
     public class RefServiceController : EntityController<RefService>
     {
-        IRefServiceBL _refServiceBL;
-        public RefServiceController(IRefServiceBL refServiceBL, IDistributedCache distributedCache) : base(refServiceBL, distributedCache)
+        IRefServiceService _refServiceService;
+        public RefServiceController(IRefServiceService refService, IDistributedCache distributedCache) : base(refService, distributedCache)
         {
-            _refServiceBL = refServiceBL;
+            _refServiceService = refService;
         }
 
         [HttpPut]
@@ -31,7 +30,7 @@ namespace MSOFT.bida69.com.Controllers
             {
                 var refDetailID = Guid.Parse(data["RefServiceID"].ToString());
                 DateTime timeStart = (DateTime)data["TimeStart"];
-                ajaxResult.Data = _refServiceBL.UpdateTimeStartForRefService(refDetailID, timeStart);
+                ajaxResult.Data = _refServiceService.UpdateTimeStartForRefService(refDetailID, timeStart);
             }
             catch (Exception ex)
             {
@@ -49,7 +48,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = _refServiceBL.ChangeServiceForRefService(new object[] { refServiceID, serviceID });
+                ajaxResult.Data = _refServiceService.ChangeServiceForRefService(new object[] { refServiceID, serviceID });
             }
             catch (Exception ex)
             {

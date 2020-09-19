@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MSOFT.BL
 {
-    public class RefServiceBL: EntityBL<RefService>,IRefServiceBL
+    public class RefServiceBL: EntityBL<RefService>,IRefServiceService
     {
         IRefServiceRepository _iRefServiceRepository;
         public RefServiceBL(IRefServiceRepository iRefServiceRepository) : base(iRefServiceRepository)
