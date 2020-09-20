@@ -48,7 +48,7 @@ namespace MSOFT.Infrastructure.Repository
         public async Task<T> GetById<T>(object entityID)
         {
             var entity = Activator.CreateInstance<T>();
-            var propertyContainer = ParseProperties(entity);
+            var propertyContainer = ParseProperties(entity, entityID);
             var tableName = typeof(T).Name;
             var sqlIdPairs = GetSqlPairs(propertyContainer.IdNames);
             var sql = string.Format("SELECT * FROM {0} WHERE {1}", tableName, sqlIdPairs);

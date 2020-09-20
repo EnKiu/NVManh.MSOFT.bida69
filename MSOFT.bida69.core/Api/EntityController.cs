@@ -28,6 +28,10 @@ namespace MSOFT.bida69.com.Controllers
         private IUserBL _userService;
         IEntityService _entityService;
 
+        public EntityController(IDistributedCache distributedCache)
+        {
+            ajaxResult = new AjaxResult();
+        }
         public EntityController(IEntityService entityService, IDistributedCache distributedCache)
         {
             _entityService = entityService;

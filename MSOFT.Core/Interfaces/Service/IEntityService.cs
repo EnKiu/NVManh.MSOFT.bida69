@@ -7,7 +7,7 @@ namespace MSOFT.Core.Interfaces
 {
     public interface IEntityService
     {
-        Task<IEnumerable<T>> GetData<T>();
+        Task<IEnumerable<T>> GetData<T>(string commandText = null);
         Task<T> GetEntityByID<T>(object entityID);
         Task<int> InsertEntity<T>(T entity);
         Task<int> UpdateEntity<T>(T entity);

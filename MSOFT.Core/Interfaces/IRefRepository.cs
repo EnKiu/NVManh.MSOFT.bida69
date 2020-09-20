@@ -13,5 +13,7 @@ namespace MSOFT.Core.Interfaces
         Task<int> UpdateRefAndServiceWhenPayOrder(Guid refID, decimal totalAmount, DateTime timeEnd);
         Task<int> DeleteRefDetailRefServiceAndUpdateServiceByRefID(Guid refID);
         Task<IEnumerable<Ref>> GetRefDataStatistic(DateTime fromDate, DateTime toDate);
+
+        Task<int> AddNewRefForSale(Ref @ref);
     }
 }

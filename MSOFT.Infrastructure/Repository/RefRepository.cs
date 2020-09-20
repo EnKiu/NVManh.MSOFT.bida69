@@ -33,7 +33,7 @@ namespace MSOFT.Infrastructure.Repository
         /// Author: NVMANH (31/07/2019)
         public async Task<int> UpdateRefAndServiceWhenPayOrder(Guid refID, decimal totalAmount, DateTime timeEnd)
         {
-           return await _dataContext.ExecuteNonQueryAsync("[dbo].[Proc_UpdateRefAndServiceWhenPayOrder]", new object[] { refID,totalAmount,timeEnd });
+           return await _dataContext.ExecuteNonQueryAsync("Proc_UpdateRefAndServiceWhenPayOrder", new object[] { refID,totalAmount,timeEnd });
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace MSOFT.Infrastructure.Repository
         /// Author: NVMANH (31/07/2019) 
         public async Task<int> DeleteRefDetailRefServiceAndUpdateServiceByRefID(Guid refID)
         {
-            return await _dataContext.ExecuteNonQueryAsync("[dbo].[Proc_DeleteRefDetailRefServiceAndUpdateServiceByRefID]", new object[] { refID });
+            return await _dataContext.ExecuteNonQueryAsync("Proc_DeleteRefDetailRefServiceAndUpdateServiceByRefID", new object[] { refID });
         }
 
         /// <summary>
@@ -56,12 +56,20 @@ namespace MSOFT.Infrastructure.Repository
         /// CreatedBy : NVMANH (02/08/2019)
         public async Task<IEnumerable<Ref>> GetRefDataStatistic(DateTime fromDate, DateTime toDate)
         {
-            return await Get<Ref>("[dbo].[Proc_GetRefDataStatistic]", new object[] { fromDate, toDate });
+            return await Get<Ref>("Proc_GetRefDataStatistic", new object[] { fromDate, toDate });
         }
 
         public async Task<string> GetNewRefCode()
         {
-            return (string)await _dataContext.ExecuteScalarAsync("Proc_GetNewRefCode");
+            var res = await _dataContext.ExecuteScalarAsync("Proc_GetNewRefCode");
+            if (res == DBNull.Value)
+                return string.Empty;
+            return res.ToString();
+        }
+
+        public async Task<int> AddNewRefForSale(Ref @ref)
+        {
+            return await Insert(@ref);
         }
     }
 }

@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace MSOFT.Entities
 {
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyKey : Attribute
+    {
+    }
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyIgnore : Attribute
+    {
+    }
     public class Entity
     {
         public DateTime? CreatedDate { get; set; }

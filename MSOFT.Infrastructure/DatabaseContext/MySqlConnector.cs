@@ -52,6 +52,8 @@ namespace MSOFT.Infrastructure.DatabaseContext
             var entities = new List<T>();
             sqlCommand.CommandType = commandType;
             sqlCommand.CommandText = commandText;
+            if (commandType == CommandType.StoredProcedure)
+                MappingStoreParameterValue(commandText, parameters);
             MySqlDataReader mySqlDataReader = sqlCommand.ExecuteReader();
             Func<MySqlDataReader, T> readRow = this.GetReader<T>(mySqlDataReader);
             while (await mySqlDataReader.ReadAsync())
@@ -189,15 +191,15 @@ namespace MSOFT.Infrastructure.DatabaseContext
             sqlCommand.CommandText = procedureName;
             MySqlCommandBuilder.DeriveParameters(sqlCommand);
             var storeParameters = sqlCommand.Parameters;
-            if (storeParameters.Count > 1 && parameters != null)
+            if (storeParameters.Count > 0 && parameters != null)
             {
-                for (int i = 1; i < storeParameters.Count; i++)
+                for (int i = 0; i < storeParameters.Count; i++)
                 {
                     if (i <= parameters.Length)
                     {
-                        var value = parameters[i - 1].ToString();
+                        var value = parameters[i].ToString();
                         var result = QueryUtinity.ConvertType(value, storeParameters[i].MySqlDbType);
-                        storeParameters[i].Value = result;
+                        sqlCommand.Parameters[i].Value = result;
                     }
                 }
             }
@@ -220,6 +222,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
             var readerParam = Expression.Parameter(typeof(MySqlDataReader), "reader");
             var readerGetValue = typeof(MySqlDataReader).GetMethod("GetValue");
             var readerGetGUID = typeof(MySqlDataReader).GetMethod("GetGuid", new[] { typeof(Int32) });
+            var readerGetBoolean = typeof(MySqlDataReader).GetMethod("GetBoolean", new[] { typeof(Int32) });
             // Step 3 - Setup the DBNull Check
             var dbNullValue = typeof(System.DBNull).GetField("Value");
             //var dbNullExp = Expression.Field(Expression.Parameter(typeof(System.DBNull), "System.DBNull"), dbNullValue);
@@ -245,10 +248,15 @@ namespace MSOFT.Infrastructure.DatabaseContext
                     // create the conditional expression to make sure the reader value != DBNull.Value
                     var testExp = Expression.NotEqual(dbNullExp, getValueExp);
                     var ifTrue = Expression.Convert(getValueExp, prop.PropertyType);
-                    if (prop.PropertyType == typeof(Guid))
+                    if (prop.PropertyType == typeof(Guid) || prop.PropertyType == typeof(Guid?))
                     {
                         var getGuidValueExp = Expression.Call(readerParam, readerGetGUID, new Expression[] { indexExpression });
                         ifTrue = Expression.Convert(getGuidValueExp, prop.PropertyType);
+                    }
+                    if (prop.PropertyType == typeof(bool) || prop.PropertyType == typeof(bool?))
+                    {
+                        var getBooleanValueExp = Expression.Call(readerParam, readerGetBoolean, new Expression[] { indexExpression });
+                        ifTrue = Expression.Convert(getBooleanValueExp, prop.PropertyType);
                     }
                     var ifFalse = Expression.Convert(Expression.Constant(defaultValue), prop.PropertyType);
                     // create the actual Bind expression to bind the value from the reader to the property value

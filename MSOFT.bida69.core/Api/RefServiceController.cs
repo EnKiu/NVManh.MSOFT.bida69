@@ -22,6 +22,12 @@ namespace MSOFT.bida69.com.Controllers
             _refServiceService = refService;
         }
 
+        public async override Task<AjaxResult> Get()
+        {
+            ajaxResult.Data = await _refServiceService.GetServices();
+            return ajaxResult;
+        }
+
         [HttpPut]
         [Route("timeStart")]
         public async virtual Task<AjaxResult> Put([FromBody]JObject data)

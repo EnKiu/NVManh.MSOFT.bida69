@@ -12,7 +12,6 @@ using MSOFT.bida69.com.Controllers;
 using MSOFT.bida69.core.Properties;
 using MSOFT.Common;
 using MSOFT.Core.Interfaces;
-using MSOFT.DL;
 using MSOFT.Entities;
 using MSOFT.Entities.Models;
 using MSOFT.Infrastructure.DatabaseContext;
@@ -23,13 +22,11 @@ namespace MSOFT.bida69.core.Api
     [Route("refs")]
     public class RefsController : EntityController<MSOFT.Entities.Ref>
     {
-        private readonly bida69Context _context;
         IConfiguration _configuration;
-        IRefService _refBL;
-        public RefsController(IRefService refBL, bida69Context context, IConfiguration configuration, IDistributedCache distributedCache) : base(refBL, distributedCache)
+        IRefRepository _refRepository;
+        public RefsController(IRefRepository refRepository, IConfiguration configuration, IDistributedCache distributedCache) : base(distributedCache)
         {
-            _context = context;
-            _refBL = refBL;
+            _refRepository = refRepository;
             _configuration = configuration;
         }
         #region ADO.NET
@@ -39,7 +36,7 @@ namespace MSOFT.bida69.core.Api
         {
             try
             {
-                ajaxResult.Data = _refBL.GetRefDetail(Guid.Parse(id));
+                ajaxResult.Data = _refRepository.GetRefDetail(Guid.Parse(id));
             }
             catch (Exception ex)
             {
@@ -63,7 +60,7 @@ namespace MSOFT.bida69.core.Api
                 //var timeEnd = ((DateTime)data["timeEnd"]).ToLocalTime();
                 //var timeEnd2 = ((DateTime)data["timeEnd"]);
                 var timeEnd = DateTime.ParseExact(data["timeEnd"].ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture); ;
-                ajaxResult.Data = _refBL.UpdateRefAndServiceWhenPayOrder(refId, totalAmount, timeEnd);
+                ajaxResult.Data = _refRepository.UpdateRefAndServiceWhenPayOrder(refId, totalAmount, timeEnd);
                 //ajaxResult.Data = new DateTime[] { timeEnd, timeEnd2 , timeEnd3 };
             }
             catch (Exception ex)
@@ -83,7 +80,7 @@ namespace MSOFT.bida69.core.Api
         {
             try
             {
-                ajaxResult.Data = _refBL.DeleteRefDetailRefServiceAndUpdateServiceByRefID(refId);
+                ajaxResult.Data = _refRepository.DeleteRefDetailRefServiceAndUpdateServiceByRefID(refId);
             }
             catch (Exception ex)
             {
@@ -111,7 +108,7 @@ namespace MSOFT.bida69.core.Api
             try
             {
                 toDate = toDate.AddDays(1);
-                ajaxResult.Data = _refBL.GetRefDataStatistic(fromDate, toDate);
+                ajaxResult.Data = await _refRepository.GetRefDataStatistic(fromDate, toDate);
             }
             catch (Exception ex)
             {
@@ -120,7 +117,7 @@ namespace MSOFT.bida69.core.Api
                 ajaxResult.Messenge = Resources.ExceptionErroMsg;
             }
 
-            return await Task.FromResult(ajaxResult);
+            return ajaxResult;
         }
         #endregion
 
@@ -130,41 +127,8 @@ namespace MSOFT.bida69.core.Api
         public async Task<Entities.AjaxResult> GetNewRef()
         {
             // Lấy phiếu gần nhất:
-            ajaxResult.Data = await _refBL.GetNewRefCode();
+            ajaxResult.Data = await _refRepository.GetNewRefCode();
             return ajaxResult;
-        }
-
-
-        // PUT: api/Refs/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRef(Guid id, ViewRef @ref)
-        {
-            if (id != @ref.RefId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(@ref).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RefExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         /// <summary>
@@ -174,7 +138,7 @@ namespace MSOFT.bida69.core.Api
         /// <returns></returns>
         /// CreatedBy: NVMANH (09/08/2020)
         [HttpPost("RefSale")]
-        public async Task<AjaxResult> PostRef(Entities.Models.Ref order)
+        public async Task<AjaxResult> PostRef(Entities.Ref order)
         {
             // Điều chỉnh thời gian đúng múi giờ được thiết lập (tránh tính toán sai sót thời gian)
             //string windowsZoneId = TimeZoneConvert.RailsToWindows(Common.Common.TimeZoneId);
@@ -184,42 +148,13 @@ namespace MSOFT.bida69.core.Api
             order.RefType = (int)RefType.Sale;
             order.CreatedDate = DateTime.Now.AddHours(7);
             order.JournalMemo = "Thanh toán bán lẻ";
-            _context.Ref.Add(order);
-            await _context.SaveChangesAsync();
+
+            ajaxResult.Data = await _refRepository.AddNewRefForSale(order);
+            //_context.Ref.Add(order);
+            //await _context.SaveChangesAsync();
 
             return ajaxResult;
         }
-
-        //[HttpPost]
-        //public async Task<ActionResult<ViewRef>> PostRef(Entities.Models.Ref @ref)
-        //{
-        //    _context.Ref.Add(@ref);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetRef", new { id = @ref.RefId }, @ref);
-        //}
-
-        // DELETE: api/Refs/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ViewRef>> DeleteRef(Guid id)
-        {
-            var @ref = await _context.ViewRef.FindAsync(id);
-            if (@ref == null)
-            {
-                return NotFound();
-            }
-
-            _context.ViewRef.Remove(@ref);
-            await _context.SaveChangesAsync();
-
-            return @ref;
-        }
-
-        private bool RefExists(Guid id)
-        {
-            return _context.Ref.Any(e => e.RefId == id);
-        }
-
         #endregion
     }
 }

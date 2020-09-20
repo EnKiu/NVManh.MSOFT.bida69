@@ -39,22 +39,22 @@ namespace MSOFT.Entities
         /// <summary>
         /// Tổng tiền thanh toán đối với hàng hóa
         /// </summary>
-        public decimal TotalAmountInventory { get; set; }
+        public double TotalAmountInventory { get; set; }
 
         /// <summary>
         /// Tổng tiền thanh toán đối với dịch vụ
         /// </summary>
-        public decimal TotalAmountService { get; set; }
+        public double TotalAmountService { get; set; }
 
         /// <summary>
         /// Tổng tiền thanh toán toàn bộ hóa đơn
         /// </summary>
-        public decimal TotalAmount { get; set; }
+        public double TotalAmount { get; set; }
 
         /// <summary>
         /// Tổng tiền thanh toán thực tế
         /// </summary>
-        public decimal TotalAmountPay { get; set; }
+        public double TotalAmountPay { get; set; }
 
         public IEnumerable<RefService> RefServices;
         public IEnumerable<RefDetail> RefDetails;

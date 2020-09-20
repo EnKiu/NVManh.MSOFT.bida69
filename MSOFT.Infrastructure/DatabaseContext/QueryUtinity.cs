@@ -1,4 +1,5 @@
 ﻿using MSOFT.Core.Enum;
+using MSOFT.Entities;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -9,17 +10,9 @@ using System.Reflection;
 
 namespace MSOFT.Infrastructure
 {
+   
     public class QueryUtinity
     {
-        [AttributeUsage(AttributeTargets.Property)]
-        public class AdoKey : Attribute
-        {
-        }
-
-        [AttributeUsage(AttributeTargets.Property)]
-        public class AdoIgnore : Attribute
-        {
-        }
         protected class PropertyContainer
         {
             private readonly Dictionary<string, object> _ids;
@@ -83,7 +76,7 @@ namespace MSOFT.Infrastructure
 
             #endregion
         }
-        protected static PropertyContainer ParseProperties<T>(T obj)
+        protected static PropertyContainer ParseProperties<T>(T obj, object propertyKeyValue = null)
         {
             var propertyContainer = new PropertyContainer();
 
@@ -91,7 +84,8 @@ namespace MSOFT.Infrastructure
             var validKeyNames = new[] {
                 "Id",
                 string.Format("{0}Id", typeName),
-                string.Format("{0}_Id", typeName)
+                string.Format("{0}_Id", typeName),
+                string.Format("{0}ID", typeName)
             };
 
             var properties = typeof(T).GetProperties();
@@ -106,14 +100,16 @@ namespace MSOFT.Infrastructure
                     continue;
 
                 // Skip methods specifically ignored
-                if (property.IsDefined(typeof(AdoIgnore), false))
+                if (property.IsDefined(typeof(PropertyIgnore), false))
                     continue;
 
                 var name = property.Name;
                 var value = typeof(T).GetProperty(property.Name).GetValue(obj, null);
 
-                if (property.IsDefined(typeof(AdoKey), false) || validKeyNames.Contains(name))
+                if (property.IsDefined(typeof(PropertyKey), false) || validKeyNames.Contains(name))
                 {
+                    if (propertyKeyValue != null)
+                        value = propertyKeyValue;
                     propertyContainer.AddId(name, value);
                 }
                 else
