@@ -52,7 +52,7 @@ namespace MSOFT.Infrastructure.Repository
             var tableName = typeof(T).Name;
             var sqlIdPairs = GetSqlPairs(propertyContainer.IdNames);
             var sql = string.Format("SELECT * FROM {0} WHERE {1}", tableName, sqlIdPairs);
-            return (await _dataContext.GetData<T>(sql, commandType: CommandType.Text)).FirstOrDefault();
+            return (await _dataContext.GetById<T>(sql, propertyContainer.IdPairs, commandType: CommandType.Text));
         }
         #endregion
 
@@ -78,12 +78,12 @@ namespace MSOFT.Infrastructure.Repository
             var propertyContainer = ParseProperties(entity);
             var sqlIdPairs = GetSqlPairs(propertyContainer.IdNames);
             var sqlValuePairs = GetSqlPairs(propertyContainer.ValueNames);
-            var sql = string.Format("UPDATE [{0}] SET {1} WHERE {2}", 
-                typeof(T).Name, 
-                sqlValuePairs, 
+            var sql = string.Format("UPDATE {0} SET {1} WHERE {2}",
+                typeof(T).Name,
+                sqlValuePairs,
                 sqlIdPairs);
             //using var sqlConnection = new MySqlConnector();
-            return await _dataContext.Update<T>(sql);
+            return await _dataContext.Update<T>(sql, propertyContainer.AllPairs);
         }
 
         public Task<int> Update<T>(string procedureName, object[] parameters)

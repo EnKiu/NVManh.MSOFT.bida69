@@ -22,6 +22,7 @@ namespace MSOFT.Entities
         public bool IsDeleted { get; set; }
         public string Description { get; set; }
         #region "Thông tin bổ sung"
+        [PropertyIgnore]
         public string UnitName { get; set; }
         #endregion
 

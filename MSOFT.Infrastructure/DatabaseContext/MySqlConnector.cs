@@ -75,6 +75,26 @@ namespace MSOFT.Infrastructure.DatabaseContext
             }
             return default;
         }
+
+        public async Task<T> GetById<T>(string commandText = null, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.StoredProcedure)
+        {
+            if (commandText == null && commandType == CommandType.StoredProcedure)
+                commandText = QueryUtinity.GeneateStoreName<T>(Core.Enum.ProcdureTypeName.GetById);
+
+            sqlCommand.CommandType = commandType;
+            sqlCommand.CommandText = commandText;
+            foreach (var item in parammeters)
+            {
+                sqlCommand.Parameters.AddWithValue($"@{item.Key}", item.Value);
+            }
+            MySqlDataReader mySqlDataReader = sqlCommand.ExecuteReader();
+            Func<MySqlDataReader, T> readRow = this.GetReader<T>(mySqlDataReader);
+            while (await mySqlDataReader.ReadAsync())
+            {
+                return readRow(mySqlDataReader);
+            }
+            return default;
+        }
         #endregion
         #region INSERT
         /// <summary>
@@ -117,10 +137,14 @@ namespace MSOFT.Infrastructure.DatabaseContext
         #endregion
 
         #region UPDATE
-        public async Task<int> Update<T>(string commandText, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.Text)
+        public async Task<int> Update<T>(string commandText, IEnumerable<KeyValuePair<string, object>> parammeters = null, CommandType commandType = CommandType.Text)
         {
             sqlCommand.CommandType = commandType;
             sqlCommand.CommandText = commandText;
+            foreach (var item in parammeters)
+            {
+                sqlCommand.Parameters.AddWithValue($"@{item.Key}", item.Value);
+            }
             return await sqlCommand.ExecuteNonQueryAsync();
         }
 
@@ -216,7 +240,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
             // Step 1 - Get Column List
             List<string> readerColumns = new List<string>();
             for (int index = 0; index < reader.FieldCount; index++)
-                readerColumns.Add(reader.GetName(index));
+                readerColumns.Add(reader.GetName(index).ToLower());
 
             // Step 2 - Setup Input ParameterExpression
             var readerParam = Expression.Parameter(typeof(MySqlDataReader), "reader");
@@ -232,7 +256,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
             List<MemberBinding> memberBindings = new List<MemberBinding>();
             foreach (var prop in typeof(T).GetProperties())
             {
-                if (readerColumns.Contains(prop.Name))
+                if (readerColumns.Contains(prop.Name.ToLower()))
                 {
                     // determine the default value of the property
                     object defaultValue = null;
