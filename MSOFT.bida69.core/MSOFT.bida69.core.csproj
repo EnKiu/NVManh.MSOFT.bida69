@@ -90,7 +90,7 @@
 
   <ItemGroup>
     <Content Update="wwwroot\Content\Fonts\googlesans-regular.otf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Content\Icons\root-sibar.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -427,6 +427,7 @@ class Admin {
                     + '</div>'
                     + '</div>'
                     + '</div>');
+                debugger
                 bidaItemHTML.find('.bida-item').data('ServiceID', item['ServiceID']);
                 bidaItemHTML.find('.bida-item').data('refid', item['RefID']);
                 $('#listBida').append(bidaItemHTML);
@@ -554,6 +555,7 @@ class Admin {
     * Author: NVMANH (08/07/2019)
     */
     bidaItemOnClick(event) {
+        debugger;
         $('.bida-item').removeClass('item-selected');
         var currentTarget = event.currentTarget;
         currentTarget.classList.add('item-selected');

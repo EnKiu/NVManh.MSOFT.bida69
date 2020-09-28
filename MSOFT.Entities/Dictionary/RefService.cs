@@ -14,14 +14,14 @@ namespace MSOFT.Entities
         public string ServiceName { get; set; }
         public int ServiceType { get; set; }
         public string UnitName { get; set; }
-        public decimal UnitPrice { get; set; }
+        public double UnitPrice { get; set; }
         public string Description { get; set; }
         public bool InUse { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public DateTime? EndTimeToPay { get; set; }
-        public decimal? TotalTime { get; set; }
-        public decimal TotalAmount { get; set; }
-        public decimal TotalAmountInventory { get; set; }
+        public double? TotalTime { get; set; }
+        public double TotalAmount { get; set; }
+        public double TotalAmountInventory { get; set; }
     }
 }

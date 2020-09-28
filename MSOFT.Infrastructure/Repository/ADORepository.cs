@@ -96,12 +96,12 @@ namespace MSOFT.Infrastructure.Repository
         public async Task<int> Delete<T>(object entityID)
         {
             var obj = Activator.CreateInstance<T>();
-            var propertyContainer = ParseProperties(obj);
+            var propertyContainer = ParseProperties(obj, entityID);
             var sqlIdPairs = GetSqlPairs(propertyContainer.IdNames);
-            var sql = string.Format("DELETE FROM [{0}] WHERE {1}", 
+            var sql = string.Format("DELETE FROM {0} WHERE {1}",
                 typeof(T).Name, sqlIdPairs);
             //using var sqlConnection = new MySqlConnector();
-            return await _dataContext.ExecuteNonQueryAsync(sql);
+            return await _dataContext.ExecuteNonQueryAsync(sql, propertyContainer.IdPairs, CommandType.Text);
         }
 
         public Task<int> Delete<T>(object[] parameters)

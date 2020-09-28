@@ -16,6 +16,7 @@ namespace MSOFT.Infrastructure.Interfaces
         Task<int> Update<T>(string commandText, IEnumerable<KeyValuePair<string, object>> parammeters = null, CommandType commandType = CommandType.Text);
         Task<int> Delete<T>(string commandText, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.Text);
         Task<int> ExecuteNonQueryAsync(string commandText = null, object[] parameters = null, CommandType commandType = CommandType.StoredProcedure);
+        Task<int> ExecuteNonQueryAsync(string commandText = null, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.StoredProcedure);
         Task<object> ExecuteScalarAsync(string commandText = null, object[] parameters = null, CommandType commandType = CommandType.StoredProcedure);
     }
 }

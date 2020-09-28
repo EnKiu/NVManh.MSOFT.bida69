@@ -39,7 +39,7 @@ namespace MSOFT.Core.Service
             return await _iRefServiceRepository.ChangeServiceForRefService(param);
         }
 
-        public async Task<IEnumerable<Entities.Service>> GetServices()
+        public async Task<IEnumerable<Entities.RefService>> GetServices()
         {
             return await _iRefServiceRepository.GetServices();
         }

@@ -38,9 +38,9 @@ namespace MSOFT.Infrastructure.Repository
             return await _dataContext.ExecuteNonQueryAsync("Proc_ChangeServiceForRefService", param);
         }
 
-        public async Task<IEnumerable<Entities.Service>> GetServices()
+        public async Task<IEnumerable<Entities.RefService>> GetServices()
         {
-            return await Get<MSOFT.Entities.Service>("Proc_GetListRefService");
+            return await Get<MSOFT.Entities.RefService>("Proc_GetListRefService");
         }
     }
 }
