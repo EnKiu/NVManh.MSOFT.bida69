@@ -36,7 +36,7 @@ namespace MSOFT.bida69.core.Api
         {
             try
             {
-                ajaxResult.Data = _refRepository.GetRefDetail(Guid.Parse(id));
+                ajaxResult.Data = await _refRepository.GetRefDetail(Guid.Parse(id));
             }
             catch (Exception ex)
             {
