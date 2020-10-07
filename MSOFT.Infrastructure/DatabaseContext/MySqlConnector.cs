@@ -43,7 +43,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
         #region Declare
         IConfiguration _configuration;
         private readonly string connectionString = string.Empty;
-        MySqlConnection sqlConnection;
+        //MySqlConnection sqlConnection;
         MySqlCommand sqlCommand;
         MySqlTransaction _sqlTransaction;
         #endregion
@@ -296,9 +296,10 @@ namespace MSOFT.Infrastructure.DatabaseContext
             sqlCommand.CommandText = commandText;
             if (commandType == CommandType.StoredProcedure)
                 MappingStoreParameterValueByIndex(commandText, parameters);
+            var objectReturn = await sqlCommand.ExecuteScalarAsync();
             sqlCommand.Transaction.Commit();
             sqlConnection.Close();
-            return await sqlCommand.ExecuteScalarAsync();
+            return objectReturn;
         }
         #endregion
         #endregion

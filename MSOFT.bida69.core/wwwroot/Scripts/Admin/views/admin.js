@@ -619,6 +619,7 @@ class Admin {
         if (me.FrmBidaDetail.Interval) {
             clearInterval(this.FrmBidaDetail.Interval);
         }
+        debugger;
         ajaxJSON.get("/refs/refdetail/" + refid, {}, true, function (data) {
             var refDetails = data["RefDetails"];
             var refServices = data["RefServices"];
@@ -876,6 +877,7 @@ class Admin {
         var refid = $('.bida-item.item-selected').data("refid");
         if (refid) {
             me.FrmOrderPrint.RefID = refid;
+            debugger;
             ajaxJSON.get("/refs/refdetail/" + refid, {}, true, function (data) {
                 var refDetails = data["RefDetails"];
                 var refServices = data["RefServices"];

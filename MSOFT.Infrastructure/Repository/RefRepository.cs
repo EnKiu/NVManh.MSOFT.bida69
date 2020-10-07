@@ -18,7 +18,7 @@ namespace MSOFT.Infrastructure.Repository
         }
         public async Task<Ref> GetRefDetail(Guid id)
         {
-            var entity = await GetById<Ref>(id);
+            var entity = (await Get<Ref>("Proc_GetRefByID", new object[]{id})).FirstOrDefault();
             entity.RefDetails = await Get<RefDetail>("Proc_GetRefDetailByRefID", new object[] { id });
             entity.RefServices = await Get<RefService>("Proc_GetRefServiceByRefID", new object[] { id });
             return entity;
