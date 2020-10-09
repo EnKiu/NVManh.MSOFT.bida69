@@ -14,6 +14,14 @@ namespace MSOFT.Infrastructure.Repository
     {
         public RefDetailRepository(IDataContext dataContext) : base(dataContext) { 
         }
+
+        public async Task<int> InsertInventoryForRefDetail(RefDetail refDetailID)
+        {
+            var propertyContainer = ParseProperties(refDetailID);
+            var paramDic = propertyContainer.ValuePairs;
+            return await _dataContext.Insert<RefDetail>("Proc_InsertRefDetail", paramDic,System.Data.CommandType.StoredProcedure);
+        }
+
         /// <summary>
         /// Cập nhật lại số lượng cho RefDetail
         /// </summary>
@@ -23,7 +31,7 @@ namespace MSOFT.Infrastructure.Repository
         /// Author: NVMANH (04/08/2019)
         public async Task<int> UpdateQuantityForRefDetail(Guid refDetailID, int quantity)
         {
-            return await _dataContext.ExecuteNonQueryAsync("[dbo].[Proc_UpdateQuantityForRefDetail]", new object[] { refDetailID, quantity});
+            return await _dataContext.ExecuteNonQueryAsync("Proc_UpdateQuantityForRefDetail", new object[] { refDetailID, quantity});
         }
     }
 }

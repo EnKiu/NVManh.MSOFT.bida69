@@ -15,6 +15,12 @@ namespace MSOFT.Core.Service
         {
             _iRefDetailRepository = iRefDetailRepository;
         }
+
+        public async Task<int> InsertInventoryForRefDetail(RefDetail refDetailID)
+        {
+            return await _iRefDetailRepository.InsertInventoryForRefDetail(refDetailID);
+        }
+
         /// <summary>
         /// Cập nhật lại số lượng cho RefDetail
         /// </summary>

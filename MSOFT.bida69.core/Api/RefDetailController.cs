@@ -47,5 +47,10 @@ namespace MSOFT.bida69.com.Controllers
 
             return await Task.FromResult(ajaxResult);
         }
+        public async override Task<AjaxResult> Post([FromBody] RefDetail entity)
+        {
+            ajaxResult.Data = await _refDetailService.InsertInventoryForRefDetail(entity);
+            return ajaxResult;
+        }
     }
 }

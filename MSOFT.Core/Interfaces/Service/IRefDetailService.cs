@@ -9,5 +9,6 @@ namespace MSOFT.Core.Interfaces
     public interface IRefDetailService : IEntityService
     {
         Task<int> UpdateQuantityForRefDetail(Guid refDetailID, int quantity);
+        Task<int> InsertInventoryForRefDetail(RefDetail refDetailID);
     }
 }
