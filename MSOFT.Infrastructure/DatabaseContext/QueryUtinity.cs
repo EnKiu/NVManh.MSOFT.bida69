@@ -325,6 +325,9 @@ namespace MSOFT.Infrastructure
                 case MySqlDbType.Decimal:
                     return typeof(decimal?);
 
+                case MySqlDbType.Double:
+                    return typeof(Double?);
+
                 case MySqlDbType.Float:
                     return typeof(double?);
 

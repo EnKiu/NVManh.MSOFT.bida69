@@ -15,12 +15,12 @@ namespace MSOFT.Entities
         public string InventoryName { get; set; }
         [PropertyIgnore]
         public string UnitName { get; set; }
-        public decimal? UnitPrice { get; set; }
+        public Double? UnitPrice { get; set; }
         public int? Quantity { get; set; }
         public Guid? StockID { get; set; }
-        public decimal? CostPrice { get; set; }
+        public Double? CostPrice { get; set; }
         [PropertyIgnore]
-        public decimal? TotalAmount { get; set; }
+        public Double? TotalAmount { get; set; }
         public DateTime? ExpireDate { get; set; }
     }
 }
