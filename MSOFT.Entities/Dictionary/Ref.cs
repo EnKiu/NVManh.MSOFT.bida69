@@ -36,11 +36,13 @@ namespace MSOFT.Entities
             }
         }
 
+        [PropertyIgnore]
         /// <summary>
         /// Tổng tiền thanh toán đối với hàng hóa
         /// </summary>
         public double TotalAmountInventory { get; set; }
 
+        [PropertyIgnore]
         /// <summary>
         /// Tổng tiền thanh toán đối với dịch vụ
         /// </summary>
@@ -51,6 +53,7 @@ namespace MSOFT.Entities
         /// </summary>
         public double TotalAmount { get; set; }
 
+        [PropertyIgnore]
         /// <summary>
         /// Tổng tiền thanh toán thực tế
         /// </summary>
@@ -58,6 +61,8 @@ namespace MSOFT.Entities
 
         public IEnumerable<RefService> RefServices;
         public IEnumerable<RefDetail> RefDetails;
+
+        [PropertyIgnore]
         public string ServiceName { get; set; }
         public int RefState { get; set; }
     }
