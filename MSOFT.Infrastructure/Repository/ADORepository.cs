@@ -100,8 +100,10 @@ namespace MSOFT.Infrastructure.Repository
             var sqlIdPairs = GetSqlPairs(propertyContainer.IdNames);
             var sql = string.Format("DELETE FROM {0} WHERE {1}",
                 typeof(T).Name, sqlIdPairs);
-            //using var sqlConnection = new MySqlConnector();
-            return await _dataContext.ExecuteNonQueryAsync(sql, propertyContainer.IdPairs, CommandType.Text);
+            _dataContext.BeginTransaction();
+            var rowAffects = await _dataContext.ExecuteNonQueryAsync(sql, propertyContainer.IdPairs, CommandType.Text);
+            _dataContext.CommitTransaction();
+            return rowAffects;
         }
 
         public Task<int> Delete<T>(object[] parameters)

@@ -26,7 +26,6 @@ namespace MSOFT.Infrastructure.DatabaseContext
             sqlCommand.CommandType = CommandType.StoredProcedure;
             if (sqlConnection.State == ConnectionState.Closed)
                 sqlConnection.Open();
-            _sqlTransaction = sqlConnection.BeginTransaction();
         }
 
         public void Dispose()
@@ -43,7 +42,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
         #region Declare
         IConfiguration _configuration;
         private readonly string connectionString = string.Empty;
-        //MySqlConnection sqlConnection;
+        MySqlConnection sqlConnection;
         MySqlCommand sqlCommand;
         MySqlTransaction _sqlTransaction;
         #endregion
@@ -58,14 +57,33 @@ namespace MSOFT.Infrastructure.DatabaseContext
             //    sqlConnection.Open();
             //_sqlTransaction = sqlConnection.BeginTransaction();
         }
+        public void BeginTransaction()
+        {
+            sqlConnection = new MySqlConnection(connectionString);
+            sqlCommand = sqlConnection.CreateCommand();
+            sqlConnection.Open();
+            _sqlTransaction = sqlConnection.BeginTransaction();
+            sqlCommand.Transaction = _sqlTransaction;
+        }
 
+        public void CommitTransaction()
+        {
+            _sqlTransaction.Commit();
+            sqlConnection.Close();
+        }
+
+
+        public void RollbackTransaction()
+        {
+            _sqlTransaction.Rollback();
+        }
         public void Dispose()
         {
-            //if (sqlConnection.State == ConnectionState.Open)
-            //{
-            //    _sqlTransaction.Commit();
-            //    sqlConnection.Close();
-            //}
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                //_sqlTransaction.Commit();
+                sqlConnection.Close();
+            }
         }
         #region METHOD
         #region GET
@@ -81,7 +99,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
         public async Task<List<T>> GetData<T>(string commandText, object[] parameters = null, CommandType commandType = CommandType.StoredProcedure)
         {
             var entities = new List<T>();
-            using (MySqlConnection sqlConnection = new MySqlConnection(connectionString))
+            using (sqlConnection = new MySqlConnection(connectionString))
             {
                 sqlConnection.Open();
                 sqlCommand = sqlConnection.CreateCommand();
@@ -101,7 +119,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
 
         public async Task<T> GetById<T>(string commandText = null, object[] parameters = null, CommandType commandType = CommandType.StoredProcedure)
         {
-            using (MySqlConnection sqlConnection = new MySqlConnection(connectionString))
+            using (sqlConnection = new MySqlConnection(connectionString))
             {
                 sqlConnection.Open();
                 sqlCommand = sqlConnection.CreateCommand();
@@ -122,24 +140,26 @@ namespace MSOFT.Infrastructure.DatabaseContext
 
         public async Task<T> GetById<T>(string commandText = null, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.StoredProcedure)
         {
-            using var sqlConnection = new MySqlConnection(connectionString);
-            sqlCommand = sqlConnection.CreateCommand();
-            sqlConnection.Open();
-            if (commandText == null && commandType == CommandType.StoredProcedure)
-                commandText = QueryUtinity.GeneateStoreName<T>(Core.Enum.ProcdureTypeName.GetById);
+            using (sqlConnection = new MySqlConnection(connectionString))
+            {
+                sqlCommand = sqlConnection.CreateCommand();
+                sqlConnection.Open();
+                if (commandText == null && commandType == CommandType.StoredProcedure)
+                    commandText = QueryUtinity.GeneateStoreName<T>(Core.Enum.ProcdureTypeName.GetById);
 
-            sqlCommand.CommandType = commandType;
-            sqlCommand.CommandText = commandText;
-            foreach (var item in parammeters)
-            {
-                sqlCommand.Parameters.AddWithValue($"@{item.Key}", item.Value);
-            }
-            MySqlDataReader mySqlDataReader = sqlCommand.ExecuteReader();
-            Func<MySqlDataReader, T> readRow = this.GetReader<T>(mySqlDataReader);
-            while (await mySqlDataReader.ReadAsync())
-            {
-                var record = readRow(mySqlDataReader);
-                return record;
+                sqlCommand.CommandType = commandType;
+                sqlCommand.CommandText = commandText;
+                foreach (var item in parammeters)
+                {
+                    sqlCommand.Parameters.AddWithValue($"@{item.Key}", item.Value);
+                }
+                MySqlDataReader mySqlDataReader = sqlCommand.ExecuteReader();
+                Func<MySqlDataReader, T> readRow = this.GetReader<T>(mySqlDataReader);
+                while (await mySqlDataReader.ReadAsync())
+                {
+                    var record = readRow(mySqlDataReader);
+                    return record;
+                }
             }
             sqlConnection.Close();
             return default;
@@ -157,17 +177,12 @@ namespace MSOFT.Infrastructure.DatabaseContext
         /// CreatedBy: NVMANH (17/09/2020)
         public async Task<int> Insert<T>(string commandText, IDictionary<string, object> parammeters, CommandType commandType = CommandType.Text)
         {
-            using var sqlConnection = new MySqlConnection(connectionString);
-            sqlCommand = sqlConnection.CreateCommand();
-            sqlConnection.Open();
-            _sqlTransaction = sqlConnection.BeginTransaction();
-            sqlCommand.Transaction = _sqlTransaction;
+            BeginTransaction();
             sqlCommand.CommandType = commandType;
             sqlCommand.CommandText = commandText;
             MappingSqlCommandParameterValueFromDic(parammeters);
             var res = await sqlCommand.ExecuteNonQueryAsync();
-            sqlCommand.Transaction.Commit();
-            sqlConnection.Close();
+            CommitTransaction();
             return res;
         }
 
@@ -192,18 +207,20 @@ namespace MSOFT.Infrastructure.DatabaseContext
         #region UPDATE
         public async Task<int> Update<T>(string commandText, IEnumerable<KeyValuePair<string, object>> parammeters = null, CommandType commandType = CommandType.Text)
         {
-            using var sqlConnection = new MySqlConnection(connectionString);
-            sqlConnection.Open();
-            sqlCommand = sqlConnection.CreateCommand();
-            _sqlTransaction = sqlConnection.BeginTransaction();
-            sqlCommand.Transaction = _sqlTransaction;
-            sqlCommand.CommandType = commandType;
-            sqlCommand.CommandText = commandText;
-            MappingSqlCommandParameterValueFromDic(parammeters);
-            var rowAffects = await sqlCommand.ExecuteNonQueryAsync();
-            sqlCommand.Transaction.Commit();
-            sqlConnection.Close();
-            return rowAffects;
+            using (sqlConnection = new MySqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                sqlCommand = sqlConnection.CreateCommand();
+                _sqlTransaction = sqlConnection.BeginTransaction();
+                sqlCommand.Transaction = _sqlTransaction;
+                sqlCommand.CommandType = commandType;
+                sqlCommand.CommandText = commandText;
+                MappingSqlCommandParameterValueFromDic(parammeters);
+                var rowAffects = await sqlCommand.ExecuteNonQueryAsync();
+                sqlCommand.Transaction.Commit();
+                sqlConnection.Close();
+                return rowAffects;
+            }
         }
 
         public async Task<int> Update<T>(string procedureName = null, object[] parameters = null)
@@ -218,16 +235,18 @@ namespace MSOFT.Infrastructure.DatabaseContext
         #region DELETE
         public async Task<int> Delete<T>(string commandText, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.Text)
         {
-            using var sqlConnection = new MySqlConnection(connectionString);
-            sqlConnection.Open();
-            sqlCommand = sqlConnection.CreateCommand();
-            _sqlTransaction = sqlConnection.BeginTransaction();
-            sqlCommand.Transaction = _sqlTransaction;
-            sqlCommand.CommandType = commandType;
-            sqlCommand.CommandText = commandText;
-            var affectRows = await sqlCommand.ExecuteNonQueryAsync();
-            sqlCommand.Transaction.Commit();
-            return affectRows;
+            using (sqlConnection = new MySqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                sqlCommand = sqlConnection.CreateCommand();
+                _sqlTransaction = sqlConnection.BeginTransaction();
+                sqlCommand.Transaction = _sqlTransaction;
+                sqlCommand.CommandType = commandType;
+                sqlCommand.CommandText = commandText;
+                var affectRows = await sqlCommand.ExecuteNonQueryAsync();
+                sqlCommand.Transaction.Commit();
+                return affectRows;
+            }
         }
 
         public async Task<int> Delete<T>(string procedureName = null, object[] parameters = null)
@@ -243,37 +262,27 @@ namespace MSOFT.Infrastructure.DatabaseContext
         #region Common
         public async Task<int> Save(string procedureName, object[] parameters = null)
         {
-            return await ExecuteNonQueryAsync(procedureName, parameters);
+            BeginTransaction();
+            var rowAffects = await ExecuteNonQueryAsync(procedureName, parameters);
+            CommitTransaction();
+            return rowAffects;
         }
 
-        public async Task<int> ExecuteNonQueryAsync(string commandText = null,
-            object[] parameters = null,
-            CommandType commandType = CommandType.StoredProcedure)
+        // TODO: cần check lại theo cơ chế mới:
+        public async Task<int> ExecuteNonQueryAsync(string commandText = null, object[] parameters = null, CommandType commandType = CommandType.StoredProcedure)
         {
-            using var sqlConnection = new MySqlConnection(connectionString);
-            sqlConnection.Open();
-            sqlCommand = sqlConnection.CreateCommand();
-            _sqlTransaction = sqlConnection.BeginTransaction();
-            sqlCommand.Transaction = _sqlTransaction;
             if (sqlCommand != null)
                 sqlCommand.CommandText = commandText;
-
             if (commandType == CommandType.StoredProcedure)
                 MappingStoreParameterValueByIndex(commandText, parameters);
-
             var affectedRows = await sqlCommand.ExecuteNonQueryAsync();
-            sqlCommand.Transaction.Commit();
-            sqlConnection.Close();
             return affectedRows;
         }
 
         public async Task<int> ExecuteNonQueryAsync(string commandText = null, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.StoredProcedure)
         {
-            using var sqlConnection = new MySqlConnection(connectionString);
-            sqlConnection.Open();
-            sqlCommand = sqlConnection.CreateCommand();
-            _sqlTransaction = sqlConnection.BeginTransaction();
-            sqlCommand.Transaction = _sqlTransaction;
+            //if (sqlConnection == null)
+            //    BeginTransaction();
             sqlCommand.CommandType = commandType;
             sqlCommand.CommandText = commandText;
             if (parammeters != null)
@@ -281,25 +290,25 @@ namespace MSOFT.Infrastructure.DatabaseContext
                 MappingSqlCommandParameterValueFromDic(parammeters);
             }
             var affectedRows = await sqlCommand.ExecuteNonQueryAsync();
-            sqlCommand.Transaction.Commit();
-            sqlConnection.Close();
             return affectedRows;
         }
 
         public async Task<object> ExecuteScalarAsync(string commandText = null, object[] parameters = null, CommandType commandType = CommandType.StoredProcedure)
         {
-            using var sqlConnection = new MySqlConnection(connectionString);
-            sqlConnection.Open();
-            sqlCommand = sqlConnection.CreateCommand();
-            _sqlTransaction = sqlConnection.BeginTransaction();
-            sqlCommand.Transaction = _sqlTransaction;
-            sqlCommand.CommandText = commandText;
-            if (commandType == CommandType.StoredProcedure)
-                MappingStoreParameterValueByIndex(commandText, parameters);
-            var objectReturn = await sqlCommand.ExecuteScalarAsync();
-            sqlCommand.Transaction.Commit();
-            sqlConnection.Close();
-            return objectReturn;
+            using (sqlConnection = new MySqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                sqlCommand = sqlConnection.CreateCommand();
+                _sqlTransaction = sqlConnection.BeginTransaction();
+                sqlCommand.Transaction = _sqlTransaction;
+                sqlCommand.CommandText = commandText;
+                if (commandType == CommandType.StoredProcedure)
+                    MappingStoreParameterValueByIndex(commandText, parameters);
+                var objectReturn = await sqlCommand.ExecuteScalarAsync();
+                sqlCommand.Transaction.Commit();
+                sqlConnection.Close();
+                return objectReturn;
+            }
         }
         #endregion
         #endregion

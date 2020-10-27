@@ -69,6 +69,7 @@ namespace MSOFT.Infrastructure.Repository
 
         public async Task<int> AddNewRefForSale(Ref @ref)
         {
+            //TODO: thêm mới khi thực hiện thanh toán:
             return await Insert(@ref);
         }
     }

@@ -8,6 +8,8 @@ namespace MSOFT.Infrastructure.Interfaces
 {
     public interface IDataContext
     {
+        void BeginTransaction();
+        void CommitTransaction();
         Task<List<T>> GetData<T>(string commandText, object[] parameters = null, CommandType commandType = CommandType.StoredProcedure);
         Task<T> GetById<T>(string commandText = null, object[] parameters = null, CommandType commandType = CommandType.StoredProcedure);
         Task<T> GetById<T>(string commandText = null, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.StoredProcedure);
