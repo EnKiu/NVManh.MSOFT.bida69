@@ -10,7 +10,7 @@ services:
     networks:
       - nvmanh-network
     ports:
-      - '9000:80'
+      - '9009:80'
     build:
       context: .
       dockerfile: MSOFT.bida69.core/Dockerfile

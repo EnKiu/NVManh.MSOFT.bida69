@@ -17,7 +17,7 @@ using MSOFT.Core.Interfaces;
 
 namespace MSOFT.bida69.com.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public abstract class EntityController<T> : ControllerBase
