@@ -57,7 +57,7 @@ namespace MSOFT.Infrastructure.Repository
         #endregion
 
         #region INSERT
-        public async Task<int> Insert<T>(T entity)
+        public virtual async Task<int> Insert<T>(T entity)
         {
             var propertyContainer = ParseProperties(entity);
             var sql = string.Format("INSERT INTO {0} ({1}) VALUES(@{2})",

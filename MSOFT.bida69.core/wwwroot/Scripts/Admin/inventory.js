@@ -173,6 +173,7 @@ class InventoryJS {
             })
             if (me.FormMode === 'Add') {
                 // Call service post:
+                entity[me.ItemID] = null;
                 ajaxJSON.post(me.ApiService, entity, true, function (res) {
                     me.DialogFormDetail.close();
                     me.loadData();

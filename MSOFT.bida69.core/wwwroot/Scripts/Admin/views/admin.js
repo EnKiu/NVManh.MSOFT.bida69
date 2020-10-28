@@ -991,7 +991,7 @@ class Admin {
         var ref = {
             RefNo: $("#REF_CODE").html(),
             RefDate: (new Date()).toLocaleString(),
-            RefDetail: saleJS.data,
+            RefDetails: saleJS.data,
             TotalAmount: me.FrmOrderPrint.TotalAmount
         }
 

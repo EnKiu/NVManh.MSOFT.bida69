@@ -57,11 +57,19 @@ namespace MSOFT.Infrastructure.DatabaseContext
             //    sqlConnection.Open();
             //_sqlTransaction = sqlConnection.BeginTransaction();
         }
-        public void BeginTransaction()
+
+        private void BuildSqlConnection()
         {
             sqlConnection = new MySqlConnection(connectionString);
             sqlCommand = sqlConnection.CreateCommand();
             sqlConnection.Open();
+
+        }
+
+        public void BeginTransaction()
+        {
+            if (sqlConnection == null)
+                BuildSqlConnection();
             _sqlTransaction = sqlConnection.BeginTransaction();
             sqlCommand.Transaction = _sqlTransaction;
         }
@@ -79,7 +87,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
         }
         public void Dispose()
         {
-            if (sqlConnection.State == ConnectionState.Open)
+            if (sqlConnection != null && sqlConnection.State == ConnectionState.Open)
             {
                 //_sqlTransaction.Commit();
                 sqlConnection.Close();
@@ -177,12 +185,12 @@ namespace MSOFT.Infrastructure.DatabaseContext
         /// CreatedBy: NVMANH (17/09/2020)
         public async Task<int> Insert<T>(string commandText, IDictionary<string, object> parammeters, CommandType commandType = CommandType.Text)
         {
-            BeginTransaction();
+            if (sqlConnection == null)
+                BuildSqlConnection();
             sqlCommand.CommandType = commandType;
             sqlCommand.CommandText = commandText;
             MappingSqlCommandParameterValueFromDic(parammeters);
             var res = await sqlCommand.ExecuteNonQueryAsync();
-            CommitTransaction();
             return res;
         }
 
@@ -271,6 +279,8 @@ namespace MSOFT.Infrastructure.DatabaseContext
         // TODO: cần check lại theo cơ chế mới:
         public async Task<int> ExecuteNonQueryAsync(string commandText = null, object[] parameters = null, CommandType commandType = CommandType.StoredProcedure)
         {
+            if (sqlConnection == null)
+                BuildSqlConnection();
             if (sqlCommand != null)
                 sqlCommand.CommandText = commandText;
             if (commandType == CommandType.StoredProcedure)
@@ -279,10 +289,18 @@ namespace MSOFT.Infrastructure.DatabaseContext
             return affectedRows;
         }
 
+        /// <summary>
+        /// Execute SQL - tham số truyền vào là một Dictionary
+        /// </summary>
+        /// <param name="commandText">Tên store hoặc mã sql</param>
+        /// <param name="parammeters">Tham số truyền vào</param>
+        /// <param name="commandType">Loại commmand</param>
+        /// <returns>Số lượng bản ghi bị ảnh hưởng</returns>
+        /// CreatedBy : NVMANH (10/10/2020)
         public async Task<int> ExecuteNonQueryAsync(string commandText = null, IDictionary<string, object> parammeters = null, CommandType commandType = CommandType.StoredProcedure)
         {
-            //if (sqlConnection == null)
-            //    BeginTransaction();
+            if (sqlConnection == null)
+                BuildSqlConnection();
             sqlCommand.CommandType = commandType;
             sqlCommand.CommandText = commandText;
             if (parammeters != null)
@@ -321,6 +339,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
         /// CreatedBy: NVMANH (09/09/2020)
         private void MappingStoreParameterValueByIndex(string procedureName, object[] parameters)
         {
+            sqlCommand.Parameters.Clear();
             sqlCommand.CommandType = CommandType.StoredProcedure;
             sqlCommand.CommandText = procedureName;
             MySqlCommandBuilder.DeriveParameters(sqlCommand);
@@ -350,11 +369,14 @@ namespace MSOFT.Infrastructure.DatabaseContext
         /// CreatedBy: NVMANH (09/09/2020)
         private void MappingSqlCommandParameterValueFromDic(IEnumerable<KeyValuePair<string, object>> parameters)
         {
+            sqlCommand.Parameters.Clear();
             if (parameters != null)
             {
                 foreach (var item in parameters)
                 {
-                    sqlCommand.Parameters.AddWithValue($"@{item.Key}", item.Value);
+                    var paramName = $"@{item.Key}";
+                    if (!sqlCommand.Parameters.Contains(paramName))
+                        sqlCommand.Parameters.AddWithValue(paramName, item.Value);
                 }
             }
         }

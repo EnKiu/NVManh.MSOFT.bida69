@@ -111,6 +111,7 @@ namespace MSOFT.Infrastructure
                     if (propertyKeyValue != null)
                         value = propertyKeyValue;
                     propertyContainer.AddId(name, value);
+                    propertyContainer.AddValue(name, value);
                 }
                 else
                 {

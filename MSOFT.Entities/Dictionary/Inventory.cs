@@ -10,7 +10,7 @@ namespace MSOFT.Entities
     public class Inventory:Entity
     {
         [PropertyKey]
-        public Guid InventoryID { get; set; }
+        public Guid? InventoryID { get; set; }
         public string InventoryCode { get; set; }
         public string InventoryName { get; set; }
         public int InventoryType { get; set; }

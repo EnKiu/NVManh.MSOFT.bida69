@@ -16,6 +16,23 @@ namespace MSOFT.Infrastructure.Repository
         {
 
         }
+
+        public async override Task<int> Insert<T>(T entity)
+        {
+            // Thêm master trước:
+            var refMaster = entity as Ref;
+            refMaster.RefID = Guid.NewGuid();
+            _dataContext.BeginTransaction();
+            var res = await base.Insert(refMaster);
+            foreach (var refDetail in refMaster.RefDetails)
+            {
+                refDetail.RefID = refMaster.RefID;
+                await base.Insert<RefDetail>(refDetail);
+            }
+            _dataContext.CommitTransaction();
+            return res;
+        }
+
         public async Task<Ref> GetRefDetail(Guid id)
         {
             var entity = (await Get<Ref>("Proc_GetRefByID", new object[]{id})).FirstOrDefault();
