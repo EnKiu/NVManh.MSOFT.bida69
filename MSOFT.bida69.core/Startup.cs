@@ -126,7 +126,7 @@ namespace MSOFT.bida69.core
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             DefaultFilesOptions options = new DefaultFilesOptions();
             //options.DefaultFileNames.Clear();
             //options.DefaultFileNames.Add("html/index.html");

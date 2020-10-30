@@ -10,14 +10,14 @@ services:
     networks:
       - nvmanh-network
     ports:
-      - '9009:80'   
+      - '9009:443'   
     build:
       context: .
       dockerfile: MSOFT.bida69.core/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=12345678
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
       - ~/.aspnet/https:/https:ro
