@@ -61,7 +61,10 @@ namespace MSOFT.Infrastructure.Repository
         /// Author: NVMANH (31/07/2019) 
         public async Task<int> DeleteRefDetailRefServiceAndUpdateServiceByRefID(Guid refID)
         {
-            return await _dataContext.ExecuteNonQueryAsync("Proc_DeleteRefDetailRefServiceAndUpdateServiceByRefID", new object[] { refID });
+            _dataContext.BeginTransaction();
+            var res = await _dataContext.ExecuteNonQueryAsync("Proc_DeleteRefDetailRefServiceAndUpdateServiceByRefID", new object[] { refID });
+            _dataContext.CommitTransaction();
+            return res;
         }
 
         /// <summary>
