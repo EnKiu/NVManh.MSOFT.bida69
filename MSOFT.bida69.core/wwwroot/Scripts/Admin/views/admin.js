@@ -578,8 +578,8 @@ class Admin {
         var comboboxSelectService = $('#cbxService');
         comboboxSelectService.empty();
         ajaxJSON.get("/service/ServiceNotInUse", {}, true, function (data) {
-            if (data) {
-                $.each(data, function (index, item) {
+            if (data && data.Result) {
+                $.each(data.Result, function (index, item) {
                     var optionHTML = '<option value="{0}">{1}</option>'.format(item['ServiceID'], item['ServiceName']);
                     comboboxSelectService.append(optionHTML);
                 })
