@@ -27,7 +27,7 @@ namespace MSOFT.bida69.com.Controllers
         {
             try
             {
-                ajaxResult.Data = _serviceRepository.UpdateInUserForService(param);
+                ajaxResult.Data = await _serviceRepository.UpdateInUserForService(param);
             }
             catch (Exception ex)
             {
@@ -36,7 +36,7 @@ namespace MSOFT.bida69.com.Controllers
                 ajaxResult.Messenge = Resources.ExceptionErroMsg;
             }
 
-            return await Task.FromResult(ajaxResult);
+            return ajaxResult;
         }
 
         [HttpGet]

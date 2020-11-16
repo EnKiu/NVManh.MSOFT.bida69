@@ -331,7 +331,6 @@ class Admin {
         // Nếu là cập nhật cho hóa đơn của bàn bida:
         switch (formId) {
             case "frmOrderDetail":
-                debugger
                 var inventoryHasExist = false;
                 var newData = saleJS.data.map((item, index) => {
                     if (item["InventoryID"] == recordSelected["InventoryID"]) {
@@ -427,7 +426,6 @@ class Admin {
                     + '</div>'
                     + '</div>'
                     + '</div>');
-                debugger
                 bidaItemHTML.find('.bida-item').data('ServiceID', item['ServiceID']);
                 bidaItemHTML.find('.bida-item').data('refid', item['RefID']);
                 $('#listBida').append(bidaItemHTML);
@@ -525,7 +523,9 @@ class Admin {
         commonJS.showConfirm(msg, function (sender) {
             var bidaEl = $(currentButton).parents('.bida-item');
             var bidaID = bidaEl.data('ServiceID');
+            console.log("ServiceID: "+ bidaID);
             ajaxJSON.patch("/service/edit/inuser", [bidaID, true], true, function (res) {
+                console.log(res);
                 bidaEl.data('refid', res);
                 bidaEl.find('.bida-status').html('');;
                 bidaEl.removeClass('bida-item-empty');
@@ -555,7 +555,6 @@ class Admin {
     * Author: NVMANH (08/07/2019)
     */
     bidaItemOnClick(event) {
-        debugger;
         $('.bida-item').removeClass('item-selected');
         var currentTarget = event.currentTarget;
         currentTarget.classList.add('item-selected');
@@ -619,7 +618,7 @@ class Admin {
         if (me.FrmBidaDetail.Interval) {
             clearInterval(this.FrmBidaDetail.Interval);
         }
-        debugger;
+        console.log(refid);
         ajaxJSON.get("/refs/refdetail/" + refid, {}, true, function (data) {
             var refDetails = data["RefDetails"];
             var refServices = data["RefServices"];
@@ -872,12 +871,14 @@ class Admin {
      * */
     initFrmOrderPrintForBidaOrderDetail() {
         var me = this;
+        var totalAmountService = 0;
+        var totalAmountInventory = 0;
+        var totalAmount = 0;
         $("#frmOrderPrint .timeInfo").show();
         $("#frmOrderPrint #total-info-box").show();
         var refid = $('.bida-item.item-selected').data("refid");
         if (refid) {
             me.FrmOrderPrint.RefID = refid;
-            debugger;
             ajaxJSON.get("/refs/refdetail/" + refid, {}, true, function (data) {
                 var refDetails = data["RefDetails"];
                 var refServices = data["RefServices"];
@@ -900,7 +901,8 @@ class Admin {
                     var endTimeText = endTime ? endTime.hhmmss() : '';
                     var dateEnd = endTime ? endTime.ddmmyyyy() : '';
                     me.FrmOrderPrint.EndTime = endTime;
-
+                    totalAmountService = Math.ceil(refServices[0]["TotalAmount"]/1000)*1000;
+                    
                     $('#frmOrderPrint .order-title').html(serviceName);
                     $('#frmOrderPrint .timeStart').html('{0} ({1})'.format(startTimeText, dateStart));
                     $('#frmOrderPrint .timeEnd').html('{0} ({1})'.format(endTimeText, dateEnd));
@@ -908,13 +910,12 @@ class Admin {
                 }
                 $('#frmOrderPrint #refDetail').empty();
                 if (refDetails.length > 0) {
-                    var totalAmount = 0;
                     $.each(refDetails, function (index, item) {
                         var itemName = item["InventoryName"],
                             unitPrice = item["UnitPrice"],
                             quantity = item["Quantity"],
                             amount = unitPrice * quantity;
-                        totalAmount += amount;
+                        totalAmountInventory += amount;
                         var itemHTML = '<div class="refItem">'
                             + '<div class="itemName"> <b>{0}</b></div >'
                             + '<div class="itemDetail display-flex" style="display:flex; padding:0 3px;">'
@@ -928,10 +929,16 @@ class Admin {
 
                 }
                 // Tổng tiền thanh toán với dịch vụ:
-                var totalAmountService = data["TotalAmountService"];
+                //var totalAmountService = data["TotalAmountService"];
+               
                 // Tổng tiền thanh toán đối với hàng hóa:
-                var totalAmountInventory = data["TotalAmountInventory"];
-                var totalAmount = data["TotalAmount"];
+                //var totalAmountInventory = data["TotalAmountInventory"];
+                //var totalAmount = data["TotalAmount"];
+                totalAmount = totalAmountService + totalAmountInventory;
+                console.log(data);
+                console.log("Service: " + totalAmountService);
+                console.log("Inventory: " + totalAmountInventory);
+                console.log("Total: " + totalAmount);
                 $('#frmOrderPrint .totalInventoryInfo').html(totalAmountInventory.formatMoney());
                 $('#frmOrderPrint .totalServiceInfo').html(totalAmountService.formatMoney());
 

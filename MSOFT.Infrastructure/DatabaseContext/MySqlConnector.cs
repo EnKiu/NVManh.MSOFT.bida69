@@ -435,6 +435,11 @@ namespace MSOFT.Infrastructure.DatabaseContext
                         var getBooleanValueExp = Expression.Call(readerParam, readerGetBoolean, new Expression[] { indexExpression });
                         ifTrue = Expression.Convert(getBooleanValueExp, prop.PropertyType);
                     }
+                    //if (prop.PropertyType == typeof(double) || prop.PropertyType == typeof(double?))
+                    //{
+                    //    var getDoubleValueExp = Expression.Call(readerParam, readerGetDouble, new Expression[] { indexExpression });
+                    //    ifTrue = Expression.Convert(getDoubleValueExp, prop.PropertyType);
+                    //}
                     var ifFalse = Expression.Convert(Expression.Constant(defaultValue), prop.PropertyType);
                     // create the actual Bind expression to bind the value from the reader to the property value
                     MemberInfo mi = typeof(T).GetMember(prop.Name)[0];
