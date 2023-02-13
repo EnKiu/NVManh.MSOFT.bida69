@@ -1,5 +1,4 @@
-﻿using MSOFT.BL;
-using MSOFT.Entities;
+﻿using MSOFT.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,6 @@ using MSOFT.bida69.core.Properties;
 using Microsoft.AspNetCore.Mvc;
 using MSOFT.bida69.Services;
 using Microsoft.AspNetCore.Authorization;
-using MSOFT.BL.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using MSOFT.Core.Interfaces;
 
@@ -25,7 +23,7 @@ namespace MSOFT.bida69.com.Controllers
         protected readonly IDistributedCache _distributedCache;
         protected AjaxResult ajaxResult;
         //protected EntityBL<T> entityBL;
-        private IUserBL _userService;
+        //private IUserBL _userService;
         IEntityService _entityService;
 
         public EntityController(IDistributedCache distributedCache)
@@ -38,10 +36,10 @@ namespace MSOFT.bida69.com.Controllers
             ajaxResult = new AjaxResult();
             //entityBL = new EntityBL<T>();
         }
-        public EntityController(IUserBL userService)
-        {
-            _userService = userService;
-        }
+        //public EntityController(IUserBL userService)
+        //{
+        //    _userService = userService;
+        //}
         /// <summary>
         /// Lấy toàn bộ dữ liệu theo của đối tượng
         /// </summary>

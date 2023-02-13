@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using MSOFT.BL;
-using MSOFT.BL.Interfaces;
 using MSOFT.Core.Interfaces;
 using MSOFT.Entities;
 using MSOFT.Entities.Models;

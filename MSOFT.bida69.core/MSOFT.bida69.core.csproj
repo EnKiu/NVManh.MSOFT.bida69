@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MSOFT.BL\MSOFT.BL.csproj" />
     <ProjectReference Include="..\MSOFT.Common\MSOFT.Common.csproj" />
     <ProjectReference Include="..\MSOFT.Core\MSOFT.Core.csproj" />
     <ProjectReference Include="..\MSOFT.Entities\MSOFT.Entities.csproj" />

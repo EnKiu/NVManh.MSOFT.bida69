@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using MSOFT.BL.Interfaces;
 using MSOFT.Entities;
 
 namespace MSOFT.bida69.core.Api

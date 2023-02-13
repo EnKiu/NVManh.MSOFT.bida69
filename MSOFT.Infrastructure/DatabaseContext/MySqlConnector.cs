@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MSOFT.Infrastructure.Interfaces;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
+using Renci.SshNet;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -37,7 +38,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
             }
         }
     }
-    public class MySqlConnector : IDisposable, IDataContext
+    public class MSMySqlConnector : IDisposable, IDataContext
     {
         #region Declare
         IConfiguration _configuration;
@@ -46,7 +47,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
         MySqlCommand sqlCommand;
         MySqlTransaction _sqlTransaction;
         #endregion
-        public MySqlConnector(IConfiguration configuration)
+        public MSMySqlConnector(IConfiguration configuration)
         {
             _configuration = configuration;
             connectionString = _configuration.GetConnectionString("DefaultConnection").ToString();
@@ -63,7 +64,8 @@ namespace MSOFT.Infrastructure.DatabaseContext
             sqlConnection = new MySqlConnection(connectionString);
             sqlCommand = sqlConnection.CreateCommand();
             sqlConnection.Open();
-
+            //sqlCommand.CommandText = "SET character_set_results=utf8";
+            //sqlCommand.ExecuteNonQuery();
         }
 
         public void BeginTransaction()
@@ -351,7 +353,7 @@ namespace MSOFT.Infrastructure.DatabaseContext
                     if (i < parameters.Length)
                     {
                         var value = parameters[i].ToString();
-                        var result = QueryUtinity.ConvertType(value, storeParameters[i].MySqlDbType);
+                        var result = QueryUtinity.ConvertType(value, (MySql.Data.MySqlClient.MySqlDbType)storeParameters[i].MySqlDbType);
                         sqlCommand.Parameters[i].Value = result;
                     }
                     else
