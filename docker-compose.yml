@@ -14,3 +14,5 @@ services:
     build:
       context: .
       dockerfile: MSOFT.bida69.core/Dockerfile
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
